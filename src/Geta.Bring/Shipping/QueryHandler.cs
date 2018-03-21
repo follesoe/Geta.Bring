@@ -67,7 +67,15 @@ namespace Geta.Bring.Shipping
                 }
             }
 
-            var response = JsonConvert.DeserializeObject<ShippingResponse>(jsonResponse);
+            ShippingResponse response;
+            try
+            {
+                response = JsonConvert.DeserializeObject<ShippingResponse>(jsonResponse);
+            }
+            catch (Exception rEx)
+            {
+                return EstimateResult<IEstimate>.CreateFailure(rEx.Message);
+            }
             var estimates = response.Product.Select(MapProduct).Cast<IEstimate>().ToList();
             var result = EstimateResult<IEstimate>.CreateSuccess(estimates);
 

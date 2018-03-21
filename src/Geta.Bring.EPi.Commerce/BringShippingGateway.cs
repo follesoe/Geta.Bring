@@ -12,29 +12,26 @@ using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Dto;
 using Mediachase.Commerce.Orders.Managers;
 using Geta.Bring.Shipping;
-using EPiServer.Commerce.Order;
-using Mediachase.Commerce.Inventory;
 
 namespace Geta.Bring.EPi.Commerce
 {
-    public class BringShippingGateway : IShippingPlugin
+    public class BringShippingGateway : IShippingGateway
     {
         private readonly IShippingClient _shippingClient;
-        private readonly IWarehouseRepository _warehouseRepository;
 
         public BringShippingGateway()
         {
             _shippingClient = ServiceLocator.Current.GetInstance<IShippingClient>();
-            _warehouseRepository = ServiceLocator.Current.GetInstance<IWarehouseRepository>();
         }
 
         // ReSharper disable once UnusedParameter.Local
-        public BringShippingGateway(IMarket market) : this()
+        public BringShippingGateway(IMarket market)
+            : this()
         {
         }
 
-        public ShippingRate GetRate(Guid methodId, IShipment shipment, ref string message)
-        {            
+        public ShippingRate GetRate(Guid methodId, Shipment shipment, ref string message)
+        {
             if (shipment == null)
             {
                 return null;
@@ -47,22 +44,33 @@ namespace Geta.Bring.EPi.Commerce
                 return null;
             }
 
-            var shipmentLineItems = shipment.LineItems;
+            var shipmentLineItems = Shipment.GetShipmentLineItems(shipment);
             if (shipmentLineItems.Count == 0)
             {
                 message = ErrorMessages.ShipmentContainsNoLineItems;
                 return null;
             }
 
-            if (shipment.ShippingAddress == null)
+            if (shipment.Parent == null || shipment.Parent.Parent == null)
+            {
+                message = ErrorMessages.OrderFormOrOrderGroupNotFound;
+                return null;
+            }
+
+            var orderAddress =
+                shipment.Parent
+                    .Parent
+                    .OrderAddresses
+                    .FirstOrDefault(address => address.Name == shipment.ShippingAddressId);
+            if (orderAddress == null)
             {
                 message = ErrorMessages.ShipmentAddressNotFound;
                 return null;
             }
 
-            var query = BuildQuery(shipment, shippingMethod, shipmentLineItems);
+            var query = BuildQuery(orderAddress, shippingMethod, shipment, shipmentLineItems);
             var estimate = _shippingClient.FindAsync<ShipmentEstimate>(query).Result;
-            if (estimate.Success)
+            if (estimate.Success && estimate.Estimates.Any())
             {
                 return CreateShippingRate(methodId, shippingMethod, estimate);
             }
@@ -77,13 +85,14 @@ namespace Geta.Bring.EPi.Commerce
             return null;
         }
 
-        private EstimateQuery BuildQuery(
-            IShipment shipment,
+        private static EstimateQuery BuildQuery(
+            OrderAddress orderAddress,
             ShippingMethodDto shippingMethod,
-            IEnumerable<ILineItem> shipmentLineItems)
+            Shipment shipment,
+            IEnumerable<LineItem> shipmentLineItems)
         {
-            var shipmentLeg = CreateShipmentLeg(shipment, shippingMethod);
-            var packageSize = CreatePackageSize(shipmentLineItems);
+            var shipmentLeg = CreateShipmentLeg(orderAddress, shippingMethod);
+            var packageSize = CreatePackageSize(shipment, shipmentLineItems);
             var additionalParameters = CreateAdditionalParameters(shippingMethod);
             return new EstimateQuery(
                 shipmentLeg,
@@ -91,7 +100,7 @@ namespace Geta.Bring.EPi.Commerce
                 additionalParameters.ToArray());
         }
 
-        private IEnumerable<IShippingQueryParameter> CreateAdditionalParameters(ShippingMethodDto shippingMethod)
+        private static IEnumerable<IShippingQueryParameter> CreateAdditionalParameters(ShippingMethodDto shippingMethod)
         {
             var hasEdi = bool.Parse(shippingMethod.GetShippingMethodParameterValue(ParameterNames.Edi, "true"));
             yield return new Edi(hasEdi);
@@ -128,45 +137,28 @@ namespace Geta.Bring.EPi.Commerce
             yield return new AdditionalServices(services.ToArray());
         }
 
-        private PackageSize CreatePackageSize(IEnumerable<ILineItem> shipmentLineItems)
+        private static PackageSize CreatePackageSize(Shipment shipment, IEnumerable<LineItem> shipmentLineItems)
         {
             var weight = shipmentLineItems
-                .Select(item => item.GetWeight() * item.Quantity)
+                .Select(item => item.GetWeight() * Shipment.GetLineItemQuantity(shipment, item.Id))
                 .Sum() * 1000; // KG to grams
-
             return PackageSize.InGrams((int)weight);
         }
 
-        private ShipmentLeg CreateShipmentLeg(IShipment shipment, ShippingMethodDto shippingMethod)
+        private static ShipmentLeg CreateShipmentLeg(OrderAddress orderAddress, ShippingMethodDto shippingMethod)
         {
             var postalCodeFrom = shippingMethod.GetShippingMethodParameterValue(ParameterNames.PostalCodeFrom, null)
                                  ?? shippingMethod.GetShippingOptionParameterValue(ParameterNames.PostalCodeFrom);
-
             var countryCodeFrom = shippingMethod
                 .GetShippingOptionParameterValue(ParameterNames.CountryFrom, "NOR")
                 .ToIso2CountryCode();
-
-            if (string.IsNullOrEmpty(shipment.WarehouseCode) == false)
-            {
-                var warehouse = _warehouseRepository.Get(shipment.WarehouseCode);
-                var warehousePostalCode = warehouse.ContactInformation?.PostalCode;
-                var warehouseCountryCode = warehouse.ContactInformation?.CountryCode;
-
-                if (string.IsNullOrEmpty(warehousePostalCode) == false && warehouse.IsPickupLocation)
-                {
-                    postalCodeFrom = warehousePostalCode;
-                    countryCodeFrom = warehouseCountryCode.ToIso2CountryCode();
-                }
-            }
-
-            var countryCodeTo = shipment.ShippingAddress.CountryCode.ToIso2CountryCode();
-
-            return new ShipmentLeg(postalCodeFrom, shipment.ShippingAddress.PostalCode, countryCodeFrom, countryCodeTo);
+            var countryCodeTo = orderAddress.CountryCode.ToIso2CountryCode();
+            return new ShipmentLeg(postalCodeFrom, orderAddress.PostalCode, countryCodeFrom, countryCodeTo);
         }
 
         private ShippingRate CreateShippingRate(
-            Guid methodId, 
-            ShippingMethodDto shippingMethod, 
+            Guid methodId,
+            ShippingMethodDto shippingMethod,
             EstimateResult<ShipmentEstimate> result)
         {
             var estimate = result.Estimates.First();
@@ -221,13 +213,13 @@ namespace Geta.Bring.EPi.Commerce
 
         internal static class ErrorMessages
         {
-            public const string ShipmentAddressNotFound = 
+            public const string ShipmentAddressNotFound =
                 "The shipment address not found in order group.";
 
             public const string OrderFormOrOrderGroupNotFound =
                 "The order form or order group not found for shipment.";
 
-            public const string ShippingMethodCouldNotBeLoaded = 
+            public const string ShippingMethodCouldNotBeLoaded =
                 "The shipping method could not be loaded by '{0}' id.";
 
             public const string ShipmentContainsNoLineItems =

@@ -16,10 +16,8 @@ namespace Geta.Bring.Shipping.Model
             string userMessage, 
             string formattedExpectedDeliveryDate, 
             string formattedEarliestPickupDate,
-            DateTime? expectedDeliveryDate,
-            IEnumerable<DateTime> alternativeDeliveryDates)
+            DateTime? expectedDeliveryDate)
         {
-            AlternativeDeliveryDates = alternativeDeliveryDates ?? Enumerable.Empty<DateTime>();
             ExpectedDeliveryDate = expectedDeliveryDate;
             FormattedEarliestPickupDate = formattedEarliestPickupDate;
             FormattedExpectedDeliveryDate = formattedExpectedDeliveryDate;
@@ -53,9 +51,6 @@ namespace Geta.Bring.Shipping.Model
         [JsonConverter(typeof(DeliveryDateToDateTimeConverter))]
         public DateTime? ExpectedDeliveryDate { get; private set; }
 
-        /// <summary>
-        /// List of alternative expected delivery dates.
-        /// </summary>
-        public IEnumerable<DateTime> AlternativeDeliveryDates { get; private set; }
+        
     }
 }
