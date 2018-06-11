@@ -17,6 +17,7 @@ using Mediachase.Commerce.Inventory;
 
 namespace Geta.Bring.EPi.Commerce
 {
+    [ServiceConfiguration(ServiceType = typeof(IShippingPlugin))]
     public class BringShippingGateway : IShippingPlugin
     {
         private readonly IShippingClient _shippingClient;
@@ -26,11 +27,6 @@ namespace Geta.Bring.EPi.Commerce
         {
             _shippingClient = ServiceLocator.Current.GetInstance<IShippingClient>();
             _warehouseRepository = ServiceLocator.Current.GetInstance<IWarehouseRepository>();
-        }
-
-        // ReSharper disable once UnusedParameter.Local
-        public BringShippingGateway(IMarket market) : this()
-        {
         }
 
         public ShippingRate GetRate(IMarket market, Guid methodId, IShipment shipment, ref string message)
