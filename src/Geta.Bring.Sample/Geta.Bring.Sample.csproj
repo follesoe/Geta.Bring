@@ -155,6 +155,7 @@
     <ProjectReference Include="..\Geta.Bring\Geta.Bring.csproj">
       <Project>{6e7ab0c2-0ccc-4c21-8226-89f291b3c395}</Project>
       <Name>Geta.Bring</Name>
+      <Properties>SkipValidatePackageReferences=true</Properties>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
