@@ -22,15 +22,10 @@ namespace Geta.Bring.EPi.Commerce
         private readonly IShippingClient _shippingClient;
         private readonly IWarehouseRepository _warehouseRepository;
 
-        public BringShippingGateway()
+        public BringShippingGateway(IShippingClient shippingClient, IWarehouseRepository warehouseRepository)
         {
-            _shippingClient = ServiceLocator.Current.GetInstance<IShippingClient>();
-            _warehouseRepository = ServiceLocator.Current.GetInstance<IWarehouseRepository>();
-        }
-
-        // ReSharper disable once UnusedParameter.Local
-        public BringShippingGateway(IMarket market) : this()
-        {
+            _shippingClient = shippingClient;
+            _warehouseRepository = warehouseRepository;
         }
 
         public ShippingRate GetRate(IMarket market, Guid methodId, IShipment shipment, ref string message)
