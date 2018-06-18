@@ -127,6 +127,7 @@
     <Compile Include="Shipping\Model\TraceMessages.cs" />
     <Compile Include="Shipping\QueryHandler.cs" />
     <Compile Include="Shipping\ShippingClient.cs" />
+    <Compile Include="Shipping\ShippingErrorCodes.cs" />
     <Compile Include="Shipping\ShippingSettings.cs" />
     <Compile Include="Tracking\ITrackingClient.cs" />
     <Compile Include="Tracking\Model\Address.cs" />
