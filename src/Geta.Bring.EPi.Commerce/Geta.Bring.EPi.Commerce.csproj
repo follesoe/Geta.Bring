@@ -242,6 +242,8 @@
     <Compile Include="Extensions\LineItemExtensions.cs" />
     <Compile Include="Extensions\ShippingMethodDtoExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Factories\EstimateQueryFactory.cs" />
+    <Compile Include="Factories\IEstimateQueryFactory.cs" />
     <Compile Include="Model\BringShippingRate.cs" />
     <Compile Include="Model\BringShippingRateGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

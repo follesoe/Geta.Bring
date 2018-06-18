@@ -1,31 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EPiServer.ServiceLocation;
 using Geta.Bring.EPi.Commerce.Extensions;
 using Geta.Bring.EPi.Commerce.Model;
 using Geta.Bring.Shipping.Model;
-using Geta.Bring.Shipping.Model.QueryParameters;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Dto;
 using Mediachase.Commerce.Orders.Managers;
 using Geta.Bring.Shipping;
 using EPiServer.Commerce.Order;
-using Mediachase.Commerce.Inventory;
+using Geta.Bring.EPi.Commerce.Factories;
 
 namespace Geta.Bring.EPi.Commerce
 {
     public class BringShippingGateway : IShippingPlugin
     {
         private readonly IShippingClient _shippingClient;
-        private readonly IWarehouseRepository _warehouseRepository;
+        private readonly IEstimateQueryFactory _estimateQueryFactory;
 
-        public BringShippingGateway(IShippingClient shippingClient, IWarehouseRepository warehouseRepository)
+        public BringShippingGateway(IShippingClient shippingClient, IEstimateQueryFactory estimateQueryFactory)
         {
             _shippingClient = shippingClient;
-            _warehouseRepository = warehouseRepository;
+            _estimateQueryFactory = estimateQueryFactory;
         }
 
         public ShippingRate GetRate(IMarket market, Guid methodId, IShipment shipment, ref string message)
@@ -60,7 +57,7 @@ namespace Geta.Bring.EPi.Commerce
                 return null;
             }
 
-            var query = BuildQuery(shipment, shippingMethod, shipmentLineItems);
+            var query = _estimateQueryFactory.BuildEstimateQuery(shipment, methodId);
             var estimate = _shippingClient.FindAsync<ShipmentEstimate>(query).Result;
             if (estimate.Success && estimate.Estimates.Any())
             {
@@ -75,93 +72,6 @@ namespace Geta.Bring.EPi.Commerce
                     return sb;
                 }).ToString();
             return null;
-        }
-
-        private EstimateQuery BuildQuery(
-            IShipment shipment,
-            ShippingMethodDto shippingMethod,
-            IEnumerable<ILineItem> shipmentLineItems)
-        {
-            var shipmentLeg = CreateShipmentLeg(shipment, shippingMethod);
-            var packageSize = CreatePackageSize(shipmentLineItems);
-            var additionalParameters = CreateAdditionalParameters(shippingMethod);
-            return new EstimateQuery(
-                shipmentLeg,
-                packageSize,
-                additionalParameters.ToArray());
-        }
-
-        private IEnumerable<IShippingQueryParameter> CreateAdditionalParameters(ShippingMethodDto shippingMethod)
-        {
-            var hasEdi = bool.Parse(shippingMethod.GetShippingMethodParameterValue(ParameterNames.Edi, "true"));
-            yield return new Edi(hasEdi);
-
-            var shippedFromPostOffice =
-                bool.Parse(shippingMethod.GetShippingMethodParameterValue(ParameterNames.PostingAtPostOffice, "false"));
-            yield return new ShippedFromPostOffice(shippedFromPostOffice);
-
-            int priceAdjustmentPercent;
-            int.TryParse(shippingMethod.GetShippingMethodParameterValue(ParameterNames.PriceAdjustmentPercent, "0"), out priceAdjustmentPercent);
-
-            if (priceAdjustmentPercent > 0)
-            {
-                bool priceAdjustmentAdd;
-                bool.TryParse(shippingMethod.GetShippingMethodParameterValue(ParameterNames.PriceAdjustmentOperator, "true"), out priceAdjustmentAdd);
-
-                yield return priceAdjustmentAdd ? PriceAdjustment.IncreasePercent(priceAdjustmentPercent) : PriceAdjustment.DecreasePercent(priceAdjustmentPercent);
-            }
-
-            var productCode = shippingMethod.GetShippingMethodParameterValue(ParameterNames.BringProductId, null)
-                              ?? Product.Servicepakke.Code;
-            yield return new Products(Product.GetByCode(productCode));
-
-            var customerNumber = shippingMethod.GetShippingMethodParameterValue(ParameterNames.BringCustomerNumber, null);
-            if (!string.IsNullOrWhiteSpace(customerNumber))
-            {
-                yield return new CustomerNumber(customerNumber);
-            }
-
-            var additionalServicesCodes = shippingMethod.GetShippingMethodParameterValue(ParameterNames.AdditionalServices);
-            var services = additionalServicesCodes.Split(',')
-                .Select(code => AdditionalService.All.FirstOrDefault(x => x.Code == code))
-                .Where(service => service != null);
-            yield return new AdditionalServices(services.ToArray());
-        }
-
-        private PackageSize CreatePackageSize(IEnumerable<ILineItem> shipmentLineItems)
-        {
-            var weight = shipmentLineItems
-                .Select(item => item.GetWeight() * item.Quantity)
-                .Sum() * 1000; // KG to grams
-
-            return PackageSize.InGrams((int)weight);
-        }
-
-        private ShipmentLeg CreateShipmentLeg(IShipment shipment, ShippingMethodDto shippingMethod)
-        {
-            var postalCodeFrom = shippingMethod.GetShippingMethodParameterValue(ParameterNames.PostalCodeFrom, null)
-                                 ?? shippingMethod.GetShippingOptionParameterValue(ParameterNames.PostalCodeFrom);
-
-            var countryCodeFrom = shippingMethod
-                .GetShippingOptionParameterValue(ParameterNames.CountryFrom, "NOR")
-                .ToIso2CountryCode();
-
-            if (string.IsNullOrEmpty(shipment.WarehouseCode) == false)
-            {
-                var warehouse = _warehouseRepository.Get(shipment.WarehouseCode);
-                var warehousePostalCode = warehouse.ContactInformation?.PostalCode;
-                var warehouseCountryCode = warehouse.ContactInformation?.CountryCode;
-
-                if (string.IsNullOrEmpty(warehousePostalCode) == false && warehouse.IsPickupLocation)
-                {
-                    postalCodeFrom = warehousePostalCode;
-                    countryCodeFrom = warehouseCountryCode.ToIso2CountryCode();
-                }
-            }
-
-            var countryCodeTo = shipment.ShippingAddress.CountryCode.ToIso2CountryCode();
-
-            return new ShipmentLeg(postalCodeFrom, shipment.ShippingAddress.PostalCode, countryCodeFrom, countryCodeTo);
         }
 
         private ShippingRate CreateShippingRate(

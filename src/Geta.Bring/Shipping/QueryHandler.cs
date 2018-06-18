@@ -68,6 +68,17 @@ namespace Geta.Bring.Shipping
             }
 
             var response = JsonConvert.DeserializeObject<ShippingResponse>(jsonResponse);
+
+            if (!response.Product.Any())
+            {
+                //TODO use V2 api which returns actual error codes
+                if (response.TraceMessages.Message.Any(m => m.Contains("Package exceed maximum measurements")))
+                {
+                    return EstimateResult<IEstimate>.CreateFailure(ShippingErrorCodes.MeasurementsExceeded);
+                }
+                return EstimateResult<IEstimate>.CreateFailure(ShippingErrorCodes.Unknown);
+            }
+
             var estimates = response.Product.Select(MapProduct).Cast<IEstimate>().ToList();
             var result = EstimateResult<IEstimate>.CreateSuccess(estimates);
 
