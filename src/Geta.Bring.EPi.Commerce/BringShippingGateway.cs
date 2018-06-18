@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using EPiServer.ServiceLocation;
 using Geta.Bring.EPi.Commerce.Extensions;
 using Geta.Bring.EPi.Commerce.Model;
 using Geta.Bring.Shipping.Model;
@@ -15,7 +14,6 @@ using Geta.Bring.EPi.Commerce.Factories;
 
 namespace Geta.Bring.EPi.Commerce
 {
-    [ServiceConfiguration(ServiceType = typeof(IShippingPlugin))]
     public class BringShippingGateway : IShippingPlugin
     {
         private readonly IShippingClient _shippingClient;
