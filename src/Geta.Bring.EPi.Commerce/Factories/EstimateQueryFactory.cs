@@ -27,7 +27,7 @@ namespace Geta.Bring.EPi.Commerce.Factories
             return BuildQuery(shipment, shippingMethod, shipmentLineItems);
         }
 
-        private EstimateQuery BuildQuery(
+        protected virtual EstimateQuery BuildQuery(
             IShipment shipment,
             ShippingMethodDto shippingMethod,
             IEnumerable<ILineItem> shipmentLineItems)
@@ -41,7 +41,7 @@ namespace Geta.Bring.EPi.Commerce.Factories
                 additionalParameters.ToArray());
         }
 
-        private ShipmentLeg CreateShipmentLeg(IShipment shipment, ShippingMethodDto shippingMethod)
+        protected virtual ShipmentLeg CreateShipmentLeg(IShipment shipment, ShippingMethodDto shippingMethod)
         {
             var postalCodeFrom = shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.PostalCodeFrom, null)
                                  ?? shippingMethod.GetShippingOptionParameterValue(BringShippingGateway.ParameterNames.PostalCodeFrom);
@@ -68,7 +68,7 @@ namespace Geta.Bring.EPi.Commerce.Factories
             return new ShipmentLeg(postalCodeFrom, shipment.ShippingAddress.PostalCode, countryCodeFrom, countryCodeTo);
         }
 
-        private PackageSize CreatePackageSize(IEnumerable<ILineItem> shipmentLineItems)
+        protected virtual PackageSize CreatePackageSize(IEnumerable<ILineItem> shipmentLineItems)
         {
             var weight = shipmentLineItems
                              .Select(item => item.GetWeight() * item.Quantity)
@@ -77,7 +77,7 @@ namespace Geta.Bring.EPi.Commerce.Factories
             return PackageSize.InGrams((int)weight);
         }
 
-        private IEnumerable<IShippingQueryParameter> CreateAdditionalParameters(ShippingMethodDto shippingMethod)
+        protected virtual IEnumerable<IShippingQueryParameter> CreateAdditionalParameters(ShippingMethodDto shippingMethod)
         {
             var hasEdi = bool.Parse(shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.Edi, "true"));
             yield return new Edi(hasEdi);
