@@ -43,18 +43,18 @@ namespace Geta.Bring.EPi.Commerce
                 message = string.Format(ErrorMessages.ShippingMethodCouldNotBeLoaded, methodId);
                 return null;
             }
-
-            var shipmentLineItems = shipment.LineItems;
-            if (shipmentLineItems.Count == 0)
+            
+            var shippingMethodRow = shippingMethod.ShippingMethod[0];
+            if (shipment.LineItems.Count == 0)
             {
                 message = ErrorMessages.ShipmentContainsNoLineItems;
-                return null;
+                return CreateBaseShippingRate(methodId, shippingMethodRow);
             }
 
             if (shipment.ShippingAddress == null)
             {
                 message = ErrorMessages.ShipmentAddressNotFound;
-                return null;
+                return CreateBaseShippingRate(methodId, shippingMethodRow);
             }
 
             var query = _estimateQueryFactory.BuildEstimateQuery(shipment, methodId);
@@ -71,7 +71,16 @@ namespace Geta.Bring.EPi.Commerce
                     sb.AppendLine();
                     return sb;
                 }).ToString();
-            return null;
+            return CreateBaseShippingRate(methodId, shippingMethodRow);
+        }
+
+        private ShippingRate CreateBaseShippingRate(Guid shippingMethodId,ShippingMethodDto.ShippingMethodRow shippingMethodRow)
+        {
+            return new ShippingRate(
+                shippingMethodId, 
+                shippingMethodRow.DisplayName, 
+                new Money(shippingMethodRow.BasePrice, 
+                new Currency(shippingMethodRow.Currency)));
         }
 
         private ShippingRate CreateShippingRate(
