@@ -72,10 +72,16 @@ namespace Geta.Bring.Shipping
             if (!response.Product.Any())
             {
                 //TODO use V2 api which returns actual error codes
-                if (response.TraceMessages.Message.Any(m => m.Contains("Package exceed maximum measurements")))
+                if (response.TraceMessages.Message.Any(m => m.StartsWith("Package exceed maximum measurements")))
                 {
                     return EstimateResult<IEstimate>.CreateFailure(ShippingErrorCodes.MeasurementsExceeded);
                 }
+                
+                if (response.TraceMessages.Message.Any(m => m.StartsWith("Product CARGO_GROUPAGE can not be sent between the given postal codes / countries")))
+                {
+                    return EstimateResult<IEstimate>.CreateFailure(ShippingErrorCodes.CannotDeliver);
+                }
+                
                 return EstimateResult<IEstimate>.CreateFailure(ShippingErrorCodes.Unknown);
             }
 
