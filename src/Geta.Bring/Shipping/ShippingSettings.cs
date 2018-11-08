@@ -24,7 +24,7 @@ namespace Geta.Bring.Shipping
             string publicId = null,
             string uid = null,
             string key = null)
-            : this(clientUri, new Uri("https://api.bring.com/shippingguide/products/"), queryHandlers, publicId, uid, key) { }
+            : this(clientUri, new Uri("https://api.bring.com/shippingguide/v2/products/"), queryHandlers, publicId, uid, key) { }
 
         /// <summary>
         /// Initializes new instance of <see cref="ShippingSettings"/>

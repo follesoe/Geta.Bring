@@ -40,6 +40,7 @@ namespace Geta.Bring.Shipping
                     {
                         return EstimateResult<T>.CreateSuccess(estimate.Estimates.Cast<T>());
                     }
+
                     return EstimateResult<T>.CreateFailure(estimate.ErrorMessages);
                 }
             }

@@ -99,9 +99,12 @@
     <Compile Include="Shipping\Model\AgreementPrice.cs" />
     <Compile Include="Shipping\Model\DeliveryEstimate.cs" />
     <Compile Include="Shipping\Model\DeliveryEstimateQueryHandler.cs" />
+    <Compile Include="Shipping\Model\Errors\Error.cs" />
+    <Compile Include="Shipping\Model\Errors\ProductError.cs" />
     <Compile Include="Shipping\Model\EstimateQuery.cs" />
     <Compile Include="Shipping\Model\EstimateResult.cs" />
     <Compile Include="Shipping\Model\ExpectedDelivery.cs" />
+    <Compile Include="Shipping\Model\Errors\FieldError.cs" />
     <Compile Include="Shipping\Model\GuiInformation.cs" />
     <Compile Include="Shipping\Model\IEstimate.cs" />
     <Compile Include="Shipping\Model\IQueryParameter.cs" />
