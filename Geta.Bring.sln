@@ -10,15 +10,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DF2B6C
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.Bring.EPi.Commerce", "Geta.Bring.EPi.Commerce\Geta.Bring.EPi.Commerce.csproj", "{41E8992D-D71D-4158-BEE5-BF223242B061}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.Bring.EPi.Commerce", "src\Geta.Bring.EPi.Commerce\Geta.Bring.EPi.Commerce.csproj", "{41E8992D-D71D-4158-BEE5-BF223242B061}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.Bring.EPi.Commerce.Manager", "Geta.Bring.EPi.Commerce.Manager\Geta.Bring.EPi.Commerce.Manager.csproj", "{CB3E8E42-ABE5-46AA-8BD6-71FE64B851B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.Bring.EPi.Commerce.Manager", "src\Geta.Bring.EPi.Commerce.Manager\Geta.Bring.EPi.Commerce.Manager.csproj", "{CB3E8E42-ABE5-46AA-8BD6-71FE64B851B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.Bring", "Geta.Bring\Geta.Bring.csproj", "{6E7AB0C2-0CCC-4C21-8226-89F291B3C395}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.Bring", "src\Geta.Bring\Geta.Bring.csproj", "{6E7AB0C2-0CCC-4C21-8226-89F291B3C395}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Integration", "Tests.Integration\Tests.Integration.csproj", "{10AE9ED3-F241-4B08-A08A-E462C0609FA0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Integration", "src\Tests.Integration\Tests.Integration.csproj", "{10AE9ED3-F241-4B08-A08A-E462C0609FA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.Bring.Sample", "Geta.Bring.Sample\Geta.Bring.Sample.csproj", "{E8166130-64EF-403E-B297-135A1B519C59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.Bring.Sample", "src\Geta.Bring.Sample\Geta.Bring.Sample.csproj", "{E8166130-64EF-403E-B297-135A1B519C59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
