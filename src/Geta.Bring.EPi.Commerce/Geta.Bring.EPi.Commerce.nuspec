@@ -11,5 +11,11 @@
     <description>$description$</description>
     <copyright>Copyright 2018</copyright>
     <tags>Bring EPiServer Commerce</tags>
+    <dependencies>
+      <dependency id="EPiServer.CMS.Core" version="[11.4.0,12)" />
+      <dependency id="EPiServer.Commerce.Core" version="[12,13)" />
+      <dependency id="System.Security.Cryptography.Xml" version="[4.4.2,5)" />
+      <dependency id="DotNetZip" version="[1.11,2)" />
+    </dependencies>
   </metadata>
 </package>
