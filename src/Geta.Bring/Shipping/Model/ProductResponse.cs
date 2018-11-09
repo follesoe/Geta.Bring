@@ -7,12 +7,10 @@ namespace Geta.Bring.Shipping.Model
     {
         public ProductResponse(
             string productId, 
-            string productCodeInProductionSystem, 
-            PackagePrices price)
+            string productCodeInProductionSystem)
         {
             ProductId = productId ?? throw new ArgumentNullException(nameof(productId));
             ProductCodeInProductionSystem = productCodeInProductionSystem ?? throw new ArgumentNullException(nameof(productCodeInProductionSystem));
-            Price = price ?? throw new ArgumentNullException(nameof(price));
         }
 
         [JsonConstructor]
@@ -21,10 +19,11 @@ namespace Geta.Bring.Shipping.Model
             PackagePrices price,
             GuiInformation guiInformation,
             ExpectedDelivery expectedDelivery) 
-            : this(productId, productCodeInProductionSystem, price)
+            : this(productId, productCodeInProductionSystem)
         {
             ExpectedDelivery = expectedDelivery;
             GuiInformation = guiInformation;
+            Price = price;
         }
 
         [JsonProperty("id")]

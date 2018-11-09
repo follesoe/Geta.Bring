@@ -3,7 +3,7 @@
     public class PriceEstimateQueryHandler : QueryHandler<PriceEstimate>
     {
         public PriceEstimateQueryHandler(ShippingSettings settings) 
-            : base(settings, "price.json")
+            : base(settings, "price")
         {
         }
 

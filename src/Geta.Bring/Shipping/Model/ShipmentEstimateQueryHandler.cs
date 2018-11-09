@@ -1,6 +1,4 @@
-﻿using Geta.Bring.Shipping.Extensions;
-
-namespace Geta.Bring.Shipping.Model
+﻿namespace Geta.Bring.Shipping.Model
 {
     public class ShipmentEstimateQueryHandler : QueryHandler<ShipmentEstimate>
     {
