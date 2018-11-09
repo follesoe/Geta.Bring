@@ -9,7 +9,7 @@ namespace Geta.Bring.Shipping.Model.QueryParameters
     /// </summary>
     public class AdditionalServices : IShippingQueryParameter
     {
-        private const string ParameterName = "additional";
+        private const string ParameterName = "additionalservice";
 
         /// <summary>
         /// Initializes new instance of <see cref="AdditionalServices"/>.

@@ -10,14 +10,13 @@ New. https://api.bring.com/shippingguide/v2/products/price
 
 2. Change parameters to conform to the new standard
 
-* 'priceAdjustments' is no longer used (observe this, might be used by customers).
-* 'pid' is no longer used.
-* 'clientUrl' or X-Bring-Client-URL is no longer used.
-* 'to' is now named 'topostalcode'
-* 'from' is now named 'frompostalcode'
-* 'loadMeters' is now named 'loadingmeter'
-* 'additional' is now named 'additionalservice'
-* new parameter 'volumeindm3'
+- * 'priceAdjustments' is no longer used (observe this, might be used by customers).
+- * 'pid' is no longer used.
+- * 'to' is now named 'topostalcode'
+- * 'from' is now named 'frompostalcode'
+- * 'weightInGrams' is now named 'weight'
+x * 'loadMeters' is now named 'loadingmeter'
+- 'additional' is now named 'additionalservice'
 * new parameter 'incoterms'
 * new parameter 'unnumber'
 * new parameter 'payer'

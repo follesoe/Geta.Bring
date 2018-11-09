@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Specialized;
 using System.Globalization;
 
@@ -6,6 +7,7 @@ namespace Geta.Bring.Shipping.Model.QueryParameters
     /// <summary>
     /// Query parameter to describe price adjustments.
     /// </summary>
+    [Obsolete("This parameter is no longer used by the Bring API", true)]
     public class PriceAdjustment : IShippingQueryParameter
     {
         private const string ParameterName = "priceAdjustment";
