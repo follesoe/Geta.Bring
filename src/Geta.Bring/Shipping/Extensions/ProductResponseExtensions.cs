@@ -4,12 +4,9 @@ namespace Geta.Bring.Shipping.Extensions
 {
     internal static class ProductResponseExtensions
     {
-        public static PackagePrice GetPackagePrice(this ProductResponse response)
+        public static PackagePrice GetPackagePrices(this PackagePrices prices)
         {
-            if (response.NetPrice != null) 
-                return response.NetPrice;
-
-            return response.Price;
+            return prices.NetPrice ?? prices.ListPrice;
         }
     }
 }

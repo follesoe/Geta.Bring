@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Caching;
@@ -100,6 +101,7 @@ namespace Geta.Bring.Shipping
         private HttpClient CreateClient()
         {
             var client = new HttpClient();
+
             if (Settings.Uid != null)
             {
                 client.DefaultRequestHeaders.Add("X-MyBring-API-Uid", Settings.Uid);
@@ -111,6 +113,7 @@ namespace Geta.Bring.Shipping
             }
 
             client.DefaultRequestHeaders.Add("X-Bring-Client-URL", Settings.ClientUri.ToString());
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             return client;
         }

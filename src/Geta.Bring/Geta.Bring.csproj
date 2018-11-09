@@ -110,6 +110,7 @@
     <Compile Include="Shipping\Model\IQueryParameter.cs" />
     <Compile Include="Shipping\Model\IShippingQueryParameter.cs" />
     <Compile Include="Shipping\Model\PackagePrice.cs" />
+    <Compile Include="Shipping\Model\PackagePrices.cs" />
     <Compile Include="Shipping\Model\Price.cs" />
     <Compile Include="Shipping\Model\PriceEstimate.cs" />
     <Compile Include="Shipping\Model\PriceEstimateQueryHandler.cs" />

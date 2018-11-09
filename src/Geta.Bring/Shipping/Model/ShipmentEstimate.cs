@@ -12,16 +12,16 @@ namespace Geta.Bring.Shipping.Model
         /// </summary>
         /// <param name="product">Product for which shipment estimated.</param>
         /// <param name="guiInformation">GUI information.</param>
-        /// <param name="packagePrice">Price information.</param>
+        /// <param name="prices">Price information.</param>
         /// <param name="expectedDelivery">Expected delivery information.</param>
         public ShipmentEstimate(
             Product product, 
             GuiInformation guiInformation, 
-            PackagePrice packagePrice, 
+            PackagePrices prices, 
             ExpectedDelivery expectedDelivery)
         {
             ExpectedDelivery = expectedDelivery ?? throw new ArgumentNullException(nameof(expectedDelivery));
-            PackagePrice = packagePrice ?? throw new ArgumentNullException(nameof(packagePrice));
+            Price = prices ?? throw new ArgumentNullException(nameof(prices));
             GuiInformation = guiInformation ?? throw new ArgumentNullException(nameof(guiInformation));
             Product = product ?? throw new ArgumentNullException(nameof(product));
         }
@@ -37,9 +37,9 @@ namespace Geta.Bring.Shipping.Model
         public GuiInformation GuiInformation { get; }
 
         /// <summary>
-        /// Price information <see cref="PackagePrice"/>.
+        /// Price information <see cref="PackagePrices"/>.
         /// </summary>
-        public PackagePrice PackagePrice { get; }
+        public PackagePrices Price { get; }
 
         /// <summary>
         /// Expected delivery information <see cref="ExpectedDelivery"/>.

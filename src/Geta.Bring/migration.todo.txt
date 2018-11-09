@@ -2,11 +2,11 @@ Migration from v1 to v2
 
 1. Change urls to conform to new structure.
 
-Old. https://api.bring.com/shippingguide/products/price.json
-New. https://api.bring.com/shippingguide/v2/products/price
+- Old. https://api.bring.com/shippingguide/products/price.json
+- New. https://api.bring.com/shippingguide/v2/products/price
 
-* Content type is set via accept header in request
-* /v2/ is appended to url path
+- Content type is set via accept header in request
+- /v2/ is appended to url path
 
 2. Change parameters to conform to the new standard
 
@@ -25,11 +25,11 @@ x * 'loadMeters' is now named 'loadingmeter'
 
 3. Adapt the serialized model to conform to the new response.
 
-* entire response is now camelCase.
+- entire response is now camelCase.
 * 'fieldErrors' are specified when a request fails to validate
-* 'ProductId' is now 'id'
-* 'ProductCodeInProductionSystem' is now 'productionCode'
-* 'Price' now contains nesting 'listPrice'
-* '@currencyIdentificationCode' is now 'currencyCode'
+- 'ProductId' is now 'id'
+- 'ProductCodeInProductionSystem' is now 'productionCode'
+- 'Price' now contains nesting 'listPrice'
+- '@currencyIdentificationCode' is now 'currencyCode'
 * 'TraceMessages' is now just an array of strings and does not contain 'Message'
 ?? additional changes

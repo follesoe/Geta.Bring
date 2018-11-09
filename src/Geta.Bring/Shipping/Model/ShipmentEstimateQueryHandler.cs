@@ -5,7 +5,7 @@ namespace Geta.Bring.Shipping.Model
     public class ShipmentEstimateQueryHandler : QueryHandler<ShipmentEstimate>
     {
         public ShipmentEstimateQueryHandler(ShippingSettings settings)
-            : base(settings, "all.json")
+            : base(settings, "")
         { }
 
         internal override ShipmentEstimate MapProduct(ProductResponse response)
@@ -13,7 +13,7 @@ namespace Geta.Bring.Shipping.Model
             return new ShipmentEstimate(
                 Product.GetByCode(response.ProductId),
                 response.GuiInformation,
-                response.GetPackagePrice(),
+                response.Price,
                 response.ExpectedDelivery);
         }
     }

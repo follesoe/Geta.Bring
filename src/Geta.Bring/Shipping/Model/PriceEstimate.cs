@@ -11,10 +11,10 @@ namespace Geta.Bring.Shipping.Model
         /// Initializes new instance of <see cref="PriceEstimate"/>.
         /// </summary>
         /// <param name="product">Product for which price estimated.</param>
-        /// <param name="packagePrice">Price information.</param>
-        public PriceEstimate(Product product, PackagePrice packagePrice)
+        /// <param name="prices">Price information.</param>
+        public PriceEstimate(Product product, PackagePrices prices)
         {
-            PackagePrice = packagePrice ?? throw new ArgumentNullException(nameof(packagePrice));
+            Prices = prices ?? throw new ArgumentNullException(nameof(prices));
             Product = product ?? throw new ArgumentNullException(nameof(product));
         }
 
@@ -24,8 +24,8 @@ namespace Geta.Bring.Shipping.Model
         public Product Product { get; }
 
         /// <summary>
-        /// Price information <see cref="PackagePrice"/>.
+        /// Price information <see cref="PackagePrices"/>.
         /// </summary>
-        public PackagePrice PackagePrice { get; }
+        public PackagePrices Prices { get; }
     }
 }

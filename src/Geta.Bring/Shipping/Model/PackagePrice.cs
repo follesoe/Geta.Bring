@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using Geta.Bring.Shipping.Infrastructure;
 using Newtonsoft.Json;
 
 namespace Geta.Bring.Shipping.Model
@@ -34,7 +32,7 @@ namespace Geta.Bring.Shipping.Model
         /// <summary>
         /// Currency code.
         /// </summary>
-        [JsonProperty("@currencyIdentificationCode")]
+        [JsonProperty("currencyCode")]
         public string CurrencyIdentificationCode { get; private set; }
 
         /// <summary>
