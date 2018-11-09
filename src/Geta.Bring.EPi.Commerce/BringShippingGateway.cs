@@ -136,7 +136,7 @@ namespace Geta.Bring.EPi.Commerce
                 bool.TryParse(priceAdjustmentOperatorParameter, out var priceAdjustmentAdd);
 
                 //todo: Test this price adjustment
-                var pricePart = price / (priceAdjustmentPercent / 100.0m);
+                var pricePart = price * (priceAdjustmentPercent / 100.0m);
                 price += priceAdjustmentAdd ? pricePart : -pricePart;
             }
 
