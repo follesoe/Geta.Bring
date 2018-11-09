@@ -74,7 +74,7 @@ namespace Geta.Bring.Sample
                 throw new Exception("Request.Url is null.");
             }
 
-            return new Uri(string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~")));
+            return new Uri($"{Request.Url.Scheme}://{Request.Url.Authority}{Url.Content("~")}");
         }
     }
 }

@@ -43,12 +43,9 @@ namespace Geta.Bring.Shipping
             string uid = null,
             string key = null)
         {
-            if (clientUri == null) throw new ArgumentNullException(nameof(clientUri));
-            if (endpointUri == null) throw new ArgumentNullException(nameof(endpointUri));
-
+            EndpointUri = endpointUri ?? throw new ArgumentNullException(nameof(endpointUri));
+            ClientUri = clientUri ?? throw new ArgumentNullException(nameof(clientUri));
             PublicId = publicId;
-            EndpointUri = endpointUri;
-            ClientUri = clientUri;
             Uid = uid;
             Key = key;
 

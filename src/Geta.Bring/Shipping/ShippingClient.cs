@@ -44,7 +44,7 @@ namespace Geta.Bring.Shipping
                 }
             }
 
-            throw new Exception(string.Format("No matching query handler found for estimate type {0}", typeof(T).Name));
+            throw new Exception($"No matching query handler found for estimate type {typeof(T).Name}");
         }
     }
 }

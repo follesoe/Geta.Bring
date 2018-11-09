@@ -32,7 +32,7 @@ namespace Geta.Bring.Pickup
         /// <returns>A list of matching <see cref="PickupPoint"/></returns>
         public async Task<PickupResult> FindByZipCode(PickupZipCodeQuery query)
         {
-            var relativePath = string.Format("postalCode/{0}.json", query.ZipCode);
+            var relativePath = $"postalCode/{query.ZipCode}.json";
 
             return await GetResponseAsync(relativePath, query);
         }
@@ -58,7 +58,7 @@ namespace Geta.Bring.Pickup
         public async Task<PickupResult> FindById(string countryCode, string id)
         {
             var query = new PickupQuery(countryCode);
-            var relativePath = string.Format("id/{0}.json", id);
+            var relativePath = $"id/{id}.json";
 
             return await GetResponseAsync(relativePath, query);
         }

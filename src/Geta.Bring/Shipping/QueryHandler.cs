@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Caching;
 using Geta.Bring.Shipping.Model;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Geta.Bring.Shipping
 {
@@ -41,9 +42,7 @@ namespace Geta.Bring.Shipping
             var requestUri = CreateRequestUri(query);
             var cacheKey = CreateCacheKey(requestUri);
 
-            var cached = HttpRuntime.Cache.Get(cacheKey) as EstimateResult<IEstimate>;
-
-            if (cached != null)
+            if (HttpRuntime.Cache.Get(cacheKey) is EstimateResult<IEstimate> cached)
                 return await Task.FromResult(cached);
 
             using (var client = CreateClient())
@@ -64,7 +63,10 @@ namespace Geta.Bring.Shipping
                 }
             }
 
-            var response = JsonConvert.DeserializeObject<ShippingResponse>(jsonResponse);
+            var response = JsonConvert.DeserializeObject<ShippingResponse>(jsonResponse, new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
 
             if (!response.Product.Any())
             {
