@@ -6,16 +6,13 @@ namespace Geta.Bring.Booking.Model
     {
         public Contact(string name, string email, string phoneNumber)
         {
-            if (name == null) throw new ArgumentNullException("name");
-            if (email == null) throw new ArgumentNullException("email");
-            if (phoneNumber == null) throw new ArgumentNullException("phoneNumber");
-            PhoneNumber = phoneNumber;
-            Email = email;
-            Name = name;
+            PhoneNumber = phoneNumber ?? throw new ArgumentNullException(nameof(phoneNumber));
+            Email = email ?? throw new ArgumentNullException(nameof(email));
+            Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
-        public string Name { get; private set; }
-        public string Email { get; private set; }
-        public string PhoneNumber { get; private set; }
+        public string Name { get; }
+        public string Email { get; }
+        public string PhoneNumber { get; }
     }
 }

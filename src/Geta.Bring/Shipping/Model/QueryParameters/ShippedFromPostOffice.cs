@@ -18,6 +18,6 @@ namespace Geta.Bring.Shipping.Model.QueryParameters
                 {"postingAtPostoffice", shippedFromPostOffice.ToString().ToLowerInvariant()}
             };
         }
-        public NameValueCollection Items { get; private set; }
+        public NameValueCollection Items { get; }
     }
 }

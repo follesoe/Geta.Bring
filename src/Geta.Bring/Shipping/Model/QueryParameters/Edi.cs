@@ -18,6 +18,6 @@ namespace Geta.Bring.Shipping.Model.QueryParameters
                 {"edi", usesEdi.ToString().ToLowerInvariant()}
             };
         }
-        public NameValueCollection Items { get; private set; }
+        public NameValueCollection Items { get; }
     }
 }

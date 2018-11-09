@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Geta.Bring.Shipping.Infrastructure;
+using Geta.Bring.Shipping.Model.Errors;
 using Newtonsoft.Json;
 
 namespace Geta.Bring.Shipping.Model
@@ -15,11 +16,11 @@ namespace Geta.Bring.Shipping.Model
         }
 
         [JsonConverter(typeof(ObjectToArrayConverter<ProductResponse>))]
-        public IEnumerable<ProductResponse> Product { get; private set; }
+        public IEnumerable<ProductResponse> Product { get; }
 
-        public TraceMessages TraceMessages { get; private set; }
+        public TraceMessages TraceMessages { get; }
 
         [JsonConverter(typeof(ObjectToArrayConverter<FieldError>))]
-        public IEnumerable<FieldError> FieldErrors { get; private set; }
+        public IEnumerable<FieldError> FieldErrors { get; }
     }
 }

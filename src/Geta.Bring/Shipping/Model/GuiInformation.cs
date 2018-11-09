@@ -33,47 +33,47 @@ namespace Geta.Bring.Shipping.Model
         /// <summary>
         /// Order number of the estimation option.
         /// </summary>
-        public int SortOrder { get; private set; }
+        public int SortOrder { get; }
 
         /// <summary>
         /// The name of main display category.
         /// </summary>
-        public string MainDisplayCategory { get; private set; }
+        public string MainDisplayCategory { get; }
 
         /// <summary>
         /// The name of sub-display category.
         /// </summary>
-        public string SubDisplayCategory { get; private set; }
+        public string SubDisplayCategory { get; }
 
         /// <summary>
         /// Display name of estimation option.
         /// </summary>
-        public string DisplayName { get; private set; }
+        public string DisplayName { get; }
 
         /// <summary>
         /// Product name.
         /// </summary>
-        public string ProductName { get; private set; }
+        public string ProductName { get; }
 
         /// <summary>
         /// Description text.
         /// </summary>
-        public string DescriptionText { get; private set; }
+        public string DescriptionText { get; }
 
         /// <summary>
         /// Help text.
         /// </summary>
-        public string HelpText { get; private set; }
+        public string HelpText { get; }
 
         /// <summary>
         /// Tip.
         /// </summary>
-        public string Tip { get; private set; }
+        public string Tip { get; }
 
         /// <summary>
         /// Max weight in kilograms.
         /// </summary>
         [JsonConverter(typeof(DefaultingPropertyConverter<int>))]
-        public int MaxWeightInKgs { get; private set; }
+        public int MaxWeightInKgs { get; }
     }
 }

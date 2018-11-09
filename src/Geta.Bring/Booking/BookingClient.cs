@@ -19,12 +19,11 @@ namespace Geta.Bring.Booking
     /// </summary>
     public class BookingClient : IBookingClient
     {
-        public BookingSettings Settings { get; private set; }
+        public BookingSettings Settings { get; }
 
         public BookingClient(BookingSettings settings)
         {
-            if (settings == null) throw new ArgumentNullException("settings");
-            Settings = settings;
+            Settings = settings ?? throw new ArgumentNullException(nameof(settings));
         }
 
         /// <summary>

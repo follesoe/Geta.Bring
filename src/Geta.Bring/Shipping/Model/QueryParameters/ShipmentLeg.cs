@@ -43,6 +43,6 @@ namespace Geta.Bring.Shipping.Model.QueryParameters
             }; 
         }
 
-        public NameValueCollection Items { get; private set; }
+        public NameValueCollection Items { get; }
     }
 }

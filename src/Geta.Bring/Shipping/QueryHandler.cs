@@ -20,10 +20,8 @@ namespace Geta.Bring.Shipping
     {
         protected QueryHandler(ShippingSettings settings, string methodName)
         {
-            if (settings == null) throw new ArgumentNullException("settings");
-            if (methodName == null) throw new ArgumentNullException("methodName");
-            Settings = settings;
-            MethodName = methodName;
+            Settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            MethodName = methodName ?? throw new ArgumentNullException(nameof(methodName));
         }
 
         public bool CanHandle(Type type)
@@ -31,9 +29,9 @@ namespace Geta.Bring.Shipping
             return type == typeof(T);
         }
 
-        public string MethodName { get; private set; }
+        public string MethodName { get; }
 
-        public ShippingSettings Settings { get; private set; }
+        public ShippingSettings Settings { get; }
 
         internal abstract T MapProduct(ProductResponse response);
 
@@ -111,6 +109,7 @@ namespace Geta.Bring.Shipping
             }
 
             client.DefaultRequestHeaders.Add("X-Bring-Client-URL", Settings.ClientUri.ToString());
+
             return client;
         }
 

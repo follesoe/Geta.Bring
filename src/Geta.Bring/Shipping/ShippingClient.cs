@@ -10,7 +10,7 @@ namespace Geta.Bring.Shipping
     /// </summary>
     public class ShippingClient : IShippingClient
     {
-        public ShippingSettings Settings { get; private set; }
+        public ShippingSettings Settings { get; }
 
         /// <summary>
         /// Initializes new instance of <see cref="ShippingClient"/>.
@@ -18,8 +18,7 @@ namespace Geta.Bring.Shipping
         /// <param name="settings">Settings for <see cref="ShippingClient"/>.</param>
         public ShippingClient(ShippingSettings settings)
         {
-            if (settings == null) throw new ArgumentNullException("settings");
-            Settings = settings;
+            Settings = settings ?? throw new ArgumentNullException(nameof(settings));
         }
 
         /// <summary>

@@ -14,7 +14,7 @@ namespace Geta.Bring.Pickup
     /// </summary>
     public class PickupClient : IPickupClient
     {
-        public PickupSettings Settings { get; private set; }
+        public PickupSettings Settings { get; }
 
         /// <summary>
         /// Initializes new instance of <see cref="PickupClient"/>.
@@ -22,8 +22,7 @@ namespace Geta.Bring.Pickup
         /// <param name="settings">Settings for <see cref="PickupClient"/>.</param>
         public PickupClient(PickupSettings settings)
         {
-            if (settings == null) throw new ArgumentNullException("settings");
-            Settings = settings;
+            Settings = settings ?? throw new ArgumentNullException(nameof(settings));
         }
 
         /// <summary>

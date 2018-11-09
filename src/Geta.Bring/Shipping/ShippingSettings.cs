@@ -56,12 +56,12 @@ namespace Geta.Bring.Shipping
             QueryHandlers = defaultHandlers.Concat(queryHandlers ?? Enumerable.Empty<IQueryHandler>());
         }
 
-        public Uri ClientUri { get; private set; }
-        public Uri EndpointUri { get; private set; }
-        public IEnumerable<IQueryHandler> QueryHandlers { get; private set; }
-        public string PublicId { get; private set; }
-        public string Uid { get; private set; }
-        public string Key { get; private set; }
+        public Uri ClientUri { get; }
+        public Uri EndpointUri { get; }
+        public IEnumerable<IQueryHandler> QueryHandlers { get; }
+        public string PublicId { get; }
+        public string Uid { get; }
+        public string Key { get; }
 
         private static IEnumerable<IQueryHandler> CreateDefaultQueryHandlers(ShippingSettings settings)
         {

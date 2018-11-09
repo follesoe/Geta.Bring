@@ -8,7 +8,7 @@
             CorrelationId = correlationId;
         }
 
-        public string CorrelationId { get; private set; }
-        public string PackageNumber { get; private set; }
+        public string CorrelationId { get; }
+        public string PackageNumber { get; }
     }
 }

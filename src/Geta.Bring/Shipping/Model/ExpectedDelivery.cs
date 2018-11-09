@@ -30,32 +30,32 @@ namespace Geta.Bring.Shipping.Model
         /// <summary>
         /// Description of week days when delivery available.
         /// </summary>
-        public string WorkingDays { get; private set; }
+        public string WorkingDays { get; }
 
         /// <summary>
         /// Message to user.
         /// </summary>
-        public string UserMessage { get; private set; }
+        public string UserMessage { get; }
 
         /// <summary>
         /// Formatted expeted delivery date.
         /// </summary>
-        public string FormattedExpectedDeliveryDate { get; private set; }
+        public string FormattedExpectedDeliveryDate { get; }
 
         /// <summary>
         /// Formatted earliest pickup date.
         /// </summary>
-        public string FormattedEarliestPickupDate { get; private set; }
+        public string FormattedEarliestPickupDate { get; }
 
         /// <summary>
         /// Expected delivery date.
         /// </summary>
         [JsonConverter(typeof(DeliveryDateToDateTimeConverter))]
-        public DateTime? ExpectedDeliveryDate { get; private set; }
+        public DateTime? ExpectedDeliveryDate { get; }
 
         /// <summary>
         /// List of alternative expected delivery dates.
         /// </summary>
-        public IEnumerable<DateTime> AlternativeDeliveryDates { get; private set; }
+        public IEnumerable<DateTime> AlternativeDeliveryDates { get; }
     }
 }

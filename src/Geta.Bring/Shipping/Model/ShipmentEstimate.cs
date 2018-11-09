@@ -20,34 +20,30 @@ namespace Geta.Bring.Shipping.Model
             PackagePrice packagePrice, 
             ExpectedDelivery expectedDelivery)
         {
-            if (product == null) throw new ArgumentNullException("product");
-            if (guiInformation == null) throw new ArgumentNullException("guiInformation");
-            if (packagePrice == null) throw new ArgumentNullException("packagePrice");
-            if (expectedDelivery == null) throw new ArgumentNullException("expectedDelivery");
-            ExpectedDelivery = expectedDelivery;
-            PackagePrice = packagePrice;
-            GuiInformation = guiInformation;
-            Product = product;
+            ExpectedDelivery = expectedDelivery ?? throw new ArgumentNullException(nameof(expectedDelivery));
+            PackagePrice = packagePrice ?? throw new ArgumentNullException(nameof(packagePrice));
+            GuiInformation = guiInformation ?? throw new ArgumentNullException(nameof(guiInformation));
+            Product = product ?? throw new ArgumentNullException(nameof(product));
         }
 
         /// <summary>
         /// Product for which shipment estimated. 
         /// </summary>
-        public Product Product { get; private set; }
+        public Product Product { get; }
 
         /// <summary>
         /// GUI information <see cref="GuiInformation"/>.
         /// </summary>
-        public GuiInformation GuiInformation { get; private set; }
+        public GuiInformation GuiInformation { get; }
 
         /// <summary>
         /// Price information <see cref="PackagePrice"/>.
         /// </summary>
-        public PackagePrice PackagePrice { get; private set; }
+        public PackagePrice PackagePrice { get; }
 
         /// <summary>
         /// Expected delivery information <see cref="ExpectedDelivery"/>.
         /// </summary>
-        public ExpectedDelivery ExpectedDelivery { get; private set; }
+        public ExpectedDelivery ExpectedDelivery { get; }
     }
 }

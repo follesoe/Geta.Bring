@@ -7,10 +7,9 @@ namespace Geta.Bring.Tracking.Model
     {
         public TrackingResponse(IEnumerable<ConsignmentStatus> consignmentSet)
         {
-            if (consignmentSet == null) throw new ArgumentNullException("consignmentSet");
-            ConsignmentSet = consignmentSet;
+            ConsignmentSet = consignmentSet ?? throw new ArgumentNullException(nameof(consignmentSet));
         }
 
-        public IEnumerable<ConsignmentStatus> ConsignmentSet { get; private set; }
+        public IEnumerable<ConsignmentStatus> ConsignmentSet { get; }
     }
 }

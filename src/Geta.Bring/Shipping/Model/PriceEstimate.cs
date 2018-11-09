@@ -14,20 +14,18 @@ namespace Geta.Bring.Shipping.Model
         /// <param name="packagePrice">Price information.</param>
         public PriceEstimate(Product product, PackagePrice packagePrice)
         {
-            if (product == null) throw new ArgumentNullException("product");
-            if (packagePrice == null) throw new ArgumentNullException("packagePrice");
-            PackagePrice = packagePrice;
-            Product = product;
+            PackagePrice = packagePrice ?? throw new ArgumentNullException(nameof(packagePrice));
+            Product = product ?? throw new ArgumentNullException(nameof(product));
         }
 
         /// <summary>
         /// Product for which price estimated <see cref="Product"/>.
         /// </summary>
-        public Product Product { get; private set; }
+        public Product Product { get; }
 
         /// <summary>
         /// Price information <see cref="PackagePrice"/>.
         /// </summary>
-        public PackagePrice PackagePrice { get; private set; }
+        public PackagePrice PackagePrice { get; }
     }
 }

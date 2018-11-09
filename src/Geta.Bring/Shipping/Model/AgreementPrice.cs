@@ -11,9 +11,7 @@ namespace Geta.Bring.Shipping.Model
             int subAgreementNumber,
             double price)
         {
-            if (agreementName == null) throw new ArgumentNullException("agreementName");
-            
-            AgreementName = agreementName;
+            AgreementName = agreementName ?? throw new ArgumentNullException(nameof(agreementName));
             AgreementNumber = agreementNumber;
             SubAgreementName = subAgreementName;
             SubAgreementNumber = subAgreementNumber;
@@ -23,26 +21,26 @@ namespace Geta.Bring.Shipping.Model
         /// <summary>
         /// Name of main agreement
         /// </summary>
-        public string AgreementName { get; private set; }
+        public string AgreementName { get; }
 
         /// <summary>
         /// Main agreement identifier
         /// </summary>
-        public int AgreementNumber { get; private set; }
+        public int AgreementNumber { get; }
 
         /// <summary>
         /// Sub agreement name
         /// </summary>
-        public string SubAgreementName { get; private set; }
+        public string SubAgreementName { get; }
 
         /// <summary>
         /// Sub agreement identifier
         /// </summary>
-        public int SubAgreementNumber { get; private set; }
+        public int SubAgreementNumber { get; }
 
         /// <summary>
         /// Agreement price w/o VAT (default NOK)
         /// </summary>
-        public double Price { get; private set; }
+        public double Price { get; }
     }
 }

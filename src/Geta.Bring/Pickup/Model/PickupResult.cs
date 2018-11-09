@@ -26,7 +26,7 @@ namespace Geta.Bring.Pickup.Model
         /// <param name="pickupPoints">List of pickup points.</param>
         public static PickupResult CreateSuccess(IEnumerable<PickupPoint> pickupPoints)
         {
-            if (pickupPoints == null) throw new ArgumentNullException("pickupPoints");
+            if (pickupPoints == null) throw new ArgumentNullException(nameof(pickupPoints));
             return new PickupResult
             {
                 PickupPoints = pickupPoints,
@@ -41,7 +41,7 @@ namespace Geta.Bring.Pickup.Model
         /// <param name="message">Error message.</param>
         public static PickupResult CreateFailure(string message)
         {
-            if (message == null) throw new ArgumentNullException("message");
+            if (message == null) throw new ArgumentNullException(nameof(message));
 
             return new PickupResult
             {

@@ -23,40 +23,36 @@ namespace Geta.Bring.Booking.Model
             Product product, 
             IEnumerable<Package> packages)
         {
-            if (correlationId == null) throw new ArgumentNullException("correlationId");
-            if (parties == null) throw new ArgumentNullException("parties");
-            if (product == null) throw new ArgumentNullException("product");
-            if (packages == null) throw new ArgumentNullException("packages");
-            Packages = packages;
-            Product = product;
+            Packages = packages ?? throw new ArgumentNullException(nameof(packages));
+            Product = product ?? throw new ArgumentNullException(nameof(product));
             ShippingDateTime = shippingDateTime;
-            Parties = parties;
-            CorrelationId = correlationId;
+            Parties = parties ?? throw new ArgumentNullException(nameof(parties));
+            CorrelationId = correlationId ?? throw new ArgumentNullException(nameof(correlationId));
         }
 
         /// <summary>
         /// Correlation ID.
         /// </summary>
-        public string CorrelationId { get; private set; }
+        public string CorrelationId { get; }
 
         /// <summary>
         /// Shipping date and time to Bring.
         /// </summary>
-        public DateTime ShippingDateTime { get; private set; }
+        public DateTime ShippingDateTime { get; }
 
         /// <summary>
         /// Parties information. For more see: <see cref="Parties"/>.
         /// </summary>
-        public Parties Parties { get; private set; }
+        public Parties Parties { get; }
 
         /// <summary>
         /// Product information. For more see: <see cref="Product"/>.
         /// </summary>
-        public Product Product { get; private set; }
+        public Product Product { get; }
 
         /// <summary>
         /// List of package information included in consignment. For more see <see cref="Package"/>.
         /// </summary>
-        public IEnumerable<Package> Packages { get; private set; }
+        public IEnumerable<Package> Packages { get; }
     }
 }

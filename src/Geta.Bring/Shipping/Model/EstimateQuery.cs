@@ -21,13 +21,13 @@ namespace Geta.Bring.Shipping.Model
             PackageSize packageSize,
             params IShippingQueryParameter[] additionalParameters)
         {
-            if (shipmentLeg == null) throw new ArgumentNullException("shipmentLeg");
-            if (packageSize == null) throw new ArgumentNullException("packageSize");
+            if (shipmentLeg == null) throw new ArgumentNullException(nameof(shipmentLeg));
+            if (packageSize == null) throw new ArgumentNullException(nameof(packageSize));
             var parameters = additionalParameters.ToList();
             parameters.ForEach(x =>
             {
                 if (x == null)
-                    throw new ArgumentException("additionalParameters contains null item", "additionalParameters");
+                    throw new ArgumentException("additionalParameters contains null item", nameof(additionalParameters));
             });
 
 
@@ -41,6 +41,6 @@ namespace Geta.Bring.Shipping.Model
                 .ForEach(x => Items.Add(x.Items));
         }
 
-        public NameValueCollection Items { get; private set; }
+        public NameValueCollection Items { get; }
     }
 }

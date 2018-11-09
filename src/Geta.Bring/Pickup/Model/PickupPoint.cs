@@ -64,62 +64,62 @@
             RouteMapsLink = routeMapsLink;
         }
 
-        public string Id { get; private set; }
+        public string Id { get; }
 
-        public string UnitId { get; private set; }
+        public string UnitId { get; }
 
-        public string Name { get; private set; }
+        public string Name { get; }
 
-        public string Address { get; private set; }
+        public string Address { get; }
 
-        public string PostalCode { get; private set; }
+        public string PostalCode { get; }
 
-        public string City { get; private set; }
+        public string City { get; }
 
-        public string CountryCode { get; private set; }
+        public string CountryCode { get; }
 
-        public string Municipality { get; private set; }
+        public string Municipality { get; }
 
-        public string Country { get; private set; }
+        public string Country { get; }
 
-        public string VisitingAddress { get; private set; }
+        public string VisitingAddress { get; }
 
-        public string VisitingPostalCode { get; private set; }
+        public string VisitingPostalCode { get; }
 
-        public string VisitingCity { get; private set; }
+        public string VisitingCity { get; }
 
-        public string LocationDescription { get; private set; }
+        public string LocationDescription { get; }
 
-        public string OpeningHoursNorwegian { get; private set; }
+        public string OpeningHoursNorwegian { get; }
 
-        public string OpeningHoursEnglish { get; private set; }
+        public string OpeningHoursEnglish { get; }
 
-        public string OpeningHoursFinnish { get; private set; }
+        public string OpeningHoursFinnish { get; }
 
-        public string OpeningHoursDanish { get; private set; }
+        public string OpeningHoursDanish { get; }
 
-        public string OpeningHoursSwedish { get; private set; }
+        public string OpeningHoursSwedish { get; }
 
-        public double Latitude { get; private set; }
+        public double Latitude { get; }
 
-        public double Longitude { get; private set; }
+        public double Longitude { get; }
 
-        public string UtmX { get; private set; }
+        public string UtmX { get; }
 
-        public string UtmY { get; private set; }
+        public string UtmY { get; }
 
-        public string PostenMapsLink { get; private set; }
+        public string PostenMapsLink { get; }
 
-        public string GoogleMapsLink { get; private set; }
+        public string GoogleMapsLink { get; }
 
-        public string DistanceInKm { get; private set; }
+        public string DistanceInKm { get; }
 
-        public string DistanceType { get; private set; }
+        public string DistanceType { get; }
 
-        public string Type { get; private set; }
+        public string Type { get; }
 
-        public string AdditionalServiceCode { get; private set; }
+        public string AdditionalServiceCode { get; }
 
-        public string RouteMapsLink { get; private set; }
+        public string RouteMapsLink { get; }
     }
 }

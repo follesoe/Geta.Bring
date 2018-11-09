@@ -20,33 +20,30 @@ namespace Geta.Bring.Booking.Model
             string goodsDescription, 
             Dimensions dimensions)
         {
-            if (correlationId == null) throw new ArgumentNullException("correlationId");
-            if (goodsDescription == null) throw new ArgumentNullException("goodsDescription");
-            if (dimensions == null) throw new ArgumentNullException("dimensions");
-            Dimensions = dimensions;
-            GoodsDescription = goodsDescription;
+            Dimensions = dimensions ?? throw new ArgumentNullException(nameof(dimensions));
+            GoodsDescription = goodsDescription ?? throw new ArgumentNullException(nameof(goodsDescription));
             WeightInKg = weightInKg;
-            CorrelationId = correlationId;
+            CorrelationId = correlationId ?? throw new ArgumentNullException(nameof(correlationId));
         }
 
         /// <summary>
         /// Correlation ID.
         /// </summary>
-        public string CorrelationId { get; private set; }
+        public string CorrelationId { get; }
 
         /// <summary>
         /// Package weight in kilograms.
         /// </summary>
-        public double WeightInKg { get; private set; }
+        public double WeightInKg { get; }
 
         /// <summary>
         /// Package goods description.
         /// </summary>
-        public string GoodsDescription { get; private set; }
+        public string GoodsDescription { get; }
 
         /// <summary>
         /// Package dimensions. For more see: <see cref="Dimensions"/>.
         /// </summary>
-        public Dimensions Dimensions { get; private set; }
+        public Dimensions Dimensions { get; }
     }
 }

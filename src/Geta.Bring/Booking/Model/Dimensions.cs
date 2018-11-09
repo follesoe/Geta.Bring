@@ -21,17 +21,17 @@
         /// <summary>
         /// Height in cm.
         /// </summary>
-        public int HeightInCm { get; private set; }
+        public int HeightInCm { get; }
 
         /// <summary>
         /// Width in cm.
         /// </summary>
-        public int WidthInCm { get; private set; }
+        public int WidthInCm { get; }
 
         /// <summary>
         /// Length in cm.
         /// </summary>
-        public int LengthInCm { get; private set; }
+        public int LengthInCm { get; }
 
         public override bool Equals(object obj)
         {

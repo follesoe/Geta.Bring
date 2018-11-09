@@ -14,20 +14,18 @@ namespace Geta.Bring.Shipping.Model
         /// <param name="expectedDelivery">Expected delivery information.</param>
         public DeliveryEstimate(Product product, ExpectedDelivery expectedDelivery)
         {
-            if (product == null) throw new ArgumentNullException("product");
-            if (expectedDelivery == null) throw new ArgumentNullException("expectedDelivery");
-            ExpectedDelivery = expectedDelivery;
-            Product = product;
+            ExpectedDelivery = expectedDelivery ?? throw new ArgumentNullException(nameof(expectedDelivery));
+            Product = product ?? throw new ArgumentNullException(nameof(product));
         }
 
         /// <summary>
         /// Product for which delivery estimated <see cref="Product"/>.
         /// </summary>
-        public Product Product { get; private set; }
+        public Product Product { get; }
 
         /// <summary>
         /// Expected delivery information <see cref="ExpectedDelivery"/>.
         /// </summary>
-        public ExpectedDelivery ExpectedDelivery { get; private set; }
+        public ExpectedDelivery ExpectedDelivery { get; }
     }
 }

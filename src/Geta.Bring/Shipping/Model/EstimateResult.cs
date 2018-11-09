@@ -32,7 +32,7 @@ namespace Geta.Bring.Shipping.Model
         /// <param name="estimates">List of estimates.</param>
         public static EstimateResult<T> CreateSuccess(IEnumerable<T> estimates)
         {
-            if (estimates == null) throw new ArgumentNullException("estimates");
+            if (estimates == null) throw new ArgumentNullException(nameof(estimates));
             return new EstimateResult<T>
             {
                 Success = true,
@@ -46,7 +46,7 @@ namespace Geta.Bring.Shipping.Model
         /// <param name="message">Error message.</param>
         public static EstimateResult<T> CreateFailure(string message)
         {
-            if (message == null) throw new ArgumentNullException("message");
+            if (message == null) throw new ArgumentNullException(nameof(message));
 
             return new EstimateResult<T>
             {
@@ -75,7 +75,7 @@ namespace Geta.Bring.Shipping.Model
         /// <param name="messages">Sequence of error messages.</param>
         public static EstimateResult<T> CreateFailure(IEnumerable<string> messages)
         {
-            if (messages == null) throw new ArgumentNullException("messages");
+            if (messages == null) throw new ArgumentNullException(nameof(messages));
 
             return new EstimateResult<T>
             {

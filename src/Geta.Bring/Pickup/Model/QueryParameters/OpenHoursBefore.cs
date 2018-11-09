@@ -21,6 +21,6 @@ namespace Geta.Bring.Pickup.Model.QueryParameters
             };
         }
 
-        public NameValueCollection Items { get; private set; }
+        public NameValueCollection Items { get; }
     }
 }

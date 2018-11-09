@@ -26,92 +26,81 @@ namespace Geta.Bring.Tracking.Model
             bool consignmentEvent, 
             IEnumerable<TrackingEventDefinition> definitions)
         {
-            if (description == null) throw new ArgumentNullException("description");
-            if (status == null) throw new ArgumentNullException("status");
-            if (recipientSignature == null) throw new ArgumentNullException("recipientSignature");
-            if (unitId == null) throw new ArgumentNullException("unitId");
-            if (unitType == null) throw new ArgumentNullException("unitType");
-            if (postalCode == null) throw new ArgumentNullException("postalCode");
-            if (city == null) throw new ArgumentNullException("city");
-            if (countryCode == null) throw new ArgumentNullException("countryCode");
-            if (country == null) throw new ArgumentNullException("country");
-            if (displayDate == null) throw new ArgumentNullException("displayDate");
-            if (displayTime == null) throw new ArgumentNullException("displayTime");
             Definitions = definitions ?? Enumerable.Empty<TrackingEventDefinition>();
             ConsignmentEvent = consignmentEvent;
-            DisplayTime = displayTime;
-            DisplayDate = displayDate;
+            DisplayTime = displayTime ?? throw new ArgumentNullException(nameof(displayTime));
+            DisplayDate = displayDate ?? throw new ArgumentNullException(nameof(displayDate));
             DateIso = dateIso;
-            Country = country;
-            CountryCode = countryCode;
-            City = city;
-            PostalCode = postalCode;
-            UnitType = unitType;
+            Country = country ?? throw new ArgumentNullException(nameof(country));
+            CountryCode = countryCode ?? throw new ArgumentNullException(nameof(countryCode));
+            City = city ?? throw new ArgumentNullException(nameof(city));
+            PostalCode = postalCode ?? throw new ArgumentNullException(nameof(postalCode));
+            UnitType = unitType ?? throw new ArgumentNullException(nameof(unitType));
             UnitInformationUrl = unitInformationUrl;
-            UnitId = unitId;
-            RecipientSignature = recipientSignature;
-            Status = status;
-            Description = description;
+            UnitId = unitId ?? throw new ArgumentNullException(nameof(unitId));
+            RecipientSignature = recipientSignature ?? throw new ArgumentNullException(nameof(recipientSignature));
+            Status = status ?? throw new ArgumentNullException(nameof(status));
+            Description = description ?? throw new ArgumentNullException(nameof(description));
         }
 
         /// <summary>
         /// Description of tracking event.
         /// </summary>
-        public string Description { get; private set; }
+        public string Description { get; }
 
         /// <summary>
         /// Event status.
         /// </summary>
-        public string Status { get; private set; }
+        public string Status { get; }
 
         /// <summary>
         /// Recipient signature.
         /// </summary>
-        public RecipientSignature RecipientSignature { get; private set; }
+        public RecipientSignature RecipientSignature { get; }
 
         /// <summary>
         /// Unit ID.
         /// </summary>
-        public string UnitId { get; private set; }
+        public string UnitId { get; }
 
         /// <summary>
         /// Unit information URI.
         /// </summary>
-        public Uri UnitInformationUrl { get; private set; }
+        public Uri UnitInformationUrl { get; }
 
         /// <summary>
         /// Unit type.
         /// </summary>
-        public string UnitType { get; private set; }
+        public string UnitType { get; }
 
-        public string PostalCode { get; private set; }
-        public string City { get; private set; }
-        public string CountryCode { get; private set; }
-        public string Country { get; private set; }
+        public string PostalCode { get; }
+        public string City { get; }
+        public string CountryCode { get; }
+        public string Country { get; }
 
         /// <summary>
         /// Event date and time.
         /// </summary>
-        public DateTime DateIso { get; private set; }
+        public DateTime DateIso { get; }
 
         /// <summary>
         /// Formatted event date.
         /// </summary>
-        public string DisplayDate { get; private set; }
+        public string DisplayDate { get; }
 
         /// <summary>
         /// Formatted event time.
         /// </summary>
-        public string DisplayTime { get; private set; }
+        public string DisplayTime { get; }
 
         /// <summary>
         /// Mark if it is consignment event.
         /// </summary>
-        public bool ConsignmentEvent { get; private set; }
+        public bool ConsignmentEvent { get; }
 
         /// <summary>
         /// List of the tracking event definitions.
         /// </summary>
-        public IEnumerable<TrackingEventDefinition> Definitions { get; private set; }
+        public IEnumerable<TrackingEventDefinition> Definitions { get; }
     }
 }

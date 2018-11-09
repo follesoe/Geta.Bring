@@ -15,14 +15,9 @@ namespace Geta.Bring.Shipping.Model
             Price packagePriceWithoutAdditionalServices, 
             Price packagePriceWithAdditionalServices)
         {
-            if (currencyIdentificationCode == null) throw new ArgumentNullException("currencyIdentificationCode");
-            if (packagePriceWithoutAdditionalServices == null)
-                throw new ArgumentNullException("packagePriceWithoutAdditionalServices");
-            if (packagePriceWithAdditionalServices == null)
-                throw new ArgumentNullException("packagePriceWithAdditionalServices");
-            PackagePriceWithAdditionalServices = packagePriceWithAdditionalServices;
-            PackagePriceWithoutAdditionalServices = packagePriceWithoutAdditionalServices;
-            CurrencyIdentificationCode = currencyIdentificationCode;
+            PackagePriceWithAdditionalServices = packagePriceWithAdditionalServices ?? throw new ArgumentNullException(nameof(packagePriceWithAdditionalServices));
+            PackagePriceWithoutAdditionalServices = packagePriceWithoutAdditionalServices ?? throw new ArgumentNullException(nameof(packagePriceWithoutAdditionalServices));
+            CurrencyIdentificationCode = currencyIdentificationCode ?? throw new ArgumentNullException(nameof(currencyIdentificationCode));
         }
 
         [JsonConstructor]
@@ -45,16 +40,16 @@ namespace Geta.Bring.Shipping.Model
         /// <summary>
         /// Price without additional services.
         /// </summary>
-        public Price PackagePriceWithoutAdditionalServices { get; private set; }
+        public Price PackagePriceWithoutAdditionalServices { get; }
 
         /// <summary>
         /// Price with additional services.
         /// </summary>
-        public Price PackagePriceWithAdditionalServices { get; private set; }
+        public Price PackagePriceWithAdditionalServices { get; }
 
         /// <summary>
         /// Special cargo agreement prices.
         /// </summary>
-        public CargoAgreementPrices CargoAgreementPrices { get; private set; }
+        public CargoAgreementPrices CargoAgreementPrices { get; }
     }
 }

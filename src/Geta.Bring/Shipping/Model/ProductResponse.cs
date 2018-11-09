@@ -31,11 +31,11 @@ namespace Geta.Bring.Shipping.Model
             NetPrice = netPrice;
         }
 
-        public string ProductId { get; private set; }
-        public string ProductCodeInProductionSystem { get; private set; }
-        public GuiInformation GuiInformation { get; private set; }
-        public PackagePrice Price { get; private set; }
-        public PackagePrice NetPrice { get; private set; }
-        public ExpectedDelivery ExpectedDelivery { get; private set; }
+        public string ProductId { get; }
+        public string ProductCodeInProductionSystem { get; }
+        public GuiInformation GuiInformation { get; }
+        public PackagePrice Price { get; }
+        public PackagePrice NetPrice { get; }
+        public ExpectedDelivery ExpectedDelivery { get; }
     }
 }

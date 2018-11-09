@@ -14,20 +14,18 @@ namespace Geta.Bring.Booking.Model
         /// <param name="recipient">Package recipient.</param>
         public Parties(Party sender, Party recipient)
         {
-            if (sender == null) throw new ArgumentNullException("sender");
-            if (recipient == null) throw new ArgumentNullException("recipient");
-            Recipient = recipient;
-            Sender = sender;
+            Recipient = recipient ?? throw new ArgumentNullException(nameof(recipient));
+            Sender = sender ?? throw new ArgumentNullException(nameof(sender));
         }
 
         /// <summary>
         /// Package sender. 
         /// </summary>
-        public Party Sender { get; private set; }
+        public Party Sender { get; }
 
         /// <summary>
         /// Package recipient.
         /// </summary>
-        public Party Recipient { get; private set; }
+        public Party Recipient { get; }
     }
 }

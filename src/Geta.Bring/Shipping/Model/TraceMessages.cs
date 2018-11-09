@@ -13,6 +13,6 @@ namespace Geta.Bring.Shipping.Model
         }
 
         [JsonConverter(typeof(ObjectToArrayConverter<string>))]
-        public IEnumerable<string> Message { get; private set; }
+        public IEnumerable<string> Message { get; }
     }
 }

@@ -21,7 +21,7 @@ namespace Geta.Bring.Shipping.Model.QueryParameters
             products.ForEach(x =>
             {
                 if (x == null)
-                    throw new ArgumentException("additionalProducts contains null item", "additionalProducts");
+                    throw new ArgumentException("additionalProducts contains null item", nameof(additionalProducts));
             });
 
             Items = new NameValueCollection();
@@ -30,6 +30,6 @@ namespace Geta.Bring.Shipping.Model.QueryParameters
                 .ForEach(x => Items.Add(ParameterName, x.Code));
         }
 
-        public NameValueCollection Items { get; private set; }
+        public NameValueCollection Items { get; }
     }
 }
