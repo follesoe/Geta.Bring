@@ -71,10 +71,11 @@ namespace Geta.Bring.EPi.Commerce
                     sb.AppendLine();
                     return sb;
                 }).ToString();
+
             return CreateBaseShippingRate(methodId, shippingMethodRow);
         }
 
-        private ShippingRate CreateBaseShippingRate(Guid shippingMethodId,ShippingMethodDto.ShippingMethodRow shippingMethodRow)
+        private static ShippingRate CreateBaseShippingRate(Guid shippingMethodId,ShippingMethodDto.ShippingMethodRow shippingMethodRow)
         {
             return new ShippingRate(
                 shippingMethodId, 
@@ -83,7 +84,7 @@ namespace Geta.Bring.EPi.Commerce
                 new Currency(shippingMethodRow.Currency)));
         }
 
-        private ShippingRate CreateShippingRate(
+        private static ShippingRate CreateShippingRate(
             Guid methodId,
             ShippingMethodDto shippingMethod,
             EstimateResult<ShipmentEstimate> result)
@@ -91,19 +92,23 @@ namespace Geta.Bring.EPi.Commerce
             var estimate = result.Estimates.First();
             var priceExclTax = shippingMethod.GetShippingMethodParameterValue(ParameterNames.PriceExclTax) == "True";
             var usesAdditionalServices = !string.IsNullOrEmpty(shippingMethod.GetShippingMethodParameterValue(ParameterNames.AdditionalServices));
+
+            var packagePrice = estimate.Price.NetPrice ?? estimate.Price.ListPrice;
+
             var priceWithAdditionalServices = !priceExclTax
-                ? (decimal) estimate.PackagePrice.PackagePriceWithAdditionalServices.AmountWithVAT
-                : (decimal) estimate.PackagePrice.PackagePriceWithAdditionalServices.AmountWithoutVAT;
+                ? (decimal) packagePrice.PackagePriceWithAdditionalServices.AmountWithVAT
+                : (decimal) packagePrice.PackagePriceWithAdditionalServices.AmountWithoutVAT;
+
             var priceWithoutAdditionalServices = !priceExclTax
-                ? (decimal) estimate.PackagePrice.PackagePriceWithoutAdditionalServices.AmountWithVAT
-                : (decimal) estimate.PackagePrice.PackagePriceWithoutAdditionalServices.AmountWithoutVAT;
+                ? (decimal) packagePrice.PackagePriceWithoutAdditionalServices.AmountWithVAT
+                : (decimal) packagePrice.PackagePriceWithoutAdditionalServices.AmountWithoutVAT;
 
             var amount = AdjustPrice(shippingMethod, usesAdditionalServices ? priceWithAdditionalServices :
                                                                               priceWithoutAdditionalServices);
 
             var moneyAmount = new Money(
                 amount,
-                new Currency(estimate.PackagePrice.CurrencyIdentificationCode));
+                new Currency(packagePrice.CurrencyIdentificationCode));
 
             return new BringShippingRate(
                 methodId,
@@ -117,16 +122,31 @@ namespace Geta.Bring.EPi.Commerce
                 moneyAmount);
         }
 
-        private decimal AdjustPrice(ShippingMethodDto shippingMethod, decimal price)
+        private static decimal AdjustPrice(ShippingMethodDto shippingMethod, decimal price)
         {
             var shippingMethodRow = shippingMethod.ShippingMethod[0];
+            var priceRoundingParameter = shippingMethod.GetShippingMethodParameterValue(ParameterNames.PriceRounding, "false");
+
+            var priceAdjustmentPercentParameter = shippingMethod.GetShippingMethodParameterValue(ParameterNames.PriceAdjustmentPercent, "0");
+            int.TryParse(priceAdjustmentPercentParameter, out var priceAdjustmentPercent);
+
+            if (priceAdjustmentPercent > 0)
+            {
+                var priceAdjustmentOperatorParameter = shippingMethod.GetShippingMethodParameterValue(ParameterNames.PriceAdjustmentOperator, "true");
+                bool.TryParse(priceAdjustmentOperatorParameter, out var priceAdjustmentAdd);
+
+                //todo: Test this price adjustment
+                var pricePart = price / (priceAdjustmentPercent / 100.0m);
+                price += priceAdjustmentAdd ? pricePart : -pricePart;
+            }
+
             var amount = shippingMethodRow.BasePrice + price;
-            bool priceRounding;
-            if (bool.TryParse(shippingMethod.GetShippingMethodParameterValue(ParameterNames.PriceRounding, "false"), out priceRounding)
-                && priceRounding)
+
+            if (bool.TryParse(priceRoundingParameter, out var priceRounding) && priceRounding)
             {
                 return Math.Round(amount, MidpointRounding.AwayFromZero);
             }
+
             return amount;
         }
 

@@ -85,26 +85,17 @@ namespace Geta.Bring.EPi.Commerce.Factories
             var shippedFromPostOffice =
                 bool.Parse(shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.PostingAtPostOffice, "false"));
             yield return new ShippedFromPostOffice(shippedFromPostOffice);
-
-            int priceAdjustmentPercent;
-            int.TryParse(shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.PriceAdjustmentPercent, "0"), out priceAdjustmentPercent);
-
-            if (priceAdjustmentPercent > 0)
-            {
-                bool priceAdjustmentAdd;
-                bool.TryParse(shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.PriceAdjustmentOperator, "true"), out priceAdjustmentAdd);
-
-                yield return priceAdjustmentAdd ? PriceAdjustment.IncreasePercent(priceAdjustmentPercent) : PriceAdjustment.DecreasePercent(priceAdjustmentPercent);
-            }
-
+            
             var productCode = shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.BringProductId, null)
                               ?? Product.Servicepakke.Code;
+
             yield return new Products(Product.GetByCode(productCode));
 
             var additionalServicesCodes = shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.AdditionalServices);
             var services = additionalServicesCodes.Split(',')
                 .Select(code => AdditionalService.All.FirstOrDefault(x => x.Code == code))
                 .Where(service => service != null);
+
             yield return new AdditionalServices(services.ToArray());
         }
     }
