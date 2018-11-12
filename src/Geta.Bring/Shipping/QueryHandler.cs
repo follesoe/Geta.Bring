@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Caching;
+using Geta.Bring.Shipping.Extensions;
 using Geta.Bring.Shipping.Model;
+using Geta.Bring.Shipping.Model.Errors;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -39,7 +42,9 @@ namespace Geta.Bring.Shipping
 
         public async Task<EstimateResult<IEstimate>> FindEstimatesAsync(EstimateQuery query)
         {
-            string jsonResponse;
+            HttpResponseMessage responseMessage = null;
+            string jsonResponse = null;
+
             var requestUri = CreateRequestUri(query);
             var cacheKey = CreateCacheKey(requestUri);
 
@@ -50,47 +55,45 @@ namespace Geta.Bring.Shipping
             {
                 try
                 {
-                    jsonResponse = await client.GetStringAsync(requestUri).ConfigureAwait(false);
+                    responseMessage = await client.GetAsync(requestUri).ConfigureAwait(false);
+                    jsonResponse = await responseMessage.Content.ReadAsStringAsync();
+                    responseMessage.EnsureSuccessStatusCode();
                 }
-                catch (HttpRequestException rEx)
+                catch (HttpRequestException)
                 {
-                    // TODO: parse errors from here and create strongly typed error messages
-                    // Could be object with Code, Description and HTML (full message received from Bring)
-                    // Some errors are validation errors like - invalid postal code, invalid city etc., but some are exceptions.
-                    // Wrap and return only validation errors, others throw further.
-                    // Wrap configuration errors and throw them with details, but other errors throw as is.
-                    // http://developer.bring.com/additionalresources/errorhandling.html?from=shipping
-                    return EstimateResult<IEstimate>.CreateFailure(rEx.Message);
+                    if (string.IsNullOrEmpty(jsonResponse))
+                    {
+                        var responseError = new ResponseError(responseMessage?.StatusCode ?? HttpStatusCode.InternalServerError);
+                        return EstimateResult<IEstimate>.CreateFailure(responseError);
+                    }
+
+                    var errorResponse = DeserializeResponse(jsonResponse);
+                    return EstimateResult<IEstimate>.CreateFailure(errorResponse.FieldErrors);
                 }
             }
 
-            var response = JsonConvert.DeserializeObject<ShippingResponse>(jsonResponse, new JsonSerializerSettings
+            var response = DeserializeResponse(jsonResponse);
+            var products = response.GetAllProducts().ToArray();
+            var errors = products.GetAllErrors().ToArray();
+            if (errors.Any())
             {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            });
-
-            if (!response.Product.Any())
-            {
-                //TODO use V2 api which returns actual error codes
-                if (response.TraceMessages.Message.Any(m => m.StartsWith("Package exceed maximum measurements")))
-                {
-                    return EstimateResult<IEstimate>.CreateFailure(ShippingErrorCodes.MeasurementsExceeded);
-                }
-                
-                if (response.TraceMessages.Message.Any(m => m.StartsWith("Product CARGO_GROUPAGE can not be sent between the given postal codes / countries")))
-                {
-                    return EstimateResult<IEstimate>.CreateFailure(ShippingErrorCodes.CannotDeliver);
-                }
-                
-                return EstimateResult<IEstimate>.CreateFailure(ShippingErrorCodes.Unknown);
+                return EstimateResult<IEstimate>.CreateFailure(errors);
             }
-
-            var estimates = response.Product.Select(MapProduct).Cast<IEstimate>().ToList();
+            
+            var estimates = products.Select(MapProduct).Cast<IEstimate>().ToList();
             var result = EstimateResult<IEstimate>.CreateSuccess(estimates);
 
             HttpRuntime.Cache.Insert(cacheKey, result, null, DateTime.UtcNow.AddMinutes(2), Cache.NoSlidingExpiration);
 
             return result;
+        }
+
+        private ShippingResponse DeserializeResponse(string jsonResponse)
+        {
+            return JsonConvert.DeserializeObject<ShippingResponse>(jsonResponse, new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
         }
 
         private string CreateCacheKey(Uri uri)

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Geta.Bring.Shipping.Model.Errors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace Geta.Bring.Shipping.Model
 {
@@ -15,7 +15,7 @@ namespace Geta.Bring.Shipping.Model
         private EstimateResult()
         {
             Estimates = Enumerable.Empty<T>();
-            ErrorMessages = Enumerable.Empty<string>();
+            Errors = Enumerable.Empty<Error>();
         }
 
         /// <summary>
@@ -24,7 +24,11 @@ namespace Geta.Bring.Shipping.Model
         public IEnumerable<T> Estimates { get; private set; }
 
         public bool Success { get; private set; }
+
+        [Obsolete("Use errors", true)]
         public IEnumerable<string> ErrorMessages { get; private set; }
+
+        public IEnumerable<Error> Errors { get; private set; }
 
         /// <summary>
         /// Initializes new instance of <see cref="EstimateResult{T}"/> with successful status.
@@ -40,47 +44,31 @@ namespace Geta.Bring.Shipping.Model
             };
         }
 
-        /// <summary>
-        /// Initializes new instance of <see cref="EstimateResult{T}"/> with failure status.
-        /// </summary>
-        /// <param name="message">Error message.</param>
+        [Obsolete("Use overload with strongly typed error", true)]
         public static EstimateResult<T> CreateFailure(string message)
         {
-            if (message == null) throw new ArgumentNullException(nameof(message));
-
-            return new EstimateResult<T>
-            {
-                Success = false,
-                ErrorMessages = ParseErrorMessages(message)
-            };
+            throw new NotImplementedException();
         }
-
-        protected static string[] ParseErrorMessages(string message)
-        {
-            var regex = new Regex("FG_[A-Z0-9_]+");
-            var matches = regex.Matches(message);
-            var result = new string[matches.Count];
-
-            for (var i = 0; i < matches.Count; i++)
-            {
-                result[i] = matches[i].Value;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Initializes new instance of <see cref="EstimateResult{T}"/> with failure status.
-        /// </summary>
-        /// <param name="messages">Sequence of error messages.</param>
+        
+        [Obsolete("Use overload with strongly typed error", true)]
         public static EstimateResult<T> CreateFailure(IEnumerable<string> messages)
         {
-            if (messages == null) throw new ArgumentNullException(nameof(messages));
+            throw new NotImplementedException();
+        }
+
+        public static EstimateResult<T> CreateFailure(Error error)
+        {
+            return CreateFailure(new []{ error });
+        }
+
+        public static EstimateResult<T> CreateFailure(IEnumerable<Error> errors)
+        {
+            if (errors == null) throw new ArgumentNullException(nameof(errors));
 
             return new EstimateResult<T>
             {
                 Success = false,
-                ErrorMessages = messages
+                Errors = errors
             };
         }
     }

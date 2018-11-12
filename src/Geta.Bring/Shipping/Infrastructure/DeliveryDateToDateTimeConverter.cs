@@ -17,11 +17,11 @@ namespace Geta.Bring.Shipping.Infrastructure
 
             if (token.Type == JTokenType.Object)
             {
-                var year = token.Value<int?>("Year") ?? 0;
-                var month = token.Value<int?>("Month") ?? 0;
-                var day = token.Value<int?>("Day") ?? 0;
-                var hour = token.Value<int?>("Hour") ?? 0;
-                var minute = token.Value<int?>("Minute") ?? 0;
+                var year = token.Value<int?>("year") ?? 0;
+                var month = token.Value<int?>("month") ?? 0;
+                var day = token.Value<int?>("day") ?? 0;
+                var hour = token.Value<int?>("hour") ?? 0;
+                var minute = token.Value<int?>("minute") ?? 0;
 
                 return new DateTime(year, month, day, hour, minute, 0);
             }

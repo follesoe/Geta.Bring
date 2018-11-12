@@ -10,7 +10,7 @@
         internal override PriceEstimate MapProduct(ProductResponse response)
         {
             return new PriceEstimate(
-                Product.GetByCode(response.ProductId),
+                Product.GetByCode(response.Id),
                 response.Price);
         }
     }

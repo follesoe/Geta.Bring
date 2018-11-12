@@ -20,10 +20,10 @@ namespace Geta.Bring.Shipping.Model
             IEnumerable<DateTime> alternativeDeliveryDates)
         {
             AlternativeDeliveryDates = alternativeDeliveryDates ?? Enumerable.Empty<DateTime>();
+            UserMessage = userMessage ?? string.Empty;
             ExpectedDeliveryDate = expectedDeliveryDate;
             FormattedEarliestPickupDate = formattedEarliestPickupDate;
             FormattedExpectedDeliveryDate = formattedExpectedDeliveryDate;
-            UserMessage = userMessage;
             WorkingDays = workingDays;
         }
 

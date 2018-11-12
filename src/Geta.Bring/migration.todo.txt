@@ -26,10 +26,14 @@ x * 'loadMeters' is now named 'loadingmeter'
 3. Adapt the serialized model to conform to the new response.
 
 - entire response is now camelCase.
-* 'fieldErrors' are specified when a request fails to validate
+- 'fieldErrors' are specified when a request fails to validate
 - 'ProductId' is now 'id'
 - 'ProductCodeInProductionSystem' is now 'productionCode'
 - 'Price' now contains nesting 'listPrice'
 - '@currencyIdentificationCode' is now 'currencyCode'
-* 'TraceMessages' is now just an array of strings and does not contain 'Message'
+- 'TraceMessages' is now just an array of strings and does not contain 'Message'
+- 'product' response now contains errors.
+- 'products' are now nested in array of 'consignments'
 ?? additional changes
+
+4. Update error handling to be typed

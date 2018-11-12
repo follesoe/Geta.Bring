@@ -10,7 +10,7 @@
         internal override DeliveryEstimate MapProduct(ProductResponse response)
         {
             return new DeliveryEstimate(
-                Product.GetByCode(response.ProductId),
+                Product.GetByCode(response.Id),
                 response.ExpectedDelivery);
         }
     }

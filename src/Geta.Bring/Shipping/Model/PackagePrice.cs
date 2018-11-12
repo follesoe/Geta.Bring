@@ -9,41 +9,49 @@ namespace Geta.Bring.Shipping.Model
     public class PackagePrice
     {
         public PackagePrice(
-            string currencyIdentificationCode,
-            Price packagePriceWithoutAdditionalServices, 
-            Price packagePriceWithAdditionalServices)
+            string currencyCode,
+            Price priceWithoutAdditionalServices, 
+            Price priceWithAdditionalServices)
         {
-            PackagePriceWithAdditionalServices = packagePriceWithAdditionalServices ?? throw new ArgumentNullException(nameof(packagePriceWithAdditionalServices));
-            PackagePriceWithoutAdditionalServices = packagePriceWithoutAdditionalServices ?? throw new ArgumentNullException(nameof(packagePriceWithoutAdditionalServices));
-            CurrencyIdentificationCode = currencyIdentificationCode ?? throw new ArgumentNullException(nameof(currencyIdentificationCode));
+            PriceWithAdditionalServices = priceWithAdditionalServices ?? throw new ArgumentNullException(nameof(priceWithAdditionalServices));
+            PriceWithoutAdditionalServices = priceWithoutAdditionalServices ?? throw new ArgumentNullException(nameof(priceWithoutAdditionalServices));
+            CurrencyCode = currencyCode ?? throw new ArgumentNullException(nameof(currencyCode));
         }
 
         [JsonConstructor]
         public PackagePrice(
-            string currencyIdentificationCode,
-            Price packagePriceWithoutAdditionalServices, 
-            Price packagePriceWithAdditionalServices,
+            string currencyCode,
+            Price priceWithoutAdditionalServices, 
+            Price priceWithAdditionalServices,
             CargoAgreementPrices cargoAgreementPrices) : 
-                this(currencyIdentificationCode, packagePriceWithoutAdditionalServices, packagePriceWithAdditionalServices)
+                this(currencyCode, priceWithoutAdditionalServices, priceWithAdditionalServices)
         {
             CargoAgreementPrices = cargoAgreementPrices;
         }
 
+        [Obsolete("Use CurrencyCode", true)]
+        public string CurrencyIdentificationCode;
+
+        [Obsolete("Use PriceWithoutAdditionalServices", true)]
+        public Price PackagePriceWithoutAdditionalServices;
+
+        [Obsolete("Use PriceWithAdditionalServices", true)]
+        public Price PackagePriceWithAdditionalServices;
+
         /// <summary>
         /// Currency code.
         /// </summary>
-        [JsonProperty("currencyCode")]
-        public string CurrencyIdentificationCode { get; private set; }
+        public string CurrencyCode;
 
         /// <summary>
         /// Price without additional services.
-        /// </summary>
-        public Price PackagePriceWithoutAdditionalServices { get; }
+        /// </summary>       
+        public Price PriceWithoutAdditionalServices { get; }
 
         /// <summary>
         /// Price with additional services.
         /// </summary>
-        public Price PackagePriceWithAdditionalServices { get; }
+        public Price PriceWithAdditionalServices { get; }
 
         /// <summary>
         /// Special cargo agreement prices.

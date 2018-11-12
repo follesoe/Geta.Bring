@@ -1,39 +1,58 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using Geta.Bring.Shipping.Infrastructure;
+using Geta.Bring.Shipping.Model.Errors;
+using System.Linq;
 
 namespace Geta.Bring.Shipping.Model
 {
     internal class ProductResponse
     {
         public ProductResponse(
-            string productId, 
-            string productCodeInProductionSystem)
+            string id, 
+            string productionCode)
         {
-            ProductId = productId ?? throw new ArgumentNullException(nameof(productId));
-            ProductCodeInProductionSystem = productCodeInProductionSystem ?? throw new ArgumentNullException(nameof(productCodeInProductionSystem));
+            Id = id ?? throw new ArgumentNullException(nameof(id));
+            ProductionCode = productionCode ?? throw new ArgumentNullException(nameof(productionCode));
+        }
+
+        public ProductResponse(string id, string productionCode,
+            GuiInformation guiInformation,
+            PackagePrices price,
+            ExpectedDelivery expectedDelivery) 
+            : this(id, productionCode)
+        {   
+            GuiInformation = guiInformation;
+            Price = price;
+            ExpectedDelivery = expectedDelivery;
         }
 
         [JsonConstructor]
-        public ProductResponse(string productId,
-            string productCodeInProductionSystem,
-            PackagePrices price,
+        public ProductResponse(string id, string productionCode,
             GuiInformation guiInformation,
-            ExpectedDelivery expectedDelivery) 
-            : this(productId, productCodeInProductionSystem)
+            PackagePrices price,
+            ExpectedDelivery expectedDelivery,
+            IEnumerable<ProductError> errors) 
+            : this(id, productionCode, guiInformation, price, expectedDelivery)
         {
-            ExpectedDelivery = expectedDelivery;
-            GuiInformation = guiInformation;
-            Price = price;
+            Errors = errors ?? Enumerable.Empty<ProductError>();
         }
+        
+        [Obsolete("Use Id", true)]
+        public string ProductId;
 
-        [JsonProperty("id")]
-        public string ProductId { get; }
+        [Obsolete("Use ProductionCode")]
+        public string ProductCodeInProductionSystem;
 
-        [JsonProperty("productionCode")]
-        public string ProductCodeInProductionSystem { get; }
+        public string Id { get; }
+        public string ProductionCode { get; }
 
         public PackagePrices Price { get; }
         public GuiInformation GuiInformation { get; }
         public ExpectedDelivery ExpectedDelivery { get; }
+
+        [JsonConverter(typeof(ObjectToArrayConverter<ProductError>))]
+        public IEnumerable<ProductError> Errors { get; }
     }
 }

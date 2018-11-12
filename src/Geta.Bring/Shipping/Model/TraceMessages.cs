@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Geta.Bring.Shipping.Infrastructure;
 using Newtonsoft.Json;
 
 namespace Geta.Bring.Shipping.Model
 {
+    [Obsolete("This class has been replaced with IEnumerable<string> due to a change in the response nesting", true)]
     public class TraceMessages
     {
         public TraceMessages(IEnumerable<string> message)

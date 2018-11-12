@@ -23,6 +23,7 @@ namespace Geta.Bring.Shipping.Model
         {
             if (shipmentLeg == null) throw new ArgumentNullException(nameof(shipmentLeg));
             if (packageSize == null) throw new ArgumentNullException(nameof(packageSize));
+
             var parameters = additionalParameters.ToList();
             parameters.ForEach(x =>
             {

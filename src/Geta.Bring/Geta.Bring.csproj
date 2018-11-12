@@ -90,6 +90,7 @@
     <Compile Include="Pickup\PickupSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shipping\Extensions\ProductResponseExtensions.cs" />
+    <Compile Include="Shipping\Extensions\ShippingResponseExtensions.cs" />
     <Compile Include="Shipping\Infrastructure\DefaultingPropertyConverter.cs" />
     <Compile Include="Shipping\Infrastructure\DeliveryDateToDateTimeConverter.cs" />
     <Compile Include="Shipping\Infrastructure\ObjectToArrayConverter.cs" />
@@ -97,10 +98,12 @@
     <Compile Include="Shipping\Model\AdditionalService.cs" />
     <Compile Include="Shipping\Model\CargoAgreementPrices.cs" />
     <Compile Include="Shipping\Model\AgreementPrice.cs" />
+    <Compile Include="Shipping\Model\ConsignmentResponse.cs" />
     <Compile Include="Shipping\Model\DeliveryEstimate.cs" />
     <Compile Include="Shipping\Model\DeliveryEstimateQueryHandler.cs" />
     <Compile Include="Shipping\Model\Errors\Error.cs" />
     <Compile Include="Shipping\Model\Errors\ProductError.cs" />
+    <Compile Include="Shipping\Model\Errors\ResponseError.cs" />
     <Compile Include="Shipping\Model\EstimateQuery.cs" />
     <Compile Include="Shipping\Model\EstimateResult.cs" />
     <Compile Include="Shipping\Model\ExpectedDelivery.cs" />
