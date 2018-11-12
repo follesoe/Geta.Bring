@@ -64,7 +64,7 @@ namespace Geta.Bring.EPi.Commerce
                 return CreateShippingRate(methodId, shippingMethod, estimate);
             }
 
-            message = estimate.ErrorMessages
+            message = estimate.Errors
                 .Aggregate(new StringBuilder(), (sb, msg) =>
                 {
                     sb.Append(msg);
@@ -96,19 +96,19 @@ namespace Geta.Bring.EPi.Commerce
             var packagePrice = estimate.Price.NetPrice ?? estimate.Price.ListPrice;
 
             var priceWithAdditionalServices = !priceExclTax
-                ? (decimal) packagePrice.PackagePriceWithAdditionalServices.AmountWithVAT
-                : (decimal) packagePrice.PackagePriceWithAdditionalServices.AmountWithoutVAT;
+                ? (decimal) packagePrice.PriceWithAdditionalServices.AmountWithVAT
+                : (decimal) packagePrice.PriceWithAdditionalServices.AmountWithoutVAT;
 
             var priceWithoutAdditionalServices = !priceExclTax
-                ? (decimal) packagePrice.PackagePriceWithoutAdditionalServices.AmountWithVAT
-                : (decimal) packagePrice.PackagePriceWithoutAdditionalServices.AmountWithoutVAT;
+                ? (decimal) packagePrice.PriceWithoutAdditionalServices.AmountWithVAT
+                : (decimal) packagePrice.PriceWithoutAdditionalServices.AmountWithoutVAT;
 
             var amount = AdjustPrice(shippingMethod, usesAdditionalServices ? priceWithAdditionalServices :
                                                                               priceWithoutAdditionalServices);
 
             var moneyAmount = new Money(
                 amount,
-                new Currency(packagePrice.CurrencyIdentificationCode));
+                new Currency(packagePrice.CurrencyCode));
 
             return new BringShippingRate(
                 methodId,
