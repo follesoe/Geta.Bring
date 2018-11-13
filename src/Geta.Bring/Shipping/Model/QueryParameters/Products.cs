@@ -27,7 +27,13 @@ namespace Geta.Bring.Shipping.Model.QueryParameters
             Items = new NameValueCollection();
 
             products
-                .ForEach(x => Items.Add(ParameterName, x.Code));
+                .ForEach(x => Items.Add(ParameterName, GetParameterValue(x)));
+        }
+
+        public string GetParameterValue(Product product)
+        {
+            return string.IsNullOrEmpty(product.CustomerNumber) ? product.Code 
+                                                                : $"{product.Code}:{product.CustomerNumber}";
         }
 
         public NameValueCollection Items { get; }

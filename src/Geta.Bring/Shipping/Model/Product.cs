@@ -27,6 +27,11 @@ namespace Geta.Bring.Shipping.Model
         public string Code { get; }
 
         /// <summary>
+        /// Provides a specific customer number containing detailed price agreement.
+        /// </summary>
+        public string CustomerNumber { get; set; }
+
+        /// <summary>
         /// Mark if price information available for product.
         /// </summary>
         public bool PriceAvailable { get; }

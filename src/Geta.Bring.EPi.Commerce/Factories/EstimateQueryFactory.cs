@@ -89,7 +89,15 @@ namespace Geta.Bring.EPi.Commerce.Factories
             var productCode = shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.BringProductId, null)
                               ?? Product.Servicepakke.Code;
 
-            yield return new Products(Product.GetByCode(productCode));
+            var product = Product.GetByCode(productCode);
+
+            var customerNumber = shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.BringCustomerNumber, null);
+            if (!string.IsNullOrWhiteSpace(customerNumber))
+            {
+                product.CustomerNumber = customerNumber;
+            }
+
+            yield return new Products(product);
 
             var additionalServicesCodes = shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.AdditionalServices);
             var services = additionalServicesCodes.Split(',')

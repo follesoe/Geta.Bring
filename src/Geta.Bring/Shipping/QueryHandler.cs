@@ -74,7 +74,7 @@ namespace Geta.Bring.Shipping
 
             var response = DeserializeResponse(jsonResponse);
             var products = response.GetAllProducts().ToArray();
-            var errors = products.GetAllErrors().ToArray();
+            var errors = response.GetAllErrors().ToArray();
             if (errors.Any())
             {
                 return EstimateResult<IEstimate>.CreateFailure(errors);
