@@ -89,7 +89,6 @@
     <Compile Include="Pickup\PickupClient.cs" />
     <Compile Include="Pickup\PickupSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shipping\Extensions\ProductResponseExtensions.cs" />
     <Compile Include="Shipping\Extensions\ShippingResponseExtensions.cs" />
     <Compile Include="Shipping\Infrastructure\DefaultingPropertyConverter.cs" />
     <Compile Include="Shipping\Infrastructure\DeliveryDateToDateTimeConverter.cs" />
