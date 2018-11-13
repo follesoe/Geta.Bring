@@ -16,12 +16,12 @@ namespace Geta.Bring.Shipping.Extensions
 
         internal static IEnumerable<Error> GetAllErrors(this ShippingResponse response)
         {
-            return GetAllErrors(GetAllProducts(response));
-        }
+            if (response == null) throw new ArgumentNullException(nameof(response));
 
-        internal static IEnumerable<Error> GetAllErrors(this IEnumerable<ProductResponse> products)
-        {
-            return products.SelectMany(x => x.Errors);
+            IEnumerable<Error> fieldErrors = response.FieldErrors;
+            IEnumerable<Error> productErrors = GetAllProducts(response).SelectMany(x => x.Errors);
+
+            return fieldErrors.Concat(productErrors);
         }
     }
 }
