@@ -59,7 +59,7 @@ namespace Geta.Bring.Shipping
         public Uri ClientUri { get; }
         public Uri EndpointUri { get; }
 
-        [Obsolete("Parameter removed in Bring Shipping API V2", true)]
+        [Obsolete("Parameter removed in Bring Shipping API 2.0", true)]
         public string PublicId { get; }
 
         public string Uid { get; }
