@@ -21,6 +21,26 @@ https://github.com/svenrog
 
     Install-Package Geta.Bring
 
+## Upgrading from previous versions (in EPiServer)
+
+Previous versions of this package used Bring Shipping API 1.0. This package is now upgraded to use version 2.0.
+
+Make sure to note that dependency injection now requires that a MyBring user and API key is stated when configuring *IShippingClient*.
+
+    For<IShippingClient>().HybridHttpOrThreadLocalScoped()
+        .Use<ShippingClient>()
+        .Ctor<ShippingSettings>("settings")
+        .Is(p => new ShippingSettings(SiteDefinition.Current.SiteUrl, ConfigurationManager.AppSettings["Bring:UserId"], ConfigurationManager.AppSettings["Bring:ApiKey"], null));
+
+    For<IPickupClient>().HybridHttpOrThreadLocalScoped()
+        .Use<PickupClient>()
+        .Ctor<PickupSettings>("settings")
+        .Is(p => new PickupSettings());
+
+Also note the addition of *IEstimateQueryFactory* that also has to be registered for injection.
+
+    For<IEstimateQueryFactory>().Use<EstimateQueryFactory>();
+
 ### EPiServer Commerce module
 
 For EPiServer Commerce you have to install two packages. First package - *Geta.Bring.EPi.Commerce*, should be installed into your EPiServer Commerce Web site:
