@@ -21,7 +21,7 @@ https://github.com/svenrog
 
     Install-Package Geta.Bring
 
-## Upgrading from previous versions (in EPiServer)
+### Upgrading from previous versions (in EPiServer)
 
 Previous versions of this package used Bring Shipping API 1.0. This package is now upgraded to use version 2.0.
 
