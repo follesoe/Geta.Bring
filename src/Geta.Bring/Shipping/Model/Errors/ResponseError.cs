@@ -6,8 +6,8 @@ namespace Geta.Bring.Shipping.Model.Errors
     {
         public ResponseError(HttpStatusCode statusCode)
         {
-            Code = "WEB_RESPONSE";
             StatusCode = (int) statusCode;
+            Code = $"RESPONSE_{StatusCode}";
         }
 
         public int StatusCode { get; set; }
