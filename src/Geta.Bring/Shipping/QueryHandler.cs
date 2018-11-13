@@ -57,6 +57,7 @@ namespace Geta.Bring.Shipping
                 {
                     responseMessage = await client.GetAsync(requestUri).ConfigureAwait(false);
                     jsonResponse = await responseMessage.Content.ReadAsStringAsync();
+
                     responseMessage.EnsureSuccessStatusCode();
                 }
                 catch (HttpRequestException)
@@ -66,34 +67,27 @@ namespace Geta.Bring.Shipping
                         var responseError = new ResponseError(responseMessage?.StatusCode ?? HttpStatusCode.InternalServerError);
                         return EstimateResult<IEstimate>.CreateFailure(responseError);
                     }
-
-                    var errorResponse = DeserializeResponse(jsonResponse);
-                    return EstimateResult<IEstimate>.CreateFailure(errorResponse.FieldErrors);
                 }
             }
 
-            var response = DeserializeResponse(jsonResponse);
-            var products = response.GetAllProducts().ToArray();
+            var response = JsonConvert.DeserializeObject<ShippingResponse>(jsonResponse, new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
+
             var errors = response.GetAllErrors().ToArray();
             if (errors.Any())
             {
                 return EstimateResult<IEstimate>.CreateFailure(errors);
             }
-            
+
+            var products = response.GetAllProducts();
             var estimates = products.Select(MapProduct).Cast<IEstimate>().ToList();
             var result = EstimateResult<IEstimate>.CreateSuccess(estimates);
 
             HttpRuntime.Cache.Insert(cacheKey, result, null, DateTime.UtcNow.AddMinutes(2), Cache.NoSlidingExpiration);
 
             return result;
-        }
-
-        private ShippingResponse DeserializeResponse(string jsonResponse)
-        {
-            return JsonConvert.DeserializeObject<ShippingResponse>(jsonResponse, new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            });
         }
 
         private string CreateCacheKey(Uri uri)
