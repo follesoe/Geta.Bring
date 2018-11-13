@@ -49,7 +49,10 @@ namespace Geta.Bring.Sample
 
         private BringRatesSampleBlockView Search(BringRatesSampleBlockView formData)
         {
-            var settings = new ShippingSettings(GetBaseUri());
+            var user = "test@test.com";
+            var key = "81ab897a-2c94-4f10-8f20-2b04a0b1cae1";
+
+            var settings = new ShippingSettings(GetBaseUri(), user, key);
             var client = new ShippingClient(settings);
 
             var shipmentLeg = ParameterMapper.GetShipmentLeg(formData);

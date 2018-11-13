@@ -17,7 +17,9 @@ namespace Geta.Bring.Shipping.Model.QueryParameters
             Items = new NameValueCollection
             {
                 {"frompostalcode", postalCodeFrom}, 
-                {"topostalcode", postalCodeTo}
+                {"topostalcode", postalCodeTo},
+                {"fromcountry", "NO"}, 
+                {"tocountry", "NO"}
             };
         }
 

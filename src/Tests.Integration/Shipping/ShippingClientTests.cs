@@ -17,7 +17,7 @@ namespace Tests.Integration.Shipping
         {
             var clientUri = new Uri("http://test.localtest.me");
 
-            var settings = new ShippingSettings(clientUri, null, null, "sven.erik@geta.no", "20b22ed6-2aa7-48c9-9561-b49fe85ce118");
+            var settings = new ShippingSettings(clientUri, "sven.erik@geta.no", "20b22ed6-2aa7-48c9-9561-b49fe85ce118");
             var sut = new ShippingClient(settings);
 
             var query = new EstimateQuery(
@@ -35,7 +35,7 @@ namespace Tests.Integration.Shipping
         {
             var clientUri = new Uri("http://test.localtest.me");
 
-            var settings = new ShippingSettings(clientUri);
+            var settings = new ShippingSettings(clientUri, (string)null, null);
             var sut = new ShippingClient(settings);
 
             var query = new EstimateQuery(
@@ -54,7 +54,7 @@ namespace Tests.Integration.Shipping
         {
             var clientUri = new Uri("http://test.localtest.me");
 
-            var settings = new ShippingSettings(clientUri, null, null, "sven.erik@geta.no", "20b22ed6-2aa7-48c9-9561-b49fe85ce118");
+            var settings = new ShippingSettings(clientUri, "sven.erik@geta.no", "20b22ed6-2aa7-48c9-9561-b49fe85ce118");
             var sut = new ShippingClient(settings);
 
             var query = new EstimateQuery(
@@ -74,7 +74,7 @@ namespace Tests.Integration.Shipping
         {
             var clientUri = new Uri("http://test.localtest.me");
 
-            var settings = new ShippingSettings(clientUri, null, null, "sven.erik@geta.no", "20b22ed6-2aa7-48c9-9561-b49fe85ce118");
+            var settings = new ShippingSettings(clientUri, "sven.erik@geta.no", "20b22ed6-2aa7-48c9-9561-b49fe85ce118");
             var sut = new ShippingClient(settings);
 
             var query = new EstimateQuery(

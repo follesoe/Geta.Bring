@@ -121,11 +121,6 @@ namespace Geta.Bring.Shipping
             var queryItems = HttpUtility.ParseQueryString(string.Empty); // This creates empty HttpValueCollection which creates query string on ToString
             queryItems.Add(query.Items);
 
-            if (Settings.PublicId != null)
-            {
-                queryItems.Add("pid", Settings.PublicId);
-            }
-
             var ub = new UriBuilder(uri) { Query = queryItems.ToString() };
             return ub.Uri;
         }
