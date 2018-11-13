@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Geta.Bring.Shipping.Infrastructure;
 using Newtonsoft.Json;
 
 namespace Geta.Bring.Shipping.Model
@@ -23,10 +26,10 @@ namespace Geta.Bring.Shipping.Model
             string currencyCode,
             Price priceWithoutAdditionalServices, 
             Price priceWithAdditionalServices,
-            CargoAgreementPrices cargoAgreementPrices) : 
+            IEnumerable<AgreementPrice> cargoAgreementPrices) : 
                 this(currencyCode, priceWithoutAdditionalServices, priceWithAdditionalServices)
         {
-            CargoAgreementPrices = cargoAgreementPrices;
+            CargoAgreementPrices = cargoAgreementPrices ?? Enumerable.Empty<AgreementPrice>();
         }
 
         [Obsolete("Use CurrencyCode", true)]
@@ -56,6 +59,7 @@ namespace Geta.Bring.Shipping.Model
         /// <summary>
         /// Special cargo agreement prices.
         /// </summary>
-        public CargoAgreementPrices CargoAgreementPrices { get; }
+        [JsonConverter(typeof(ObjectToArrayConverter<AgreementPrice>))]
+        public IEnumerable<AgreementPrice> CargoAgreementPrices { get; }
     }
 }

@@ -39,12 +39,6 @@ namespace Geta.Bring.Shipping.Model
             Errors = errors ?? Enumerable.Empty<ProductError>();
         }
         
-        [Obsolete("Use Id", true)]
-        public string ProductId;
-
-        [Obsolete("Use ProductionCode")]
-        public string ProductCodeInProductionSystem;
-
         public string Id { get; }
         public string ProductionCode { get; }
 
