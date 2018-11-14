@@ -135,7 +135,6 @@ namespace Geta.Bring.EPi.Commerce
                 var priceAdjustmentOperatorParameter = shippingMethod.GetShippingMethodParameterValue(ParameterNames.PriceAdjustmentOperator, "true");
                 bool.TryParse(priceAdjustmentOperatorParameter, out var priceAdjustmentAdd);
 
-                //todo: Test this price adjustment
                 var pricePart = price * (priceAdjustmentPercent / 100.0m);
                 price += priceAdjustmentAdd ? pricePart : -pricePart;
             }
