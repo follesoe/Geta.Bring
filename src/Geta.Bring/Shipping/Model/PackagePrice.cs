@@ -32,15 +32,6 @@ namespace Geta.Bring.Shipping.Model
             CargoAgreementPrices = cargoAgreementPrices ?? Enumerable.Empty<AgreementPrice>();
         }
 
-        [Obsolete("Use CurrencyCode", true)]
-        public string CurrencyIdentificationCode;
-
-        [Obsolete("Use PriceWithoutAdditionalServices", true)]
-        public Price PackagePriceWithoutAdditionalServices;
-
-        [Obsolete("Use PriceWithAdditionalServices", true)]
-        public Price PackagePriceWithAdditionalServices;
-
         /// <summary>
         /// Currency code.
         /// </summary>

@@ -25,9 +25,6 @@ namespace Geta.Bring.Shipping.Model
 
         public bool Success { get; private set; }
 
-        [Obsolete("Use errors", true)]
-        public IEnumerable<string> ErrorMessages { get; private set; }
-
         public IEnumerable<Error> Errors { get; private set; }
 
         /// <summary>
@@ -42,18 +39,6 @@ namespace Geta.Bring.Shipping.Model
                 Success = true,
                 Estimates = estimates
             };
-        }
-
-        [Obsolete("Use overload with strongly typed error", true)]
-        public static EstimateResult<T> CreateFailure(string message)
-        {
-            throw new NotImplementedException();
-        }
-        
-        [Obsolete("Use overload with strongly typed error", true)]
-        public static EstimateResult<T> CreateFailure(IEnumerable<string> messages)
-        {
-            throw new NotImplementedException();
         }
 
         public static EstimateResult<T> CreateFailure(Error error)

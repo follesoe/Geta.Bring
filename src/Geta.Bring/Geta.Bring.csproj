@@ -122,7 +122,6 @@
     <Compile Include="Shipping\Model\QueryParameters\CustomerNumber.cs" />
     <Compile Include="Shipping\Model\QueryParameters\Edi.cs" />
     <Compile Include="Shipping\Model\QueryParameters\PackageSize.cs" />
-    <Compile Include="Shipping\Model\QueryParameters\PriceAdjustment.cs" />
     <Compile Include="Shipping\Model\QueryParameters\Products.cs" />
     <Compile Include="Shipping\Model\QueryParameters\ShipmentLeg.cs" />
     <Compile Include="Shipping\Model\QueryParameters\ShippedFromPostOffice.cs" />
@@ -130,7 +129,6 @@
     <Compile Include="Shipping\Model\ShipmentEstimate.cs" />
     <Compile Include="Shipping\Model\ShipmentEstimateQueryHandler.cs" />
     <Compile Include="Shipping\Model\ShippingResponse.cs" />
-    <Compile Include="Shipping\Model\TraceMessages.cs" />
     <Compile Include="Shipping\QueryHandler.cs" />
     <Compile Include="Shipping\ShippingClient.cs" />
     <Compile Include="Shipping\ShippingErrorCodes.cs" />

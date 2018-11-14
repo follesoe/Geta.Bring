@@ -10,12 +10,6 @@ namespace Geta.Bring.Shipping
     /// </summary>
     public class ShippingSettings
     {
-        [Obsolete("uid and key are now required and publicId is removed, use another constructor", true)]
-        public ShippingSettings(Uri clientUri, IEnumerable<IQueryHandler> queryHandlers = null, string publicId = null, string uid = null, string key = null) {}
-
-        [Obsolete("uid and key are now required and publicId is removed, use another constructor", true)]
-        public ShippingSettings(Uri clientUri, Uri endpointUri, IEnumerable<IQueryHandler> queryHandlers = null, string publicId = null, string uid = null, string key = null) {}
-
         /// <summary>
         /// Initializes new instance of <see cref="ShippingSettings"/> with default Bring Shipping Guide API endpoint: https://developer.bring.com/api/products/
         /// </summary>
@@ -58,9 +52,6 @@ namespace Geta.Bring.Shipping
 
         public Uri ClientUri { get; }
         public Uri EndpointUri { get; }
-
-        [Obsolete("Parameter removed in Bring Shipping API 2.0", true)]
-        public string PublicId { get; }
 
         public string Uid { get; }
         public string Key { get; }
