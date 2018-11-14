@@ -18,10 +18,12 @@ namespace Geta.Bring.Shipping.Extensions
         {
             if (response == null) throw new ArgumentNullException(nameof(response));
 
-            IEnumerable<Error> fieldErrors = response.FieldErrors;
-            IEnumerable<Error> productErrors = GetAllProducts(response).SelectMany(x => x.Errors);
+            var result = new List<Error>();
 
-            return fieldErrors.Concat(productErrors);
+            result.AddRange(response.FieldErrors);
+            result.AddRange(GetAllProducts(response).SelectMany(x => x.Errors));
+
+            return result;
         }
     }
 }
