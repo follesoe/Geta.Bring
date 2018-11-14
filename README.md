@@ -37,9 +37,10 @@ Make sure to note that dependency injection now requires that a MyBring user and
         .Ctor<PickupSettings>("settings")
         .Is(p => new PickupSettings());
 
-Also note the addition of *IEstimateQueryFactory* that also has to be registered for injection.
+Also note the addition of *IEstimateQueryFactory* and *IEstimateSettingsFactory* that also have to be registered for injection.
 
     For<IEstimateQueryFactory>().Use<EstimateQueryFactory>();
+    For<IEstimateSettingsFactory>().Use<EstimateSettingsFactory>();
 
 ### EPiServer Commerce module
 

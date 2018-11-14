@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using Geta.Bring.EPi.Commerce.Extensions;
 using Geta.Bring.EPi.Commerce.Model;
 using Geta.Bring.Shipping.Model;
 using Mediachase.Commerce;
@@ -18,11 +17,13 @@ namespace Geta.Bring.EPi.Commerce
     {
         private readonly IShippingClient _shippingClient;
         private readonly IEstimateQueryFactory _estimateQueryFactory;
+        private readonly IEstimateSettingsFactory _estimateSettingsFactory;
 
-        public BringShippingGateway(IShippingClient shippingClient, IEstimateQueryFactory estimateQueryFactory)
+        public BringShippingGateway(IShippingClient shippingClient, IEstimateQueryFactory estimateQueryFactory, IEstimateSettingsFactory estimateSettingsFactory)
         {
             _shippingClient = shippingClient;
             _estimateQueryFactory = estimateQueryFactory;
+            _estimateSettingsFactory = estimateSettingsFactory;
         }
 
         public ShippingRate GetRate(IMarket market, Guid methodId, IShipment shipment, ref string message)
@@ -75,7 +76,7 @@ namespace Geta.Bring.EPi.Commerce
             return CreateBaseShippingRate(methodId, shippingMethodRow);
         }
 
-        private static ShippingRate CreateBaseShippingRate(Guid shippingMethodId,ShippingMethodDto.ShippingMethodRow shippingMethodRow)
+        private static ShippingRate CreateBaseShippingRate(Guid shippingMethodId, ShippingMethodDto.ShippingMethodRow shippingMethodRow)
         {
             return new ShippingRate(
                 shippingMethodId, 
@@ -84,27 +85,27 @@ namespace Geta.Bring.EPi.Commerce
                 new Currency(shippingMethodRow.Currency)));
         }
 
-        private static ShippingRate CreateShippingRate(
+        private ShippingRate CreateShippingRate(
             Guid methodId,
             ShippingMethodDto shippingMethod,
             EstimateResult<ShipmentEstimate> result)
         {
+            var settings = _estimateSettingsFactory.CreateFrom(shippingMethod);
             var estimate = result.Estimates.First();
-            var priceExclTax = shippingMethod.GetShippingMethodParameterValue(ParameterNames.PriceExclTax) == "True";
-            var usesAdditionalServices = !string.IsNullOrEmpty(shippingMethod.GetShippingMethodParameterValue(ParameterNames.AdditionalServices));
 
+            var usesAdditionalServices = settings.AdditionalServices.Any();
             var packagePrice = estimate.Price.NetPrice ?? estimate.Price.ListPrice;
 
-            var priceWithAdditionalServices = !priceExclTax
+            var priceWithAdditionalServices = !settings.PriceExclTax
                 ? (decimal) packagePrice.PriceWithAdditionalServices.AmountWithVAT
                 : (decimal) packagePrice.PriceWithAdditionalServices.AmountWithoutVAT;
 
-            var priceWithoutAdditionalServices = !priceExclTax
+            var priceWithoutAdditionalServices = !settings.PriceExclTax
                 ? (decimal) packagePrice.PriceWithoutAdditionalServices.AmountWithVAT
                 : (decimal) packagePrice.PriceWithoutAdditionalServices.AmountWithoutVAT;
 
-            var amount = AdjustPrice(shippingMethod, usesAdditionalServices ? priceWithAdditionalServices :
-                                                                              priceWithoutAdditionalServices);
+            var amount = AdjustPrice(shippingMethod, settings, usesAdditionalServices ? priceWithAdditionalServices :
+                                                                                        priceWithoutAdditionalServices);
 
             var moneyAmount = new Money(
                 amount,
@@ -122,26 +123,18 @@ namespace Geta.Bring.EPi.Commerce
                 moneyAmount);
         }
 
-        private static decimal AdjustPrice(ShippingMethodDto shippingMethod, decimal price)
+        private static decimal AdjustPrice(ShippingMethodDto shippingMethod, IEstimateSettings settings, decimal price)
         {
-            var shippingMethodRow = shippingMethod.ShippingMethod[0];
-            var priceRoundingParameter = shippingMethod.GetShippingMethodParameterValue(ParameterNames.PriceRounding, "false");
-
-            var priceAdjustmentPercentParameter = shippingMethod.GetShippingMethodParameterValue(ParameterNames.PriceAdjustmentPercent, "0");
-            int.TryParse(priceAdjustmentPercentParameter, out var priceAdjustmentPercent);
-
-            if (priceAdjustmentPercent > 0)
+            if (settings.PriceAdjustmentPercent > 0)
             {
-                var priceAdjustmentOperatorParameter = shippingMethod.GetShippingMethodParameterValue(ParameterNames.PriceAdjustmentOperator, "true");
-                bool.TryParse(priceAdjustmentOperatorParameter, out var priceAdjustmentAdd);
-
-                var pricePart = price * (priceAdjustmentPercent / 100.0m);
-                price += priceAdjustmentAdd ? pricePart : -pricePart;
+                var pricePart = price * (settings.PriceAdjustmentPercent / 100.0m);
+                price += settings.PriceAdjustmentIsAddition ? pricePart : -pricePart;
             }
 
+            var shippingMethodRow = shippingMethod.ShippingMethod[0];
             var amount = shippingMethodRow.BasePrice + price;
 
-            if (bool.TryParse(priceRoundingParameter, out var priceRounding) && priceRounding)
+            if (settings.PriceRounding)
             {
                 return Math.Round(amount, MidpointRounding.AwayFromZero);
             }
