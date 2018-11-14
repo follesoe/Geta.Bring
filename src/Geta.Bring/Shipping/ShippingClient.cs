@@ -10,7 +10,7 @@ namespace Geta.Bring.Shipping
     /// </summary>
     public class ShippingClient : IShippingClient
     {
-        public ShippingSettings Settings { get; private set; }
+        public ShippingSettings Settings { get; }
 
         /// <summary>
         /// Initializes new instance of <see cref="ShippingClient"/>.
@@ -18,8 +18,7 @@ namespace Geta.Bring.Shipping
         /// <param name="settings">Settings for <see cref="ShippingClient"/>.</param>
         public ShippingClient(ShippingSettings settings)
         {
-            if (settings == null) throw new ArgumentNullException("settings");
-            Settings = settings;
+            Settings = settings ?? throw new ArgumentNullException(nameof(settings));
         }
 
         /// <summary>
@@ -40,11 +39,12 @@ namespace Geta.Bring.Shipping
                     {
                         return EstimateResult<T>.CreateSuccess(estimate.Estimates.Cast<T>());
                     }
-                    return EstimateResult<T>.CreateFailure(estimate.ErrorMessages);
+
+                    return EstimateResult<T>.CreateFailure(estimate.Errors);
                 }
             }
 
-            throw new Exception(string.Format("No matching query handler found for estimate type {0}", typeof(T).Name));
+            throw new Exception($"No matching query handler found for estimate type {typeof(T).Name}");
         }
     }
 }

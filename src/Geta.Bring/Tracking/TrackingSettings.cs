@@ -19,10 +19,10 @@ namespace Geta.Bring.Tracking
         /// <param name="endpointUri">Bring Tracking API endpoint URI.</param>
         public TrackingSettings(Uri endpointUri)
         {
-            if (endpointUri == null) throw new ArgumentNullException("endpointUri");
+            if (endpointUri == null) throw new ArgumentNullException(nameof(endpointUri));
             EndpointUri = endpointUri;
         }
 
-        public Uri EndpointUri { get; private set; }
+        public Uri EndpointUri { get; }
     }
 }

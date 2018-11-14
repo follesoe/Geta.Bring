@@ -3,14 +3,14 @@
     public class DeliveryEstimateQueryHandler : QueryHandler<DeliveryEstimate>
     {
         public DeliveryEstimateQueryHandler(ShippingSettings settings)
-            : base(settings, "expectedDelivery.json")
+            : base(settings, "expectedDelivery")
         {
         }
 
         internal override DeliveryEstimate MapProduct(ProductResponse response)
         {
             return new DeliveryEstimate(
-                Product.GetByCode(response.ProductId),
+                Product.GetByCode(response.Id),
                 response.ExpectedDelivery);
         }
     }

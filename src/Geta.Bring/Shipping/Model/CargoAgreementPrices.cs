@@ -6,13 +6,12 @@ namespace Geta.Bring.Shipping.Model
     {
         public CargoAgreementPrices(AgreementPrice cargoAgreementPrice)
         {
-            if (cargoAgreementPrice == null) throw new ArgumentNullException("cargoAgreementPrice");
-            CargoAgreementPrice = cargoAgreementPrice;
+            CargoAgreementPrice = cargoAgreementPrice ?? throw new ArgumentNullException(nameof(cargoAgreementPrice));
         }
 
         /// <summary>
         /// Cargo agreement
         /// </summary>
-        public AgreementPrice CargoAgreementPrice { get; private set; }
+        public AgreementPrice CargoAgreementPrice { get; }
     }
 }

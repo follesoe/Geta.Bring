@@ -9,13 +9,12 @@ namespace Geta.Bring.Tracking.Model
     {
         public RecipientSignature(string name)
         {
-            if (name == null) throw new ArgumentNullException("name");
-            Name = name;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
         /// <summary>
         /// Signature name.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
     }
 }

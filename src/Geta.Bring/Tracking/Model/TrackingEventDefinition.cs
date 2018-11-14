@@ -9,20 +9,18 @@ namespace Geta.Bring.Tracking.Model
     {
         public TrackingEventDefinition(string term, string explanation)
         {
-            if (term == null) throw new ArgumentNullException("term");
-            if (explanation == null) throw new ArgumentNullException("explanation");
-            Explanation = explanation;
-            Term = term;
+            Explanation = explanation ?? throw new ArgumentNullException(nameof(explanation));
+            Term = term ?? throw new ArgumentNullException(nameof(term));
         }
 
         /// <summary>
         /// Tracking event definition term.
         /// </summary>
-        public string Term { get; private set; }
+        public string Term { get; }
 
         /// <summary>
         /// Tracking event definition explanation.
         /// </summary>
-        public string Explanation { get; private set; }
+        public string Explanation { get; }
     }
 }

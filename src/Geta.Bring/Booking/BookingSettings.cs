@@ -7,11 +7,11 @@ namespace Geta.Bring.Booking
     /// </summary>
     public class BookingSettings
     {
-        public string Uid { get; private set; }
-        public string Key { get; private set; }
-        public Uri ClientUri { get; private set; }
-        public Uri EndpointUri { get; private set; }
-        public bool IsTest { get; private set; }
+        public string Uid { get; }
+        public string Key { get; }
+        public Uri ClientUri { get; }
+        public Uri EndpointUri { get; }
+        public bool IsTest { get; }
 
         /// <summary>
         /// Initializes new instance of <see cref="BookingSettings"/> with default endpoint URI: https://api.bring.com/booking/api/booking .
@@ -33,13 +33,11 @@ namespace Geta.Bring.Booking
         /// <param name="isTest">Mark if test mode in use.</param>
         public BookingSettings(string uid, string key, Uri clientUri, Uri endpointUri, bool isTest = false)
         {
-            if (uid == null) throw new ArgumentNullException("uid");
-            if (key == null) throw new ArgumentNullException("key");
-            if (clientUri == null) throw new ArgumentNullException("clientUri");
-            if (endpointUri == null) throw new ArgumentNullException("endpointUri");
+            if (clientUri == null) throw new ArgumentNullException(nameof(clientUri));
+            if (endpointUri == null) throw new ArgumentNullException(nameof(endpointUri));
 
-            Uid = uid;
-            Key = key;
+            Uid = uid ?? throw new ArgumentNullException(nameof(uid));
+            Key = key ?? throw new ArgumentNullException(nameof(key));
             ClientUri = clientUri;
             EndpointUri = endpointUri;
             IsTest = isTest;

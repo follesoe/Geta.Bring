@@ -243,9 +243,13 @@
     <Compile Include="Extensions\ShippingMethodDtoExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Factories\EstimateQueryFactory.cs" />
+    <Compile Include="Factories\EstimateSettingsFactory.cs" />
     <Compile Include="Factories\IEstimateQueryFactory.cs" />
+    <Compile Include="Factories\IEstimateSettingsFactory.cs" />
+    <Compile Include="Model\BringEstimateSettings.cs" />
     <Compile Include="Model\BringShippingRate.cs" />
     <Compile Include="Model\BringShippingRateGroup.cs" />
+    <Compile Include="Model\IEstimateSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

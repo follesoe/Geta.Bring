@@ -1,21 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Geta.Bring.Shipping.Infrastructure;
+using Geta.Bring.Shipping.Model.Errors;
 using Newtonsoft.Json;
 
 namespace Geta.Bring.Shipping.Model
 {
     internal class ShippingResponse
     {
-        public ShippingResponse(IEnumerable<ProductResponse> product, TraceMessages traceMessages)
+        public ShippingResponse(IEnumerable<ConsignmentResponse> consignments, IEnumerable<string> traceMessages, IEnumerable<FieldError> fieldErrors)
         {
-            Product = product ?? Enumerable.Empty<ProductResponse>();
-            TraceMessages = traceMessages ?? new TraceMessages(Enumerable.Empty<string>());
+            Consignments = consignments ?? Enumerable.Empty<ConsignmentResponse>();
+            TraceMessages = traceMessages ?? Enumerable.Empty<string>();
+            FieldErrors = fieldErrors ?? Enumerable.Empty<FieldError>();
         }
 
-        [JsonConverter(typeof(ObjectToArrayConverter<ProductResponse>))]
-        public IEnumerable<ProductResponse> Product { get; private set; }
+        [JsonConverter(typeof(ObjectToArrayConverter<ConsignmentResponse>))]
+        public IEnumerable<ConsignmentResponse> Consignments { get; }
 
-        public TraceMessages TraceMessages { get; private set; }
+        [JsonConverter(typeof(ObjectToArrayConverter<string>))]
+        public IEnumerable<string> TraceMessages { get; }
+
+        [JsonConverter(typeof(ObjectToArrayConverter<FieldError>))]
+        public IEnumerable<FieldError> FieldErrors { get; }
     }
 }

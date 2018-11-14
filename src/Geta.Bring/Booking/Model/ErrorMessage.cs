@@ -6,13 +6,11 @@ namespace Geta.Bring.Booking.Model
     {
         public ErrorMessage(string lang, string message)
         {
-            if (lang == null) throw new ArgumentNullException("lang");
-            if (message == null) throw new ArgumentNullException("message");
-            Message = message;
-            Lang = lang;
+            Message = message ?? throw new ArgumentNullException(nameof(message));
+            Lang = lang ?? throw new ArgumentNullException(nameof(lang));
         }
 
-        public string Lang { get; private set; }
-        public string Message { get; private set; }
+        public string Lang { get; }
+        public string Message { get; }
     }
 }

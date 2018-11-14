@@ -18,17 +18,17 @@ namespace Geta.Bring.Shipping.Model
         /// <summary>
         /// Additional service's display name.
         /// </summary>
-        public string DisplayName { get; private set; }
+        public string DisplayName { get; }
 
         /// <summary>
         /// Additional service's code.
         /// </summary>
-        public string Code { get; private set; }
+        public string Code { get; }
 
         /// <summary>
         /// List of products to which additional service applies.
         /// </summary>
-        public IEnumerable<Product> AppliesTo { get; private set; }
+        public IEnumerable<Product> AppliesTo { get; }
 
         public static AdditionalService Evarsling = 
             new AdditionalService("Recipient notification over SMS or E-Mail", "EVARSLING", new[]

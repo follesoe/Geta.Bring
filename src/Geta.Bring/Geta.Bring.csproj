@@ -89,7 +89,7 @@
     <Compile Include="Pickup\PickupClient.cs" />
     <Compile Include="Pickup\PickupSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shipping\Extensions\ProductResponseExtensions.cs" />
+    <Compile Include="Shipping\Extensions\ShippingResponseExtensions.cs" />
     <Compile Include="Shipping\Infrastructure\DefaultingPropertyConverter.cs" />
     <Compile Include="Shipping\Infrastructure\DeliveryDateToDateTimeConverter.cs" />
     <Compile Include="Shipping\Infrastructure\ObjectToArrayConverter.cs" />
@@ -97,16 +97,22 @@
     <Compile Include="Shipping\Model\AdditionalService.cs" />
     <Compile Include="Shipping\Model\CargoAgreementPrices.cs" />
     <Compile Include="Shipping\Model\AgreementPrice.cs" />
+    <Compile Include="Shipping\Model\ConsignmentResponse.cs" />
     <Compile Include="Shipping\Model\DeliveryEstimate.cs" />
     <Compile Include="Shipping\Model\DeliveryEstimateQueryHandler.cs" />
+    <Compile Include="Shipping\Model\Errors\Error.cs" />
+    <Compile Include="Shipping\Model\Errors\ProductError.cs" />
+    <Compile Include="Shipping\Model\Errors\ResponseError.cs" />
     <Compile Include="Shipping\Model\EstimateQuery.cs" />
     <Compile Include="Shipping\Model\EstimateResult.cs" />
     <Compile Include="Shipping\Model\ExpectedDelivery.cs" />
+    <Compile Include="Shipping\Model\Errors\FieldError.cs" />
     <Compile Include="Shipping\Model\GuiInformation.cs" />
     <Compile Include="Shipping\Model\IEstimate.cs" />
     <Compile Include="Shipping\Model\IQueryParameter.cs" />
     <Compile Include="Shipping\Model\IShippingQueryParameter.cs" />
     <Compile Include="Shipping\Model\PackagePrice.cs" />
+    <Compile Include="Shipping\Model\PackagePrices.cs" />
     <Compile Include="Shipping\Model\Price.cs" />
     <Compile Include="Shipping\Model\PriceEstimate.cs" />
     <Compile Include="Shipping\Model\PriceEstimateQueryHandler.cs" />
@@ -116,7 +122,6 @@
     <Compile Include="Shipping\Model\QueryParameters\CustomerNumber.cs" />
     <Compile Include="Shipping\Model\QueryParameters\Edi.cs" />
     <Compile Include="Shipping\Model\QueryParameters\PackageSize.cs" />
-    <Compile Include="Shipping\Model\QueryParameters\PriceAdjustment.cs" />
     <Compile Include="Shipping\Model\QueryParameters\Products.cs" />
     <Compile Include="Shipping\Model\QueryParameters\ShipmentLeg.cs" />
     <Compile Include="Shipping\Model\QueryParameters\ShippedFromPostOffice.cs" />
@@ -124,7 +129,6 @@
     <Compile Include="Shipping\Model\ShipmentEstimate.cs" />
     <Compile Include="Shipping\Model\ShipmentEstimateQueryHandler.cs" />
     <Compile Include="Shipping\Model\ShippingResponse.cs" />
-    <Compile Include="Shipping\Model\TraceMessages.cs" />
     <Compile Include="Shipping\QueryHandler.cs" />
     <Compile Include="Shipping\ShippingClient.cs" />
     <Compile Include="Shipping\ShippingErrorCodes.cs" />

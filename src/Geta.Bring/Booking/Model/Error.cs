@@ -7,16 +7,13 @@ namespace Geta.Bring.Booking.Model
     {
         public Error(string uniqueId, string code, IEnumerable<ErrorMessage> messages)
         {
-            if (uniqueId == null) throw new ArgumentNullException("uniqueId");
-            if (code == null) throw new ArgumentNullException("code");
-            if (messages == null) throw new ArgumentNullException("messages");
-            Messages = messages;
-            Code = code;
-            UniqueId = uniqueId;
+            Messages = messages ?? throw new ArgumentNullException(nameof(messages));
+            Code = code ?? throw new ArgumentNullException(nameof(code));
+            UniqueId = uniqueId ?? throw new ArgumentNullException(nameof(uniqueId));
         }
 
-        public string UniqueId { get; private set; }
-        public string Code { get; private set; }
-        public IEnumerable<ErrorMessage> Messages { get; private set; }
+        public string UniqueId { get; }
+        public string Code { get; }
+        public IEnumerable<ErrorMessage> Messages { get; }
     }
 }

@@ -12,26 +12,20 @@ namespace Geta.Bring.Tracking.Model
             string countryCode, 
             string country)
         {
-            if (addressLine1 == null) throw new ArgumentNullException("addressLine1");
-            if (addressLine2 == null) throw new ArgumentNullException("addressLine2");
-            if (postalCode == null) throw new ArgumentNullException("postalCode");
-            if (city == null) throw new ArgumentNullException("city");
-            if (countryCode == null) throw new ArgumentNullException("countryCode");
-            if (country == null) throw new ArgumentNullException("country");
-            Country = country;
-            CountryCode = countryCode;
-            City = city;
-            PostalCode = postalCode;
-            AddressLine2 = addressLine2;
-            AddressLine1 = addressLine1;
+            Country = country ?? throw new ArgumentNullException(nameof(country));
+            CountryCode = countryCode ?? throw new ArgumentNullException(nameof(countryCode));
+            City = city ?? throw new ArgumentNullException(nameof(city));
+            PostalCode = postalCode ?? throw new ArgumentNullException(nameof(postalCode));
+            AddressLine2 = addressLine2 ?? throw new ArgumentNullException(nameof(addressLine2));
+            AddressLine1 = addressLine1 ?? throw new ArgumentNullException(nameof(addressLine1));
         }
 
-        public string AddressLine1 { get; private set; }
-        public string AddressLine2 { get; private set; }
-        public string PostalCode { get; private set; }
-        public string City { get; private set; }
-        public string CountryCode { get; private set; }
-        public string Country { get; private set; }
+        public string AddressLine1 { get; }
+        public string AddressLine2 { get; }
+        public string PostalCode { get; }
+        public string City { get; }
+        public string CountryCode { get; }
+        public string Country { get; }
 
         public static Address Empty = 
             new Address(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);

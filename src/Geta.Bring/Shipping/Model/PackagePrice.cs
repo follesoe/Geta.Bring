@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Geta.Bring.Shipping.Infrastructure;
 using Newtonsoft.Json;
 
@@ -11,50 +12,45 @@ namespace Geta.Bring.Shipping.Model
     public class PackagePrice
     {
         public PackagePrice(
-            string currencyIdentificationCode,
-            Price packagePriceWithoutAdditionalServices, 
-            Price packagePriceWithAdditionalServices)
+            string currencyCode,
+            Price priceWithoutAdditionalServices, 
+            Price priceWithAdditionalServices)
         {
-            if (currencyIdentificationCode == null) throw new ArgumentNullException("currencyIdentificationCode");
-            if (packagePriceWithoutAdditionalServices == null)
-                throw new ArgumentNullException("packagePriceWithoutAdditionalServices");
-            if (packagePriceWithAdditionalServices == null)
-                throw new ArgumentNullException("packagePriceWithAdditionalServices");
-            PackagePriceWithAdditionalServices = packagePriceWithAdditionalServices;
-            PackagePriceWithoutAdditionalServices = packagePriceWithoutAdditionalServices;
-            CurrencyIdentificationCode = currencyIdentificationCode;
+            PriceWithAdditionalServices = priceWithAdditionalServices ?? throw new ArgumentNullException(nameof(priceWithAdditionalServices));
+            PriceWithoutAdditionalServices = priceWithoutAdditionalServices ?? throw new ArgumentNullException(nameof(priceWithoutAdditionalServices));
+            CurrencyCode = currencyCode ?? throw new ArgumentNullException(nameof(currencyCode));
         }
 
         [JsonConstructor]
         public PackagePrice(
-            string currencyIdentificationCode,
-            Price packagePriceWithoutAdditionalServices, 
-            Price packagePriceWithAdditionalServices,
-            CargoAgreementPrices cargoAgreementPrices) : 
-                this(currencyIdentificationCode, packagePriceWithoutAdditionalServices, packagePriceWithAdditionalServices)
+            string currencyCode,
+            Price priceWithoutAdditionalServices, 
+            Price priceWithAdditionalServices,
+            IEnumerable<AgreementPrice> cargoAgreementPrices) : 
+                this(currencyCode, priceWithoutAdditionalServices, priceWithAdditionalServices)
         {
-            CargoAgreementPrices = cargoAgreementPrices;
+            CargoAgreementPrices = cargoAgreementPrices ?? Enumerable.Empty<AgreementPrice>();
         }
 
         /// <summary>
         /// Currency code.
         /// </summary>
-        [JsonProperty("@currencyIdentificationCode")]
-        public string CurrencyIdentificationCode { get; private set; }
+        public string CurrencyCode;
 
         /// <summary>
         /// Price without additional services.
-        /// </summary>
-        public Price PackagePriceWithoutAdditionalServices { get; private set; }
+        /// </summary>       
+        public Price PriceWithoutAdditionalServices { get; }
 
         /// <summary>
         /// Price with additional services.
         /// </summary>
-        public Price PackagePriceWithAdditionalServices { get; private set; }
+        public Price PriceWithAdditionalServices { get; }
 
         /// <summary>
         /// Special cargo agreement prices.
         /// </summary>
-        public CargoAgreementPrices CargoAgreementPrices { get; private set; }
+        [JsonConverter(typeof(ObjectToArrayConverter<AgreementPrice>))]
+        public IEnumerable<AgreementPrice> CargoAgreementPrices { get; }
     }
 }

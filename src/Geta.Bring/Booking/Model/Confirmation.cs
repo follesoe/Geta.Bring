@@ -48,7 +48,7 @@ namespace Geta.Bring.Booking.Model
             return CreateError(new[] {error});
         }
 
-        public bool Success { get; private set; }
+        public bool Success { get; }
         public IEnumerable<Error> Errors { get; private set; }
 
         public string CorrelationId { get; private set; }

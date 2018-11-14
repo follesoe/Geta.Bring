@@ -10,7 +10,7 @@ namespace Geta.Bring.Sample
 {
     public class BringRatesSampleBlockView
     {
-        public ViewState State { get; private set; }
+        public ViewState State { get; }
 
         [Required]
         [DisplayName("Fra land")]
@@ -58,7 +58,7 @@ namespace Geta.Bring.Sample
         [DisplayName("Tilleggstjenester")]
         public string[] AdditionalServices { get; set; }
 
-        public IEnumerable<EstimateGroup> EstimateGroups { get; private set; }
+        public IEnumerable<EstimateGroup> EstimateGroups { get; }
 
         public IEnumerable<SelectListItem> CountriesFromList
         {
@@ -106,15 +106,13 @@ namespace Geta.Bring.Sample
 
         public class EstimateGroup
         {
-            public string MainCategory { get; private set; }
-            public IEnumerable<ShipmentEstimate> Estimates { get; private set; }
+            public string MainCategory { get; }
+            public IEnumerable<ShipmentEstimate> Estimates { get; }
 
             public EstimateGroup(string mainCategory, IEnumerable<ShipmentEstimate> estimates)
             {
-                if (mainCategory == null) throw new ArgumentNullException("mainCategory");
-                if (estimates == null) throw new ArgumentNullException("estimates");
-                MainCategory = mainCategory;
-                Estimates = estimates;
+                MainCategory = mainCategory ?? throw new ArgumentNullException(nameof(mainCategory));
+                Estimates = estimates ?? throw new ArgumentNullException(nameof(estimates));
             }
         }
 

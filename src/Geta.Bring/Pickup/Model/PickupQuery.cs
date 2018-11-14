@@ -27,7 +27,7 @@ namespace Geta.Bring.Pickup.Model
             parameters.ForEach(x =>
             {
                 if (x == null)
-                    throw new ArgumentException("additionalParameters contains null item", "additionalParameters");
+                    throw new ArgumentException("additionalParameters contains null item", nameof(additionalParameters));
             });
 
             Items = new NameValueCollection();
@@ -36,6 +36,6 @@ namespace Geta.Bring.Pickup.Model
                 .ForEach(x => Items.Add(x.Items));
         }
 
-        public NameValueCollection Items { get; private set; }
+        public NameValueCollection Items { get; }
     }
 }

@@ -19,22 +19,27 @@ namespace Geta.Bring.Shipping.Model
         /// <summary>
         /// Product display name.
         /// </summary>
-        public string DisplayName { get; private set; }
+        public string DisplayName { get; }
 
         /// <summary>
         /// Product code.
         /// </summary>
-        public string Code { get; private set; }
+        public string Code { get; }
+
+        /// <summary>
+        /// Provides a specific customer number containing detailed price agreement.
+        /// </summary>
+        public string CustomerNumber { get; set; }
 
         /// <summary>
         /// Mark if price information available for product.
         /// </summary>
-        public bool PriceAvailable { get; private set; }
+        public bool PriceAvailable { get; }
 
         /// <summary>
         /// Mark if expected delivery information available for product.
         /// </summary>
-        public bool ExpectedDeliveryAvailable { get; private set; }
+        public bool ExpectedDeliveryAvailable { get; }
 
         public static Product Servicepakke = new Product("Klimanøytral Servicepakke", "SERVICEPAKKE", true, true);
         public static Product PaDoren = new Product("På Døren", "PA_DOREN", true, true);

@@ -26,14 +26,7 @@ namespace Geta.Bring.Tracking.Model
             Address recipientAddress, 
             IEnumerable<TrackingEvent> eventSet)
         {
-            if (statusDescription == null) throw new ArgumentNullException("statusDescription");
-            if (packageNumber == null) throw new ArgumentNullException("packageNumber");
-            if (previousPackageNumber == null) throw new ArgumentNullException("previousPackageNumber");
-            if (productName == null) throw new ArgumentNullException("productName");
-            if (productCode == null) throw new ArgumentNullException("productCode");
-            if (brand == null) throw new ArgumentNullException("brand");
-            if (eventSet == null) throw new ArgumentNullException("eventSet");
-            EventSet = eventSet;
+            EventSet = eventSet ?? throw new ArgumentNullException(nameof(eventSet));
             RecipientAddress = recipientAddress ?? Address.Empty;
             SenderName = senderName;
             DateOfReturn = dateOfReturn;
@@ -43,92 +36,92 @@ namespace Geta.Bring.Tracking.Model
             HeightInCm = heightInCm;
             WidthInCm = widthInCm;
             LengthInCm = lengthInCm;
-            Brand = brand;
-            ProductCode = productCode;
-            ProductName = productName;
-            PreviousPackageNumber = previousPackageNumber;
-            PackageNumber = packageNumber;
-            StatusDescription = statusDescription;
+            Brand = brand ?? throw new ArgumentNullException(nameof(brand));
+            ProductCode = productCode ?? throw new ArgumentNullException(nameof(productCode));
+            ProductName = productName ?? throw new ArgumentNullException(nameof(productName));
+            PreviousPackageNumber = previousPackageNumber ?? throw new ArgumentNullException(nameof(previousPackageNumber));
+            PackageNumber = packageNumber ?? throw new ArgumentNullException(nameof(packageNumber));
+            StatusDescription = statusDescription ?? throw new ArgumentNullException(nameof(statusDescription));
         }
 
         /// <summary>
         /// Status description.
         /// </summary>
-        public string StatusDescription { get; private set; }
+        public string StatusDescription { get; }
 
         /// <summary>
         /// Package number.
         /// </summary>
-        public string PackageNumber { get; private set; }
+        public string PackageNumber { get; }
 
         /// <summary>
         /// Previous package number.
         /// </summary>
-        public string PreviousPackageNumber { get; private set; }
+        public string PreviousPackageNumber { get; }
 
         /// <summary>
         /// Product name.
         /// </summary>
-        public string ProductName { get; private set; }
+        public string ProductName { get; }
 
         /// <summary>
         /// Product code.
         /// </summary>
-        public string ProductCode { get; private set; }
+        public string ProductCode { get; }
 
         /// <summary>
         /// Brand name.
         /// </summary>
-        public string Brand { get; private set; }
+        public string Brand { get; }
 
         /// <summary>
         /// Length of the package in cm.
         /// </summary>
-        public int LengthInCm { get; private set; }
+        public int LengthInCm { get; }
 
         /// <summary>
         /// Width of the package in cm.
         /// </summary>
-        public int WidthInCm { get; private set; }
+        public int WidthInCm { get; }
 
         /// <summary>
         /// Height of the package in cm.
         /// </summary>
-        public int HeightInCm { get; private set; }
+        public int HeightInCm { get; }
 
         /// <summary>
         /// Volume of the package in dm3.
         /// </summary>
-        public double VolumeInDm3 { get; private set; }
+        public double VolumeInDm3 { get; }
 
         /// <summary>
         /// Weight of the package in kilograms.
         /// </summary>
-        public double WeightInKgs { get; private set; }
+        public double WeightInKgs { get; }
 
         /// <summary>
         /// Pickup code.
         /// </summary>
-        public string PickupCode { get; private set; }
+        public string PickupCode { get; }
 
         /// <summary>
         /// Formatted date of return.
         /// </summary>
-        public string DateOfReturn { get; private set; }
+        public string DateOfReturn { get; }
 
         /// <summary>
         /// Sender name.
         /// </summary>
-        public string SenderName { get; private set; }
+        public string SenderName { get; }
 
         /// <summary>
         /// Recipient address.
         /// </summary>
-        public Address RecipientAddress { get; private set; }
+        public Address RecipientAddress { get; }
 
         /// <summary>
         /// List of the tracking events.
         /// </summary>
-        public IEnumerable<TrackingEvent> EventSet { get; private set; }
+        public IEnumerable<TrackingEvent> EventSet { get; }
     }
 }

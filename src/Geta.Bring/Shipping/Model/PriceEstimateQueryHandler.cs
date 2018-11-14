@@ -3,14 +3,14 @@
     public class PriceEstimateQueryHandler : QueryHandler<PriceEstimate>
     {
         public PriceEstimateQueryHandler(ShippingSettings settings) 
-            : base(settings, "price.json")
+            : base(settings, "price")
         {
         }
 
         internal override PriceEstimate MapProduct(ProductResponse response)
         {
             return new PriceEstimate(
-                Product.GetByCode(response.ProductId),
+                Product.GetByCode(response.Id),
                 response.Price);
         }
     }

@@ -7,14 +7,12 @@ namespace Geta.Bring.EPi.Commerce.Model
     {
         public BringShippingRateGroup(string name, IEnumerable<BringShippingRate> shippingRates)
         {
-            if (name == null) throw new ArgumentNullException("name");
-            if (shippingRates == null) throw new ArgumentNullException("shippingRates");
-            ShippingRates = shippingRates;
-            Name = name;
+            ShippingRates = shippingRates ?? throw new ArgumentNullException(nameof(shippingRates));
+            Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
-        public string Name { get; private set; }
+        public string Name { get; }
 
-        public IEnumerable<BringShippingRate> ShippingRates { get; private set; }
+        public IEnumerable<BringShippingRate> ShippingRates { get; }
     }
 }

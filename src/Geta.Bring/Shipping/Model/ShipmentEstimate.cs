@@ -12,42 +12,38 @@ namespace Geta.Bring.Shipping.Model
         /// </summary>
         /// <param name="product">Product for which shipment estimated.</param>
         /// <param name="guiInformation">GUI information.</param>
-        /// <param name="packagePrice">Price information.</param>
+        /// <param name="prices">Price information.</param>
         /// <param name="expectedDelivery">Expected delivery information.</param>
         public ShipmentEstimate(
             Product product, 
             GuiInformation guiInformation, 
-            PackagePrice packagePrice, 
+            PackagePrices prices, 
             ExpectedDelivery expectedDelivery)
         {
-            if (product == null) throw new ArgumentNullException("product");
-            if (guiInformation == null) throw new ArgumentNullException("guiInformation");
-            if (packagePrice == null) throw new ArgumentNullException("packagePrice");
-            if (expectedDelivery == null) throw new ArgumentNullException("expectedDelivery");
-            ExpectedDelivery = expectedDelivery;
-            PackagePrice = packagePrice;
-            GuiInformation = guiInformation;
-            Product = product;
+            ExpectedDelivery = expectedDelivery ?? throw new ArgumentNullException(nameof(expectedDelivery));
+            Price = prices ?? throw new ArgumentNullException(nameof(prices));
+            GuiInformation = guiInformation ?? throw new ArgumentNullException(nameof(guiInformation));
+            Product = product ?? throw new ArgumentNullException(nameof(product));
         }
 
         /// <summary>
         /// Product for which shipment estimated. 
         /// </summary>
-        public Product Product { get; private set; }
+        public Product Product { get; }
 
         /// <summary>
         /// GUI information <see cref="GuiInformation"/>.
         /// </summary>
-        public GuiInformation GuiInformation { get; private set; }
+        public GuiInformation GuiInformation { get; }
 
         /// <summary>
-        /// Price information <see cref="PackagePrice"/>.
+        /// Price information <see cref="PackagePrices"/>.
         /// </summary>
-        public PackagePrice PackagePrice { get; private set; }
+        public PackagePrices Price { get; }
 
         /// <summary>
         /// Expected delivery information <see cref="ExpectedDelivery"/>.
         /// </summary>
-        public ExpectedDelivery ExpectedDelivery { get; private set; }
+        public ExpectedDelivery ExpectedDelivery { get; }
     }
 }

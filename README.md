@@ -5,7 +5,7 @@
 ## Description
 
 This is a .NET Bring API library and module to integrate with EPiServer Commerce. Currently it supports these Bring APIs:
-- Shipping Guide API
+- Shipping Guide API 2.0
 - Tracking API
 - Booking API
 
@@ -13,17 +13,34 @@ This is a .NET Bring API library and module to integrate with EPiServer Commerce
 
 Start by installing NuGet packages in you project.
 
-
 ## Package maintainer
 
 https://github.com/svenrog
 
-
-
-
 ### Bring API
 
     Install-Package Geta.Bring
+
+### Upgrading from previous versions (in EPiServer)
+
+Previous versions of this package used Bring Shipping API 1.0. This package is now upgraded to use version 2.0.
+
+Make sure to note that dependency injection now requires that a MyBring user and API key is stated when configuring *IShippingClient*.
+
+    For<IShippingClient>().HybridHttpOrThreadLocalScoped()
+        .Use<ShippingClient>()
+        .Ctor<ShippingSettings>("settings")
+        .Is(p => new ShippingSettings(SiteDefinition.Current.SiteUrl, ConfigurationManager.AppSettings["Bring:UserId"], ConfigurationManager.AppSettings["Bring:ApiKey"], null));
+
+    For<IPickupClient>().HybridHttpOrThreadLocalScoped()
+        .Use<PickupClient>()
+        .Ctor<PickupSettings>("settings")
+        .Is(p => new PickupSettings());
+
+Also note the addition of *IEstimateQueryFactory* and *IEstimateSettingsFactory* that also have to be registered for injection.
+
+    For<IEstimateQueryFactory>().Use<EstimateQueryFactory>();
+    For<IEstimateSettingsFactory>().Use<EstimateSettingsFactory>();
 
 ### EPiServer Commerce module
 
@@ -51,6 +68,7 @@ To find estimated delivery options you have to call *FindAsync* method with quer
     var query = new EstimateQuery(
         new ShipmentLeg("0484", "5600"),
         PackageSize.InGrams(2500));
+
     var result = await client.FindAsync<ShipmentEstimate>(query);
 
 There are three types of estimates:
@@ -58,15 +76,14 @@ There are three types of estimates:
 - *PriceEstimate* - returns estimated price options,
 - *ShipmentEstimate* - returns estimated delivery, price and GUI information options.
 
-Query requires at least two parameters - *ShipmentLeg* and *PackageSize* parameters. Additionaly it can have more parameters according to your needs. Full list of parameters:
-- *ShipmentLeg* - query parameter to describe shipment source and destination by providing postal codes and/or country codes,
-- *PackageSize* - query parameter to describe package size in grams, by dimensions or by volume,
+Query requires at least two parameters - *ShipmentLeg*, *PackageSize* parameters and one or more stated *Products*. Additionaly it can have more parameters according to your needs. Full list of parameters:
+- *ShipmentLeg* - query parameter to describe shipment source and destination by providing postal codes and/or country codes. Has to contain fromcountry, tocountry, frompostalcode and topostalcode.
+- *PackageSize* - query parameter to describe package size in grams, by dimensions or by volume.
+- *Products* - query parameter to describe required products. List of available products: https://developer.bring.com/api/products/,
 - *AdditionalServices* - query parameter to describe required additional services. List of available services: http://developer.bring.com/additionalresources/productlist.html?from=shipping#additionalServices ,
 - *Edi* - query parameter to describe if EDI is used,
-- *Products* - query parameter to describe required products. List of available products: http://developer.bring.com/additionalresources/productlist.html?from=shipping ,
 - *ShippedFromPostOffice* - query parameter to describe if shipped from post office,
-- *ShippingDateAndTime* - query parameter to describe package shipping date and/or time to Bring,
-- *PriceAdjustment* - query parameter to describe price adjustments. Prices can be increased/decreased by percentage or amount or fixed price used.
+- *ShippingDateAndTime* - query parameter to describe package shipping date and/or time to Bring
 
 ### Pickup API
 
@@ -248,11 +265,11 @@ To configure shipping methods you have to go to *Commerce Manager* - *Administra
 
 ### Shipping Guide API
 
-http://developer.bring.com/api/shipping-guide/
+https://developer.bring.com/api/shipping-guide_2/
 
-*Demo*
+Related topics
 
-http://fraktguide.bring.no/fraktguide/demoVelgFraktalternativ.do?from=0484&to=0470&weightInGrams=800&length=10&width=20&height=5&product=servicepakke&product=pa_doren&product=bpakke_dor-dor&product=smaapakker_a-post&product=ekspress09&product=smaapakker_b-post&product=courier_1h&product=minipakke&callbackUrl=http://fraktguide.bring.no/fraktguide/popupCallback.jsp&date=2014-03-17
+https://developer.bring.com/api/shipping-guide_2/topics/
 
 ### Tracking API
 

@@ -14,31 +14,32 @@ namespace Tests.Integration.Shipping
             var expected = new ShippingResponse(
                 new []
                 {
+                    new ConsignmentResponse( new [] {
                     new ProductResponse(
                         "SERVICEPAKKE",
                         "1202",
                         new GuiInformation(
                             11,
-                            "Hent varene selv",
-                            null,
-                            "På posten",
+                            "Pakke",
+                            "Til private",
                             "Klimanøytral Servicepakke",
-                            "Rimi Vinterbro. Åpningstider Man - Fre: 1000-2100, Lør: 0900-1800",
-                            "Sendingen er en Klimanøytral Servicepakke som blir levert til mottakers postkontor/ post i butikk. Mottaker kan velge å hente sendingen på et annet postkontor/post i butikk enn sitt lokale. Mottaker varsles om at sendingen er ankommet via SMS, e-post eller hentemelding i postkassen. Transporttid er normalt 1-3 virkedager, avhengig av strekning. Sendingen kan spores ved hjelp av sporingsnummeret.",
-                            "Billigst!",
+                            "Klimanøytral Servicepakke",
+                            "Pakken kan spores og utleveres på ditt lokale hentested.",
+                            "Klimanøytral Servicepakke leveres til mottakers lokale hentested (postkontor eller Post i Butikk). Mottaker kan velge å hente sendingen på et annet hentested enn sitt lokale. Mottaker varsles om at sendingen er ankommet via SMS, e-post eller hentemelding i postkassen. Sendingen kan spores ved hjelp av sporingsnummeret.",
+                            null,
                             35
-                            ),
-                        new PackagePrice(
+                        ),
+                        new PackagePrices(new PackagePrice(
                             "NOK",
-                            new Price(126.0, 31.5, 157.5),
-                            new Price(126.0, 31.5, 157.5)
-                            ),
+                            new Price(98.00, 24.50, 122.5),
+                            new Price(98.00, 24.50, 122.5)
+                            )),
                         new ExpectedDelivery(
                             "1",
                             null,
-                            "28.11.2014",
+                            "13.11.2018",
                             null,
-                            new DateTime(2014, 11, 28),
+                            new DateTime(2018, 11, 13),
                             null
                             )
                         ),
@@ -47,35 +48,36 @@ namespace Tests.Integration.Shipping
                         "1736",
                         new GuiInformation(
                             41,
-                            "Få varene levert",
-                            "Til døren",
-                            "Hjem på kvelden, 17-21",
+                            "Pakke",
+                            "Til private",
                             "På Døren",
-                            "Varsel på sms. Sjåføren ringer 30 - 60 min. før",
-                            "Sendingen er en På Døren- sending som leveres hjem til  mottaker mellom klokken 17 og 21. Mottaker varsles når sendingen er lastet på bil for utkjøring, via SMS og/eller e-post. Mottaker varsles også på  mobiltelefon 30 - 60 minutter før levering. Dersom sendingen ikke kan leveres,  blir den fraktet til lokalt postkontor/ post i butikk. Mottaker varsles om dette via  SMS, e-post eller hentemelding i postkassen. Sendingen kan spores ved hjelp av sporingsnummeret.",
+                            "På Døren",
+                            "Pakken kan spores og leveres hjem til deg mellom kl. 08-17 eller 17-21 avhengig av ditt postnummer. Sjåføren ringer 30-60 min. før ankomst ved levering på kveldstid.",
+                            "På Døren leveres hjem til mottaker mellom kl. 08-17 eller 17-21 avhengig av mottakers postnummer. Mottaker varsles i god tid om forventet utleveringsdag via SMS eller e-post, i tillegg til nytt varsel når sendingen er lastet på bil for utkjøring samme dag. Mottaker kan gi Posten fullmakt til at pakken settes igjen ved døren eller et angitt sted hvis mottaker ikke er hjemme. Sjåføren ringer mottaker 30-60 minutter før ankomst ved levering på kveldstid. Mottaker kan endre leveringsdag når pakken spores (gjelder ikke lokalpakker). Dersom sendingen ikke kan leveres, blir den sendt til mottakers lokale hentested (postkontor eller Post i Butikk). Sendingen kan spores ved hjelp av sporingsnummeret.",
                             null,
                             35
-                            ),
-                        new PackagePrice(
+                        ),
+                        new PackagePrices(new PackagePrice(
                             "NOK",
-                            new Price(142.0, 35.5, 177.5),
-                            new Price(142.0, 35.5, 177.5)
-                            ),
+                            new Price(114.00, 28.50, 142.50),
+                            new Price(114.00, 28.50, 142.50)
+                            )),
                         new ExpectedDelivery(
                             "1",
                             null,
-                            "28.11.2014",
+                            "13.11.2018",
                             null,
-                            new DateTime(2014, 11, 28),
+                            new DateTime(2018, 11, 13),
                             null
                             )
                         )
+                    })
                 },
-                new TraceMessages(
-                    new[]
-                    {
-                        "Package exceed maximum measurements for product A-POST "
-                    }));
+                new[]
+                {
+                    "Added fee 'brev-varsling' (NOK 13.00) to base price of SERVICEPAKKE since request did not have additional service 'eVarsling' specified."
+                },                
+                null);
 
             var actual = JsonConvert.DeserializeObject<ShippingResponse>(MultipleProductsSuccessJsonResponse);
 
@@ -84,90 +86,113 @@ namespace Tests.Integration.Shipping
 
         private const string MultipleProductsSuccessJsonResponse = @"
 {
-    ""@packageId"": ""0"",
-    ""Product"": [
+  ""traceMessages"": [
+    ""Added fee 'brev-varsling' (NOK 13.00) to base price of SERVICEPAKKE since request did not have additional service 'eVarsling' specified.""
+  ],
+  ""consignments"": [
+    {
+      ""products"": [
         {
-            ""ProductId"": ""SERVICEPAKKE"",
-            ""ProductCodeInProductionSystem"": ""1202"",
-            ""GuiInformation"": {
-                ""SortOrder"": ""11"",
-                ""MainDisplayCategory"": ""Hent varene selv"",
-                ""SubDisplayCategory"": null,
-                ""DisplayName"": ""På posten"",
-                ""ProductName"": ""Klimanøytral Servicepakke"",
-                ""DescriptionText"": ""Rimi Vinterbro. Åpningstider Man - Fre: 1000-2100, Lør: 0900-1800"",
-                ""HelpText"": ""Sendingen er en Klimanøytral Servicepakke som blir levert til mottakers postkontor/ post i butikk. Mottaker kan velge å hente sendingen på et annet postkontor/post i butikk enn sitt lokale. Mottaker varsles om at sendingen er ankommet via SMS, e-post eller hentemelding i postkassen. Transporttid er normalt 1-3 virkedager, avhengig av strekning. Sendingen kan spores ved hjelp av sporingsnummeret."",
-                ""Tip"": ""Billigst!"",
-                ""MaxWeightInKgs"": ""35""
-            },
-            ""Price"": {
-                ""@currencyIdentificationCode"": ""NOK"",
-                ""PackagePriceWithoutAdditionalServices"": {
-                    ""AmountWithoutVAT"": ""126.00"",
-                    ""VAT"": ""31.50"",
-                    ""AmountWithVAT"": ""157.50""
-                },
-                ""PackagePriceWithAdditionalServices"": {
-                    ""AmountWithoutVAT"": ""126.00"",
-                    ""VAT"": ""31.50"",
-                    ""AmountWithVAT"": ""157.50""
-                }
-            },
-            ""ExpectedDelivery"": {
-                ""WorkingDays"": ""1"",
-                ""UserMessage"": null,
-                ""FormattedExpectedDeliveryDate"": ""28.11.2014"",
-                ""ExpectedDeliveryDate"": {
-                    ""Year"": ""2014"",
-                    ""Month"": ""11"",
-                    ""Day"": ""28""
-                },
-                ""AlternativeDeliveryDates"": null
+          ""id"": ""SERVICEPAKKE"",
+          ""productionCode"": ""1202"",
+          ""guiInformation"": {
+            ""sortOrder"": ""11"",
+            ""mainDisplayCategory"": ""Pakke"",
+            ""subDisplayCategory"": ""Til private"",
+            ""displayName"": ""Klimanøytral Servicepakke"",
+            ""productName"": ""Klimanøytral Servicepakke"",
+            ""descriptionText"": ""Pakken kan spores og utleveres på ditt lokale hentested."",
+            ""helpText"": ""Klimanøytral Servicepakke leveres til mottakers lokale hentested (postkontor eller Post i Butikk). Mottaker kan velge å hente sendingen på et annet hentested enn sitt lokale. Mottaker varsles om at sendingen er ankommet via SMS, e-post eller hentemelding i postkassen. Sendingen kan spores ved hjelp av sporingsnummeret."",
+            ""shortName"": ""Klimanøytral Servicepakke"",
+            ""productURL"": ""http://www.bring.no/sende/pakker/private-i-norge/hentes-pa-posten"",
+            ""deliveryType"": ""Hentested"",
+            ""maxWeightInKgs"": ""35""
+          },
+          ""price"": {
+            ""listPrice"": {
+              ""priceWithoutAdditionalServices"": {
+                ""amountWithoutVAT"": ""98.00"",
+                ""vat"": ""24.50"",
+                ""amountWithVAT"": ""122.50""
+              },
+              ""priceWithAdditionalServices"": {
+                ""amountWithoutVAT"": ""98.00"",
+                ""vat"": ""24.50"",
+                ""amountWithVAT"": ""122.50""
+              },
+              ""currencyCode"": ""NOK""
             }
+          },
+          ""expectedDelivery"": {
+            ""workingDays"": ""1"",
+            ""userMessage"": """",
+            ""formattedExpectedDeliveryDate"": ""13.11.2018"",
+            ""expectedDeliveryDate"": {
+              ""year"": ""2018"",
+              ""month"": ""11"",
+              ""day"": ""13""
+            },
+            ""alternativeDeliveryDates"": []
+          }
         },
         {
-            ""ProductId"": ""PA_DOREN"",
-            ""ProductCodeInProductionSystem"": ""1736"",
-            ""GuiInformation"": {
-                ""SortOrder"": ""41"",
-                ""MainDisplayCategory"": ""Få varene levert"",
-                ""SubDisplayCategory"": ""Til døren"",
-                ""DisplayName"": ""Hjem på kvelden, 17-21"",
-                ""ProductName"": ""På Døren"",
-                ""DescriptionText"": ""Varsel på sms. Sjåføren ringer 30 - 60 min. før"",
-                ""HelpText"": ""Sendingen er en På Døren- sending som leveres hjem til  mottaker mellom klokken 17 og 21. Mottaker varsles når sendingen er lastet på bil for utkjøring, via SMS og/eller e-post. Mottaker varsles også på  mobiltelefon 30 - 60 minutter før levering. Dersom sendingen ikke kan leveres,  blir den fraktet til lokalt postkontor/ post i butikk. Mottaker varsles om dette via  SMS, e-post eller hentemelding i postkassen. Sendingen kan spores ved hjelp av sporingsnummeret."",
-                ""Tip"": null,
-                ""MaxWeightInKgs"": ""35""
-            },
-            ""Price"": {
-                ""@currencyIdentificationCode"": ""NOK"",
-                ""PackagePriceWithoutAdditionalServices"": {
-                    ""AmountWithoutVAT"": ""142.00"",
-                    ""VAT"": ""35.50"",
-                    ""AmountWithVAT"": ""177.50""
-                },
-                ""PackagePriceWithAdditionalServices"": {
-                    ""AmountWithoutVAT"": ""142.00"",
-                    ""VAT"": ""35.50"",
-                    ""AmountWithVAT"": ""177.50""
-                }
-            },
-            ""ExpectedDelivery"": {
-                ""WorkingDays"": ""1"",
-                ""UserMessage"": null,
-                ""FormattedExpectedDeliveryDate"": ""28.11.2014"",
-                ""ExpectedDeliveryDate"": {
-                    ""Year"": ""2014"",
-                    ""Month"": ""11"",
-                    ""Day"": ""28""
-                },
-                ""AlternativeDeliveryDates"": null
+          ""id"": ""PA_DOREN"",
+          ""productionCode"": ""1736"",
+          ""guiInformation"": {
+            ""sortOrder"": ""41"",
+            ""mainDisplayCategory"": ""Pakke"",
+            ""subDisplayCategory"": ""Til private"",
+            ""displayName"": ""På Døren"",
+            ""productName"": ""På Døren"",
+            ""descriptionText"": ""Pakken kan spores og leveres hjem til deg mellom kl. 08-17 eller 17-21 avhengig av ditt postnummer. Sjåføren ringer 30-60 min. før ankomst ved levering på kveldstid."",
+            ""helpText"": ""På Døren leveres hjem til mottaker mellom kl. 08-17 eller 17-21 avhengig av mottakers postnummer. Mottaker varsles i god tid om forventet utleveringsdag via SMS eller e-post, i tillegg til nytt varsel når sendingen er lastet på bil for utkjøring samme dag. Mottaker kan gi Posten fullmakt til at pakken settes igjen ved døren eller et angitt sted hvis mottaker ikke er hjemme. Sjåføren ringer mottaker 30-60 minutter før ankomst ved levering på kveldstid. Mottaker kan endre leveringsdag når pakken spores (gjelder ikke lokalpakker). Dersom sendingen ikke kan leveres, blir den sendt til mottakers lokale hentested (postkontor eller Post i Butikk). Sendingen kan spores ved hjelp av sporingsnummeret."",
+            ""shortName"": ""På Døren"",
+            ""productURL"": ""http://www.bring.no/sende/pakker/private-i-norge/hjemlevering"",
+            ""deliveryType"": ""Dør"",
+            ""maxWeightInKgs"": ""35""
+          },
+          ""price"": {
+            ""listPrice"": {
+              ""priceWithoutAdditionalServices"": {
+                ""amountWithoutVAT"": ""114.00"",
+                ""vat"": ""28.50"",
+                ""amountWithVAT"": ""142.50""
+              },
+              ""priceWithAdditionalServices"": {
+                ""amountWithoutVAT"": ""114.00"",
+                ""vat"": ""28.50"",
+                ""amountWithVAT"": ""142.50""
+              },
+              ""currencyCode"": ""NOK""
             }
+          },
+          ""expectedDelivery"": {
+            ""workingDays"": ""1"",
+            ""userMessage"": """",
+            ""formattedExpectedDeliveryDate"": ""13.11.2018"",
+            ""expectedDeliveryDate"": {
+              ""year"": ""2018"",
+              ""month"": ""11"",
+              ""day"": ""13"",
+              ""timeSlots"": [
+                {
+                  ""startTime"": {
+                    ""hour"": ""8"",
+                    ""minute"": ""0""
+                  },
+                  ""endTime"": {
+                    ""hour"": ""17"",
+                    ""minute"": ""0""
+                  }
+                }
+              ]
+            },
+            ""alternativeDeliveryDates"": []
+          }
         }
-    ],
-    ""TraceMessages"": {
-        ""Message"": ""Package exceed maximum measurements for product A-POST ""
+      ]
     }
+  ]
 }
 ";
     }

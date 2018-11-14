@@ -15,32 +15,25 @@ namespace Geta.Bring.Booking.Model
             string additionalAddressInfo, 
             Contact contact)
         {
-            if (name == null) throw new ArgumentNullException("name");
-            if (addressLine == null) throw new ArgumentNullException("addressLine");
-            if (postalCode == null) throw new ArgumentNullException("postalCode");
-            if (city == null) throw new ArgumentNullException("city");
-            if (countryCode == null) throw new ArgumentNullException("countryCode");
-            if (reference == null) throw new ArgumentNullException("reference");
-            if (contact == null) throw new ArgumentNullException("contact");
-            Contact = contact;
+            Contact = contact ?? throw new ArgumentNullException(nameof(contact));
             AdditionalAddressInfo = additionalAddressInfo;
-            Reference = reference;
-            CountryCode = countryCode;
-            City = city;
-            PostalCode = postalCode;
+            Reference = reference ?? throw new ArgumentNullException(nameof(reference));
+            CountryCode = countryCode ?? throw new ArgumentNullException(nameof(countryCode));
+            City = city ?? throw new ArgumentNullException(nameof(city));
+            PostalCode = postalCode ?? throw new ArgumentNullException(nameof(postalCode));
             AddressLine2 = addressLine2;
-            AddressLine = addressLine;
-            Name = name;
+            AddressLine = addressLine ?? throw new ArgumentNullException(nameof(addressLine));
+            Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
-        public string Name { get; private set; }
-        public string AddressLine { get; private set; }
-        public string AddressLine2 { get; private set; }
-        public string PostalCode { get; private set; }
-        public string City { get; private set; }
-        public string CountryCode { get; private set; }
-        public string Reference { get; private set; }
-        public string AdditionalAddressInfo { get; private set; }
-        public Contact Contact { get; private set; }
+        public string Name { get; }
+        public string AddressLine { get; }
+        public string AddressLine2 { get; }
+        public string PostalCode { get; }
+        public string City { get; }
+        public string CountryCode { get; }
+        public string Reference { get; }
+        public string AdditionalAddressInfo { get; }
+        public Contact Contact { get; }
     }
 }

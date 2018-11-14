@@ -23,7 +23,7 @@ namespace Geta.Bring.Shipping.Model.QueryParameters
             {
                 Items = new NameValueCollection
                 {
-                    {"weightInGrams", grams.ToString(CultureInfo.InvariantCulture)}
+                    {"weight", grams.ToString(CultureInfo.InvariantCulture)}
                 }
             };
         }
@@ -59,7 +59,7 @@ namespace Geta.Bring.Shipping.Model.QueryParameters
             {
                 Items = new NameValueCollection
                 {
-                    {"volume", volumeDm3.ToString(CultureInfo.InvariantCulture)}
+                    {"volumeindm3", volumeDm3.ToString(CultureInfo.InvariantCulture)}
                 }
             };
         }

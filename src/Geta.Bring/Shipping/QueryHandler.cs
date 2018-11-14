@@ -1,12 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Caching;
+using Geta.Bring.Shipping.Extensions;
 using Geta.Bring.Shipping.Model;
+using Geta.Bring.Shipping.Model.Errors;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Geta.Bring.Shipping
 {
@@ -21,10 +25,8 @@ namespace Geta.Bring.Shipping
     {
         protected QueryHandler(ShippingSettings settings, string methodName)
         {
-            if (settings == null) throw new ArgumentNullException("settings");
-            if (methodName == null) throw new ArgumentNullException("methodName");
-            Settings = settings;
-            MethodName = methodName;
+            Settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            MethodName = methodName ?? throw new ArgumentNullException(nameof(methodName));
         }
 
         public bool CanHandle(Type type)
@@ -32,60 +34,55 @@ namespace Geta.Bring.Shipping
             return type == typeof(T);
         }
 
-        public string MethodName { get; private set; }
+        public string MethodName { get; }
 
-        public ShippingSettings Settings { get; private set; }
+        public ShippingSettings Settings { get; }
 
         internal abstract T MapProduct(ProductResponse response);
 
         public async Task<EstimateResult<IEstimate>> FindEstimatesAsync(EstimateQuery query)
         {
-            string jsonResponse;
+            HttpResponseMessage responseMessage = null;
+            string jsonResponse = null;
+
             var requestUri = CreateRequestUri(query);
             var cacheKey = CreateCacheKey(requestUri);
 
-            var cached = HttpRuntime.Cache.Get(cacheKey) as EstimateResult<IEstimate>;
-
-            if (cached != null)
+            if (HttpRuntime.Cache.Get(cacheKey) is EstimateResult<IEstimate> cached)
                 return await Task.FromResult(cached);
 
             using (var client = CreateClient())
             {
                 try
                 {
-                    jsonResponse = await client.GetStringAsync(requestUri).ConfigureAwait(false);
+                    responseMessage = await client.GetAsync(requestUri).ConfigureAwait(false);
+                    jsonResponse = await responseMessage.Content.ReadAsStringAsync();
+
+                    responseMessage.EnsureSuccessStatusCode();
                 }
-                catch (HttpRequestException rEx)
+                catch (HttpRequestException)
                 {
-                    // TODO: parse errors from here and create strongly typed error messages
-                    // Could be object with Code, Description and HTML (full message received from Bring)
-                    // Some errors are validation errors like - invalid postal code, invalid city etc., but some are exceptions.
-                    // Wrap and return only validation errors, others throw further.
-                    // Wrap configuration errors and throw them with details, but other errors throw as is.
-                    // http://developer.bring.com/additionalresources/errorhandling.html?from=shipping
-                    return EstimateResult<IEstimate>.CreateFailure(rEx.Message);
+                    if (string.IsNullOrEmpty(jsonResponse))
+                    {
+                        var responseError = new ResponseError(responseMessage?.StatusCode ?? HttpStatusCode.InternalServerError);
+                        return EstimateResult<IEstimate>.CreateFailure(responseError);
+                    }
                 }
             }
 
-            var response = JsonConvert.DeserializeObject<ShippingResponse>(jsonResponse);
-
-            if (!response.Product.Any())
+            var response = JsonConvert.DeserializeObject<ShippingResponse>(jsonResponse, new JsonSerializerSettings
             {
-                //TODO use V2 api which returns actual error codes
-                if (response.TraceMessages.Message.Any(m => m.StartsWith("Package exceed maximum measurements")))
-                {
-                    return EstimateResult<IEstimate>.CreateFailure(ShippingErrorCodes.MeasurementsExceeded);
-                }
-                
-                if (response.TraceMessages.Message.Any(m => m.StartsWith("Product CARGO_GROUPAGE can not be sent between the given postal codes / countries")))
-                {
-                    return EstimateResult<IEstimate>.CreateFailure(ShippingErrorCodes.CannotDeliver);
-                }
-                
-                return EstimateResult<IEstimate>.CreateFailure(ShippingErrorCodes.Unknown);
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
+
+            var errors = response.GetAllErrors().ToArray();
+            if (errors.Any())
+            {
+                return EstimateResult<IEstimate>.CreateFailure(errors);
             }
 
-            var estimates = response.Product.Select(MapProduct).Cast<IEstimate>().ToList();
+            var products = response.GetAllProducts();
+            var estimates = products.Select(MapProduct).Cast<IEstimate>().ToList();
             var result = EstimateResult<IEstimate>.CreateSuccess(estimates);
 
             HttpRuntime.Cache.Insert(cacheKey, result, null, DateTime.UtcNow.AddMinutes(2), Cache.NoSlidingExpiration);
@@ -101,6 +98,7 @@ namespace Geta.Bring.Shipping
         private HttpClient CreateClient()
         {
             var client = new HttpClient();
+
             if (Settings.Uid != null)
             {
                 client.DefaultRequestHeaders.Add("X-MyBring-API-Uid", Settings.Uid);
@@ -112,6 +110,8 @@ namespace Geta.Bring.Shipping
             }
 
             client.DefaultRequestHeaders.Add("X-Bring-Client-URL", Settings.ClientUri.ToString());
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
             return client;
         }
 
@@ -120,11 +120,6 @@ namespace Geta.Bring.Shipping
             var uri = new Uri(Settings.EndpointUri, MethodName);
             var queryItems = HttpUtility.ParseQueryString(string.Empty); // This creates empty HttpValueCollection which creates query string on ToString
             queryItems.Add(query.Items);
-
-            if (Settings.PublicId != null)
-            {
-                queryItems.Add("pid", Settings.PublicId);
-            }
 
             var ub = new UriBuilder(uri) { Query = queryItems.ToString() };
             return ub.Uri;

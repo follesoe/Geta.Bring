@@ -27,11 +27,10 @@ namespace Geta.Bring.Tracking
         /// <param name="settings">Settings for <see cref="TrackingClient"/></param>
         public TrackingClient(TrackingSettings settings)
         {
-            if (settings == null) throw new ArgumentNullException("settings");
-            Settings = settings;
+            Settings = settings ?? throw new ArgumentNullException(nameof(settings));
         }
 
-        public TrackingSettings Settings { get; private set; }
+        public TrackingSettings Settings { get; }
 
         /// <summary>
         /// Returns tracking information.

@@ -18,11 +18,11 @@ namespace Geta.Bring.Pickup
         public PickupSettings(
            Uri endpointUri)
         {
-            if (endpointUri == null) throw new ArgumentNullException("endpointUri");
+            if (endpointUri == null) throw new ArgumentNullException(nameof(endpointUri));
 
             EndpointUri = endpointUri;
         }
 
-        public Uri EndpointUri { get; private set; }
+        public Uri EndpointUri { get; }
     }
 }

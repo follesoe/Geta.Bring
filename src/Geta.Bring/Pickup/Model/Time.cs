@@ -21,7 +21,7 @@
             // Documentation of bring clearly states HH:mm.
             // The API does not accept that format.
             // Don't use ':'
-            return string.Format("{0:00}{1:00}", Hour, Minute);
+            return $"{Hour:00}{Minute:00}";
         }
     }
 }

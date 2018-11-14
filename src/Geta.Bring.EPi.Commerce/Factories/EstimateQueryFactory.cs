@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EPiServer.Commerce.Order;
 using Geta.Bring.EPi.Commerce.Extensions;
+using Geta.Bring.EPi.Commerce.Model;
 using Geta.Bring.Shipping.Model;
 using Geta.Bring.Shipping.Model.QueryParameters;
 using Mediachase.Commerce.Inventory;
@@ -14,10 +15,12 @@ namespace Geta.Bring.EPi.Commerce.Factories
     public class EstimateQueryFactory : IEstimateQueryFactory
     {
         private readonly IWarehouseRepository _warehouseRepository;
+        private readonly IEstimateSettingsFactory _estimateSettingsFactory;
 
-        public EstimateQueryFactory(IWarehouseRepository warehouseRepository)
+        public EstimateQueryFactory(IWarehouseRepository warehouseRepository, IEstimateSettingsFactory estimateSettingsFactory)
         {
             _warehouseRepository = warehouseRepository;
+            _estimateSettingsFactory = estimateSettingsFactory;
         }
 
         public EstimateQuery BuildEstimateQuery(IShipment shipment, Guid shippingMethodId)
@@ -32,23 +35,21 @@ namespace Geta.Bring.EPi.Commerce.Factories
             ShippingMethodDto shippingMethod,
             IEnumerable<ILineItem> shipmentLineItems)
         {
-            var shipmentLeg = CreateShipmentLeg(shipment, shippingMethod);
+            var settings = _estimateSettingsFactory.CreateFrom(shippingMethod);
+            var shipmentLeg = CreateShipmentLeg(shipment, shippingMethod, settings);
             var packageSize = CreatePackageSize(shipmentLineItems);
-            var additionalParameters = CreateAdditionalParameters(shippingMethod);
+            var additionalParameters = CreateAdditionalParameters(shippingMethod, settings);
+
             return new EstimateQuery(
                 shipmentLeg,
                 packageSize,
                 additionalParameters.ToArray());
         }
 
-        protected virtual ShipmentLeg CreateShipmentLeg(IShipment shipment, ShippingMethodDto shippingMethod)
+        protected virtual ShipmentLeg CreateShipmentLeg(IShipment shipment, ShippingMethodDto shippingMethod, IEstimateSettings settings)
         {
-            var postalCodeFrom = shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.PostalCodeFrom, null)
-                                 ?? shippingMethod.GetShippingOptionParameterValue(BringShippingGateway.ParameterNames.PostalCodeFrom);
-
-            var countryCodeFrom = shippingMethod
-                .GetShippingOptionParameterValue(BringShippingGateway.ParameterNames.CountryFrom, "NOR")
-                .ToIso2CountryCode();
+            var postalCodeFrom = settings.PostalCodeFrom;
+            var countryCodeFrom = settings.CountryCodeFrom;
 
             if (string.IsNullOrEmpty(shipment.WarehouseCode) == false)
             {
@@ -77,35 +78,21 @@ namespace Geta.Bring.EPi.Commerce.Factories
             return PackageSize.InGrams((int)weight);
         }
 
-        protected virtual IEnumerable<IShippingQueryParameter> CreateAdditionalParameters(ShippingMethodDto shippingMethod)
+        protected virtual IEnumerable<IShippingQueryParameter> CreateAdditionalParameters(ShippingMethodDto shippingMethod, IEstimateSettings settings)
         {
-            var hasEdi = bool.Parse(shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.Edi, "true"));
-            yield return new Edi(hasEdi);
+            yield return new Edi(settings.Edi);
+            yield return new ShippedFromPostOffice(settings.PostingAtPostOffice);
+            
+            var productCode = settings.BringProductId ?? Product.Servicepakke.Code;
+            var product = Product.GetByCode(productCode);
 
-            var shippedFromPostOffice =
-                bool.Parse(shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.PostingAtPostOffice, "false"));
-            yield return new ShippedFromPostOffice(shippedFromPostOffice);
-
-            int priceAdjustmentPercent;
-            int.TryParse(shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.PriceAdjustmentPercent, "0"), out priceAdjustmentPercent);
-
-            if (priceAdjustmentPercent > 0)
+            if (!string.IsNullOrWhiteSpace(settings.BringCustomerNumber))
             {
-                bool priceAdjustmentAdd;
-                bool.TryParse(shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.PriceAdjustmentOperator, "true"), out priceAdjustmentAdd);
-
-                yield return priceAdjustmentAdd ? PriceAdjustment.IncreasePercent(priceAdjustmentPercent) : PriceAdjustment.DecreasePercent(priceAdjustmentPercent);
+                product.CustomerNumber = settings.BringCustomerNumber;
             }
 
-            var productCode = shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.BringProductId, null)
-                              ?? Product.Servicepakke.Code;
-            yield return new Products(Product.GetByCode(productCode));
-
-            var additionalServicesCodes = shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.AdditionalServices);
-            var services = additionalServicesCodes.Split(',')
-                .Select(code => AdditionalService.All.FirstOrDefault(x => x.Code == code))
-                .Where(service => service != null);
-            yield return new AdditionalServices(services.ToArray());
+            yield return new Products(product);
+            yield return new AdditionalServices(settings.AdditionalServices.ToArray());
         }
     }
 }
