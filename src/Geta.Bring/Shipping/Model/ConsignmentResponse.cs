@@ -14,7 +14,5 @@ namespace Geta.Bring.Shipping.Model
 
         [JsonConverter(typeof(ObjectToArrayConverter<ProductResponse>))]
         public IEnumerable<ProductResponse> Products { get; }
-
-        // todo: Add support for other consignment types
     }
 }
