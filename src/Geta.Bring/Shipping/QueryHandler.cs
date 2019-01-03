@@ -5,7 +5,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
+#if CACHE
 using System.Web.Caching;
+#endif
 using Geta.Bring.Shipping.Extensions;
 using Geta.Bring.Shipping.Model;
 using Geta.Bring.Shipping.Model.Errors;
@@ -46,10 +48,12 @@ namespace Geta.Bring.Shipping
             string jsonResponse = null;
 
             var requestUri = CreateRequestUri(query);
+#if CACHE
             var cacheKey = CreateCacheKey(requestUri);
 
             if (HttpRuntime.Cache.Get(cacheKey) is EstimateResult<IEstimate> cached)
                 return await Task.FromResult(cached);
+#endif
 
             using (var client = CreateClient())
             {
@@ -85,7 +89,9 @@ namespace Geta.Bring.Shipping
             var estimates = products.Select(MapProduct).Cast<IEstimate>().ToList();
             var result = EstimateResult<IEstimate>.CreateSuccess(estimates);
 
+#if CACHE
             HttpRuntime.Cache.Insert(cacheKey, result, null, DateTime.UtcNow.AddMinutes(2), Cache.NoSlidingExpiration);
+#endif
 
             return result;
         }

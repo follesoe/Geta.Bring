@@ -1,0 +1,285 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD;NETSTANDARD2_0;</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\Geta.Bring\Booking\BookingClient.cs">
+      <Link>Booking\BookingClient.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\BookingSettings.cs">
+      <Link>Booking\BookingSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\IBookingClient.cs">
+      <Link>Booking\IBookingClient.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Infrastructure\MilisecondEpochConverter.cs">
+      <Link>Booking\Infrastructure\MilisecondEpochConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Mapping\BookingResponseMapping.cs">
+      <Link>Booking\Mapping\BookingResponseMapping.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Mapping\ConsignmentMapping.cs">
+      <Link>Booking\Mapping\ConsignmentMapping.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Model\Confirmation.cs">
+      <Link>Booking\Model\Confirmation.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Model\Consignment.cs">
+      <Link>Booking\Model\Consignment.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Model\Contact.cs">
+      <Link>Booking\Model\Contact.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Model\Dimensions.cs">
+      <Link>Booking\Model\Dimensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Model\Error.cs">
+      <Link>Booking\Model\Error.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Model\ErrorMessage.cs">
+      <Link>Booking\Model\ErrorMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Model\Package.cs">
+      <Link>Booking\Model\Package.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Model\PackageConfirmation.cs">
+      <Link>Booking\Model\PackageConfirmation.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Model\Parties.cs">
+      <Link>Booking\Model\Parties.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Model\Party.cs">
+      <Link>Booking\Model\Party.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Model\Product.cs">
+      <Link>Booking\Model\Product.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Model\Dtos\BookingRequest.cs">
+      <Link>Booking\Model\Dtos\BookingRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Model\Dtos\BookingResponse.cs">
+      <Link>Booking\Model\Dtos\BookingResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Pickup\IPickupClient.cs">
+      <Link>Pickup\IPickupClient.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Pickup\PickupClient.cs">
+      <Link>Pickup\PickupClient.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Pickup\PickupSettings.cs">
+      <Link>Pickup\PickupSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Pickup\Model\IPickupQueryParameter.cs">
+      <Link>Pickup\Model\IPickupQueryParameter.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Pickup\Model\OpenDaysFilter.cs">
+      <Link>Pickup\Model\OpenDaysFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Pickup\Model\PickupLocationQuery.cs">
+      <Link>Pickup\Model\PickupLocationQuery.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Pickup\Model\PickupPoint.cs">
+      <Link>Pickup\Model\PickupPoint.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Pickup\Model\PickupPointTypeFilter.cs">
+      <Link>Pickup\Model\PickupPointTypeFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Pickup\Model\PickupQuery.cs">
+      <Link>Pickup\Model\PickupQuery.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Pickup\Model\PickupResponse.cs">
+      <Link>Pickup\Model\PickupResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Pickup\Model\PickupResult.cs">
+      <Link>Pickup\Model\PickupResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Pickup\Model\PickupZipCodeQuery.cs">
+      <Link>Pickup\Model\PickupZipCodeQuery.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Pickup\Model\Time.cs">
+      <Link>Pickup\Model\Time.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Pickup\Model\QueryParameters\OpenHoursAfter.cs">
+      <Link>Pickup\Model\QueryParameters\OpenHoursAfter.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Pickup\Model\QueryParameters\OpenHoursBefore.cs">
+      <Link>Pickup\Model\QueryParameters\OpenHoursBefore.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Pickup\Model\QueryParameters\OpenOnDays.cs">
+      <Link>Pickup\Model\QueryParameters\OpenOnDays.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Pickup\Model\QueryParameters\PickupPointType.cs">
+      <Link>Pickup\Model\QueryParameters\PickupPointType.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\IShippingClient.cs">
+      <Link>Shipping\IShippingClient.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\QueryHandler.cs">
+      <Link>Shipping\QueryHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\ShippingClient.cs">
+      <Link>Shipping\ShippingClient.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\ShippingErrorCodes.cs">
+      <Link>Shipping\ShippingErrorCodes.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\ShippingSettings.cs">
+      <Link>Shipping\ShippingSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Extensions\ShippingResponseExtensions.cs">
+      <Link>Shipping\Extensions\ShippingResponseExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Infrastructure\DefaultingPropertyConverter.cs">
+      <Link>Shipping\Infrastructure\DefaultingPropertyConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Infrastructure\DeliveryDateToDateTimeConverter.cs">
+      <Link>Shipping\Infrastructure\DeliveryDateToDateTimeConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Infrastructure\ObjectToArrayConverter.cs">
+      <Link>Shipping\Infrastructure\ObjectToArrayConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\AdditionalService.cs">
+      <Link>Shipping\Model\AdditionalService.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\AgreementPrice.cs">
+      <Link>Shipping\Model\AgreementPrice.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\CargoAgreementPrices.cs">
+      <Link>Shipping\Model\CargoAgreementPrices.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\ConsignmentResponse.cs">
+      <Link>Shipping\Model\ConsignmentResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\DeliveryEstimate.cs">
+      <Link>Shipping\Model\DeliveryEstimate.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\DeliveryEstimateQueryHandler.cs">
+      <Link>Shipping\Model\DeliveryEstimateQueryHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\EstimateQuery.cs">
+      <Link>Shipping\Model\EstimateQuery.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\EstimateResult.cs">
+      <Link>Shipping\Model\EstimateResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\ExpectedDelivery.cs">
+      <Link>Shipping\Model\ExpectedDelivery.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\GuiInformation.cs">
+      <Link>Shipping\Model\GuiInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\IEstimate.cs">
+      <Link>Shipping\Model\IEstimate.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\IQueryParameter.cs">
+      <Link>Shipping\Model\IQueryParameter.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\IShippingQueryParameter.cs">
+      <Link>Shipping\Model\IShippingQueryParameter.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\PackagePrice.cs">
+      <Link>Shipping\Model\PackagePrice.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\PackagePrices.cs">
+      <Link>Shipping\Model\PackagePrices.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\Price.cs">
+      <Link>Shipping\Model\Price.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\PriceEstimate.cs">
+      <Link>Shipping\Model\PriceEstimate.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\PriceEstimateQueryHandler.cs">
+      <Link>Shipping\Model\PriceEstimateQueryHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\Product.cs">
+      <Link>Shipping\Model\Product.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\ProductResponse.cs">
+      <Link>Shipping\Model\ProductResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\ShipmentEstimate.cs">
+      <Link>Shipping\Model\ShipmentEstimate.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\ShipmentEstimateQueryHandler.cs">
+      <Link>Shipping\Model\ShipmentEstimateQueryHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\ShippingResponse.cs">
+      <Link>Shipping\Model\ShippingResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\Errors\Error.cs">
+      <Link>Shipping\Model\Errors\Error.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\Errors\FieldError.cs">
+      <Link>Shipping\Model\Errors\FieldError.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\Errors\ProductError.cs">
+      <Link>Shipping\Model\Errors\ProductError.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\Errors\ResponseError.cs">
+      <Link>Shipping\Model\Errors\ResponseError.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\QueryParameters\AdditionalServices.cs">
+      <Link>Shipping\Model\QueryParameters\AdditionalServices.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\QueryParameters\CustomerNumber.cs">
+      <Link>Shipping\Model\QueryParameters\CustomerNumber.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\QueryParameters\Edi.cs">
+      <Link>Shipping\Model\QueryParameters\Edi.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\QueryParameters\PackageSize.cs">
+      <Link>Shipping\Model\QueryParameters\PackageSize.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\QueryParameters\Products.cs">
+      <Link>Shipping\Model\QueryParameters\Products.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\QueryParameters\ShipmentLeg.cs">
+      <Link>Shipping\Model\QueryParameters\ShipmentLeg.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\QueryParameters\ShippedFromPostOffice.cs">
+      <Link>Shipping\Model\QueryParameters\ShippedFromPostOffice.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Shipping\Model\QueryParameters\ShippingDateAndTime.cs">
+      <Link>Shipping\Model\QueryParameters\ShippingDateAndTime.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Tracking\ITrackingClient.cs">
+      <Link>Tracking\ITrackingClient.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Tracking\TrackingClient.cs">
+      <Link>Tracking\TrackingClient.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Tracking\TrackingSettings.cs">
+      <Link>Tracking\TrackingSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Tracking\Model\Address.cs">
+      <Link>Tracking\Model\Address.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Tracking\Model\ConsignmentStatus.cs">
+      <Link>Tracking\Model\ConsignmentStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Tracking\Model\PackageStatus.cs">
+      <Link>Tracking\Model\PackageStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Tracking\Model\RecipientSignature.cs">
+      <Link>Tracking\Model\RecipientSignature.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Tracking\Model\TrackingEvent.cs">
+      <Link>Tracking\Model\TrackingEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Tracking\Model\TrackingEventDefinition.cs">
+      <Link>Tracking\Model\TrackingEventDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Tracking\Model\TrackingResponse.cs">
+      <Link>Tracking\Model\TrackingResponse.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+</Project>

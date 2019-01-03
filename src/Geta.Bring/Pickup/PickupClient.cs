@@ -3,7 +3,9 @@ using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+#if CACHE
 using System.Web.Caching;
+#endif
 using Geta.Bring.Pickup.Model;
 using Newtonsoft.Json;
 
@@ -86,10 +88,12 @@ namespace Geta.Bring.Pickup
             var requestUri = CreateRequestUri(relativePath, query);
             var cacheKey = CreateCacheKey(requestUri);
 
+#if CACHE
             var cached = HttpRuntime.Cache.Get(cacheKey) as PickupResult;
 
             if (cached != null)
                 return await Task.FromResult(cached);
+#endif
 
             using (var client = CreateClient())
             {
@@ -113,7 +117,9 @@ namespace Geta.Bring.Pickup
                 var response = JsonConvert.DeserializeObject<PickupResponse>(jsonResponse);
                 var result = PickupResult.CreateSuccess(response.PickupPoints);
 
+#if CACHE
                 HttpRuntime.Cache.Insert(cacheKey, result, null, DateTime.UtcNow.AddMinutes(1), Cache.NoSlidingExpiration);
+#endif
 
                 return result;
             }

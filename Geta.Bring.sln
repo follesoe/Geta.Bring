@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Integration", "src\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.Bring.Sample", "src\Geta.Bring.Sample\Geta.Bring.Sample.csproj", "{E8166130-64EF-403E-B297-135A1B519C59}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.Bring.Standard", "src\Geta.Bring.Standard\Geta.Bring.Standard.csproj", "{93A577B1-0667-49D4-8537-2FE67A0A3115}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{E8166130-64EF-403E-B297-135A1B519C59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8166130-64EF-403E-B297-135A1B519C59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8166130-64EF-403E-B297-135A1B519C59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93A577B1-0667-49D4-8537-2FE67A0A3115}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93A577B1-0667-49D4-8537-2FE67A0A3115}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93A577B1-0667-49D4-8537-2FE67A0A3115}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93A577B1-0667-49D4-8537-2FE67A0A3115}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
