@@ -5,7 +5,7 @@ using Newtonsoft.Json.Converters;
 
 namespace Geta.Bring.Booking.Infrastructure
 {
-    internal class MilisecondEpochConverter : DateTimeConverterBase
+    public class MilisecondEpochConverter : DateTimeConverterBase
     {
         private static readonly DateTime _epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 

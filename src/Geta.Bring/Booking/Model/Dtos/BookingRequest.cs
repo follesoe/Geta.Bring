@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Geta.Bring.Booking.Model.Dtos
 {
-    internal class BookingRequest
+    public class BookingRequest
     {
         public bool TestIndicator { get; set; }
         public int SchemaVersion { get; set; }
