@@ -14,6 +14,8 @@ namespace Geta.Bring.Booking.Model
         /// <param name="customerNumber">Customer number for Bring Product.</param>
         public Product(string id, string customerNumber)
         {
+            CustomerNumber = customerNumber ?? throw new ArgumentNullException(nameof(customerNumber));
+            Id = id ?? throw new ArgumentNullException(nameof(id));
             Services = new Services();
         }
 
