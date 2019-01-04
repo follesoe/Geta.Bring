@@ -6,7 +6,7 @@ namespace Geta.Bring.Booking.Model
     {
         public Contact(string name, string email, string phoneNumber)
         {
-            PhoneNumber = phoneNumber ?? throw new ArgumentNullException(nameof(phoneNumber));
+            PhoneNumber = phoneNumber;
             Email = email ?? throw new ArgumentNullException(nameof(email));
             Name = name ?? throw new ArgumentNullException(nameof(name));
         }
