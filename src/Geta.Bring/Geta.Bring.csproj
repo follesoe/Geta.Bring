@@ -71,6 +71,9 @@
     <Compile Include="Booking\Model\Parties.cs" />
     <Compile Include="Booking\Model\Party.cs" />
     <Compile Include="Booking\Model\Product.cs" />
+    <Compile Include="Booking\Model\RecipientNotification.cs" />
+    <Compile Include="Booking\Model\Services.cs" />
+    <Compile Include="Booking\Model\DeliveryOption.cs" />
     <Compile Include="Pickup\IPickupClient.cs" />
     <Compile Include="Pickup\Model\IPickupQueryParameter.cs" />
     <Compile Include="Pickup\Model\OpenDaysFilter.cs" />

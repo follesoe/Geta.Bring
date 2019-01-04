@@ -12,21 +12,9 @@ namespace Geta.Bring.Booking.Model
         /// </summary>
         /// <param name="id">Bring Product code from: http://developer.bring.com/additionalresources/productlist.html?from=shipping .</param>
         /// <param name="customerNumber">Customer number for Bring Product.</param>
-        public Product(string id, string customerNumber) : this(id, customerNumber, null)
+        public Product(string id, string customerNumber)
         {
-        }
-
-        /// <summary>
-        /// Initializes new instance of <see cref="Product"/>.
-        /// </summary>
-        /// <param name="id">Bring Product code from: http://developer.bring.com/additionalresources/productlist.html?from=shipping .</param>
-        /// <param name="customerNumber">Customer number for Bring Product.</param>
-        /// <param name="recipientNotification">The recipient notification parameter must be set in order for the recipient to receive electronic notification.</param>
-        public Product(string id, string customerNumber, RecipientNotification recipientNotification)
-        {
-            CustomerNumber = customerNumber ?? throw new ArgumentNullException(nameof(customerNumber));
-            Id = id ?? throw new ArgumentNullException(nameof(id));
-            RecipientNotification = recipientNotification;
+            Services = new Services();
         }
 
         /// <summary>
@@ -43,6 +31,6 @@ namespace Geta.Bring.Booking.Model
         /// The recipient notification property must be set for all products that allow electronic notification,
         /// in order for the recipient to receive electronic notification.
         /// </summary>
-        public RecipientNotification RecipientNotification { get; }
+        public Services Services { get; }
     }
 }
