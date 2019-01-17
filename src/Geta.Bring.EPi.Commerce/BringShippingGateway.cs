@@ -65,15 +65,12 @@ namespace Geta.Bring.EPi.Commerce
                 return CreateShippingRate(methodId, shippingMethod, estimate);
             }
 
-            message = estimate.Errors
-                .Aggregate(new StringBuilder(), (sb, msg) =>
-                {
-                    sb.Append(msg);
-                    sb.AppendLine();
-                    return sb;
-                }).ToString();
+            message = GetErrorMessage(estimate);
 
-            return CreateBaseShippingRate(methodId, shippingMethodRow);
+            if (estimate.Success)
+                return CreateBaseShippingRate(methodId, shippingMethodRow);
+
+            return null;
         }
 
         private static ShippingRate CreateBaseShippingRate(Guid shippingMethodId, ShippingMethodDto.ShippingMethodRow shippingMethodRow)
@@ -140,6 +137,19 @@ namespace Geta.Bring.EPi.Commerce
             }
 
             return amount;
+        }
+
+        private static string GetErrorMessage(EstimateResult<ShipmentEstimate> result)
+        {
+            var builder = new StringBuilder();
+
+            foreach (var error in result.Errors)
+            {
+                builder.Append(error);
+                builder.AppendLine();
+            }
+
+            return builder.ToString();
         }
 
         internal static class ParameterNames
