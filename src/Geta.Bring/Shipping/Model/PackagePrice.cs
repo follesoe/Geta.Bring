@@ -26,7 +26,7 @@ namespace Geta.Bring.Shipping.Model
             string currencyCode,
             Price priceWithoutAdditionalServices, 
             Price priceWithAdditionalServices,
-            IEnumerable<AgreementPrice> cargoAgreementPrices) : 
+            IEnumerable<AgreementPrice> cargoAgreementPrices = null) : 
                 this(currencyCode, priceWithoutAdditionalServices, priceWithAdditionalServices)
         {
             CargoAgreementPrices = cargoAgreementPrices ?? Enumerable.Empty<AgreementPrice>();

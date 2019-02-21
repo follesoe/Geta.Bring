@@ -2,7 +2,13 @@
 {
     public class FieldError : Error
     {
-        public string Message { get; set; }
-        public string Field { get; set; }
+        public FieldError(string code, string message, string field) : base(code)
+        {
+            Message = message;
+            Field = field;
+        }
+
+        public string Message { get; }
+        public string Field { get;}
     }
 }
