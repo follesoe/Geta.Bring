@@ -2,7 +2,6 @@
 using Geta.Bring.EPi.Commerce.Extensions;
 using Geta.Bring.EPi.Commerce.Model;
 using Geta.Bring.Shipping.Model;
-using Geta.Bring.Shipping.Model.QueryParameters;
 using Mediachase.Commerce.Orders.Dto;
 
 namespace Geta.Bring.EPi.Commerce.Factories
@@ -35,7 +34,7 @@ namespace Geta.Bring.EPi.Commerce.Factories
             bool.TryParse(priceExclTaxParameter, out var priceExclTax);
 
             var priceRoundingParameterParameter = shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.PriceRounding, "false");
-            bool.TryParse(priceRoundingParameterParameter, out bool priceRounding);
+            bool.TryParse(priceRoundingParameterParameter, out var priceRounding);
 
             var priceAdjustmentPercentParameter = shippingMethod.GetShippingMethodParameterValue(BringShippingGateway.ParameterNames.PriceAdjustmentPercent, "0");
             int.TryParse(priceAdjustmentPercentParameter, out var priceAdjustmentPercent);

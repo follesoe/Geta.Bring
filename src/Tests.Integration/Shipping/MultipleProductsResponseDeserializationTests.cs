@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Geta.Bring.Shipping.Model;
+using Geta.Bring.Shipping.Model.Errors;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -32,7 +34,8 @@ namespace Tests.Integration.Shipping
                         new PackagePrices(new PackagePrice(
                             "NOK",
                             new Price(98.00, 24.50, 122.5),
-                            new Price(98.00, 24.50, 122.5)
+                            new Price(98.00, 24.50, 122.5),
+                            Enumerable.Empty<AgreementPrice>()
                             )),
                         new ExpectedDelivery(
                             "1",
@@ -41,7 +44,8 @@ namespace Tests.Integration.Shipping
                             null,
                             new DateTime(2018, 11, 13),
                             null
-                            )
+                            ),
+                        Enumerable.Empty<ProductError>()
                         ),
                     new ProductResponse(
                         "PA_DOREN",
@@ -60,7 +64,8 @@ namespace Tests.Integration.Shipping
                         new PackagePrices(new PackagePrice(
                             "NOK",
                             new Price(114.00, 28.50, 142.50),
-                            new Price(114.00, 28.50, 142.50)
+                            new Price(114.00, 28.50, 142.50),
+                            Enumerable.Empty<AgreementPrice>()
                             )),
                         new ExpectedDelivery(
                             "1",
@@ -69,8 +74,13 @@ namespace Tests.Integration.Shipping
                             null,
                             new DateTime(2018, 11, 13),
                             null
-                            )
-                        )
+                            ),
+                        Enumerable.Empty<ProductError>()
+                        ),
+                        new ProductResponse("SERVICEPAKKE", "1202", null, null, null, new []
+                        {
+                            new ProductError("INVALID_MEASUREMENTS", "Package exceed maximum measurements for product SERVICEPAKKE ")
+                        })
                     })
                 },
                 new[]
@@ -189,6 +199,16 @@ namespace Tests.Integration.Shipping
             },
             ""alternativeDeliveryDates"": []
           }
+        },
+        {
+            ""id"": ""SERVICEPAKKE"",
+            ""productionCode"": ""1202"",
+            ""errors"": [
+                {
+                    ""code"": ""INVALID_MEASUREMENTS"",
+                    ""description"": ""Package exceed maximum measurements for product SERVICEPAKKE ""
+                }
+            ]
         }
       ]
     }

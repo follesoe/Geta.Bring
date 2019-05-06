@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Geta.Bring.Shipping.Model;
+using Geta.Bring.Shipping.Model.Errors;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -32,7 +34,8 @@ namespace Tests.Integration.Shipping
                             new PackagePrices(new PackagePrice(
                                 "NOK",
                                 new Price(98.00, 24.50, 122.50),
-                                new Price(98.00, 24.50, 122.50)
+                                new Price(98.00, 24.50, 122.50),
+                                Enumerable.Empty<AgreementPrice>()
                             )),
                             new ExpectedDelivery(
                                 "1",
@@ -41,7 +44,8 @@ namespace Tests.Integration.Shipping
                                 null,
                                 new DateTime(2018, 11, 13),
                                 null
-                            )
+                            ),
+                            Enumerable.Empty<ProductError>()
                         )
                     })
                 },
