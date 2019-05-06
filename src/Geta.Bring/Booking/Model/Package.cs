@@ -3,7 +3,7 @@
 namespace Geta.Bring.Booking.Model
 {
     /// <summary>
-    /// Package information to  book.
+    /// Package information to book.
     /// </summary>
     public class Package
     {
