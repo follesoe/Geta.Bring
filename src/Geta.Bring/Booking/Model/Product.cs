@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Geta.Bring.Booking.Model
 {
@@ -17,6 +18,7 @@ namespace Geta.Bring.Booking.Model
             CustomerNumber = customerNumber ?? throw new ArgumentNullException(nameof(customerNumber));
             Id = id ?? throw new ArgumentNullException(nameof(id));
             Services = new Services();
+            EdiCustomsDeclarations = new List<CustomsDeclaration>();
         }
 
         /// <summary>
@@ -34,5 +36,11 @@ namespace Geta.Bring.Booking.Model
         /// in order for the recipient to receive electronic notification.
         /// </summary>
         public Services Services { get; }
+
+        /// <summary>
+        /// When included during booking, the customs information will be sent electronically from Bring to the
+        /// destination country.
+        /// </summary>
+        public List<CustomsDeclaration> EdiCustomsDeclarations { get; } 
     }
 }
