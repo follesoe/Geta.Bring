@@ -18,7 +18,6 @@ namespace Geta.Bring.Booking.Model
             CustomerNumber = customerNumber ?? throw new ArgumentNullException(nameof(customerNumber));
             Id = id ?? throw new ArgumentNullException(nameof(id));
             Services = new Services();
-            EdiCustomsDeclarations = new List<CustomsDeclaration>();
         }
 
         /// <summary>
@@ -41,6 +40,6 @@ namespace Geta.Bring.Booking.Model
         /// When included during booking, the customs information will be sent electronically from Bring to the
         /// destination country.
         /// </summary>
-        public List<CustomsDeclaration> EdiCustomsDeclarations { get; } 
+        public List<CustomsDeclaration> EdiCustomsDeclarations { get; set; }
     }
 }
