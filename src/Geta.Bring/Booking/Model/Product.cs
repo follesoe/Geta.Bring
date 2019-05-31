@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Geta.Bring.Booking.Infrastructure;
+using Newtonsoft.Json;
 
 namespace Geta.Bring.Booking.Model
 {
@@ -37,9 +39,10 @@ namespace Geta.Bring.Booking.Model
         public Services Services { get; }
 
         /// <summary>
-        /// When included during booking, the customs information will be sent electronically from Bring to the
-        /// destination country.
+        /// Electronic customs declaration required for shipments out of Norway.
+        /// https://developer.bring.com/api/booking/#customs-information
         /// </summary>
-        public List<CustomsDeclaration> EdiCustomsDeclarations { get; set; }
+        [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
+        public CustomsDeclarations EdiCustomsDeclarations { get; set; }
     }
 }

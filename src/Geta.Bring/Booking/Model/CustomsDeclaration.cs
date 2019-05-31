@@ -1,7 +1,26 @@
 using System;
+using System.Collections.Generic;
+using Geta.Bring.Booking.Infrastructure;
+using Newtonsoft.Json;
 
 namespace Geta.Bring.Booking.Model
 {
+    public class CustomsDeclarations
+    {
+        /// <summary>
+        /// When included during booking, the customs information will be sent electronically from Bring to the
+        /// destination country.
+        /// </summary>
+        public List<CustomsDeclaration> EdiCustomsDeclaration { get; set; }
+
+        /// <summary>
+        /// The nature of the transaction set as enum of type <see cref="Geta.Bring.Booking.Model.NatureOfTransaction" />
+        /// </summary>
+        [JsonConverter(typeof(NatureOfTransactionConverter))]
+        [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
+        public NatureOfTransaction? NatureOfTransaction { get; set; }
+    }
+
     /// <summary>
     /// A customs declaration line used to represent customs information for a
     /// a single item in the booking. 
@@ -35,7 +54,8 @@ namespace Geta.Bring.Booking.Model
         /// Customs tariff codes (tolltariffnummer, optional). 
         /// Can be found here: https://tolltariffen.toll.no/templates_TAD/Tolltariffen/StartPage.aspx?id=358571
         /// </summary>
-        public string customsArticleNumber { get; set; }
+        [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
+        public string CustomsArticleNumber { get; set; }
 
         /// <summary>
         /// Total content net weight (kg).
@@ -55,6 +75,7 @@ namespace Geta.Bring.Booking.Model
         /// <summary>
         /// Country of origin for the item (optional).
         /// </summary>
+        [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
         public string CountryOfOrigin { get; set; }
     }
 }

@@ -56,12 +56,14 @@
     <Compile Include="Booking\BookingSettings.cs" />
     <Compile Include="Booking\IBookingClient.cs" />
     <Compile Include="Booking\Infrastructure\MilisecondEpochConverter.cs" />
+    <Compile Include="Booking\Infrastructure\NatureOfTransactionConverter.cs" />
     <Compile Include="Booking\Mapping\BookingResponseMapping.cs" />
     <Compile Include="Booking\Mapping\ConsignmentMapping.cs" />
     <Compile Include="Booking\Model\Confirmation.cs" />
     <Compile Include="Booking\Model\Consignment.cs" />
     <Compile Include="Booking\Model\Contact.cs" />
     <Compile Include="Booking\Model\CustomsDeclaration.cs" />
+    <Compile Include="Booking\Model\NatureOfTransaction.cs" />
     <Compile Include="Booking\Model\Dimensions.cs" />
     <Compile Include="Booking\Model\Dtos\BookingRequest.cs" />
     <Compile Include="Booking\Model\Dtos\BookingResponse.cs" />

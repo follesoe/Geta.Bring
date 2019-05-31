@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>Geta.Bring.Standard</PackageId>
-    <Version>1.0.10</Version>
+    <Version>1.0.21</Version>
     <Authors>Sven-Erik Jonsson, Jonas Follesø</Authors>
     <Company>Geta</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -27,6 +27,9 @@
     <Compile Include="..\Geta.Bring\Booking\Infrastructure\MilisecondEpochConverter.cs">
       <Link>Booking\Infrastructure\MilisecondEpochConverter.cs</Link>
     </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Infrastructure\NatureOfTransactionConverter.cs">
+      <Link>Booking\Infrastructure\NatureOfTransactionConverter.cs</Link>
+    </Compile>
     <Compile Include="..\Geta.Bring\Booking\Mapping\BookingResponseMapping.cs">
       <Link>Booking\Mapping\BookingResponseMapping.cs</Link>
     </Compile>
@@ -44,6 +47,9 @@
     </Compile>
     <Compile Include="..\Geta.Bring\Booking\Model\CustomsDeclaration.cs">
       <Link>Booking\Model\CustomsDeclaration.cs</Link>
+    </Compile>
+    <Compile Include="..\Geta.Bring\Booking\Model\NatureOfTransaction.cs">
+      <Link>Booking\Model\NatureOfTransaction.cs</Link>
     </Compile>
     <Compile Include="..\Geta.Bring\Booking\Model\Dimensions.cs">
       <Link>Booking\Model\Dimensions.cs</Link>
