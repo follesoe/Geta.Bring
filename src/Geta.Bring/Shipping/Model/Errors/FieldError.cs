@@ -10,5 +10,10 @@
 
         public string Message { get; }
         public string Field { get;}
+
+        public override string ToString()
+        {
+            return Code + ": '" + Field + "' " + Message;
+        }
     }
 }

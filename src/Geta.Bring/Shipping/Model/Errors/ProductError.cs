@@ -11,5 +11,9 @@ namespace Geta.Bring.Shipping.Model.Errors
         }
 
         public string Description { get; set; }
+        public override string ToString()
+        {
+            return Code + ": " + Description;
+        }
     }
 }
