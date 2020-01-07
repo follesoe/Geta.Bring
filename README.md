@@ -58,16 +58,21 @@ Second package - *Geta.Bring.EPi.Commerce.Manager*, should be installed into you
 
 To start using Shipping Guide API you have to create new *ShippingClient* with provided settings.
 
-    var settings = new ShippingSettings(new Uri("http://test.localtest.me"));
+    var settings = new ShippingSettings(new Uri("http://test.localtest.me"), "your_uid", "your_key");
     IShippingClient client = new ShippingClient(settings);
 
 *ShippingSettings* requires at least one parameter - *clientUri*, which is the base URI of your Web site.
 
 To find estimated delivery options you have to call *FindAsync* method with query parameters and type of the estimate.
     
+     var products = new List<Geta.Bring.Shipping.Model.Product>();
+                products.Add(Geta.Bring.Shipping.Model.Product.Servicepakke);
+                products.Add(Geta.Bring.Shipping.Model.Product.PaDoren);
+                
     var query = new EstimateQuery(
         new ShipmentLeg("0484", "5600"),
-        PackageSize.InGrams(2500));
+        PackageSize.InGrams(2500),
+        new Products(products.ToArray()));
 
     var result = await client.FindAsync<ShipmentEstimate>(query);
 
@@ -207,24 +212,21 @@ The method returns confirmation information.
 
 ### EPiServer Commerce module
 
-EPiServer Commerce module consists of two libraries: *Geta.Bring.EPi.Commerce* - library which should be installed into your Web site; *Geta.Bring.EPi.Commerce.Manager* - library which should be installed into Commerce Manager Web site. *Geta.Bring.EPi.Commerce* contains shipping gateway - *BringShippingGateway* and types for shipping details - *BringShippingRate* and *BringShippingRateGroup*. *Geta.Bring.EPi.Commerce.Manager* contains required views to configure EPiServer Commerce Bring module.
+EPiServer Commerce module consists of two libraries: *Geta.Bring.EPi.Commerce* - library which should be installed into your Web site; *Geta.Bring.EPi.Commerce.Manager* - library which should be installed into Commerce Manager Web site. *Geta.Bring.EPi.Commerce* contains shipping gateway - *BringShippingGateway* (implemented as *IShippingPlugin*) and types for shipping details - *BringShippingRate* and *BringShippingRateGroup*. *Geta.Bring.EPi.Commerce.Manager* contains required views to configure EPiServer Commerce Bring module.
 
 #### Getting rates
 
-To list all awailable shipping options create gateway instances for each available shipping method and use *GetRate* method as in EPiServer Commerce [documentation](http://world.episerver.com/documentation/Items/Developers-Guide/EPiServer-Commerce/8/Shipping/Shipping/). Example:
+To get all rates use *IShippingPlugin* and use *GetRate* method. Note that IShippingPlugin has the same functionality as IShippingGateway but works only with the abstraction API instead of concrete classes.
+Example:
 
-    CommerceCart.Shipment shipment = ...; // getting shipment from cart
+    var shipment = cart.GetFirstShipment(); // using cart of type ICart 
     var shippingMethods = ShippingManager.GetShippingMethods(languageId);
     var shippingRates = new List<CommerceCart.ShippingRate>();
     foreach (var shippingMethod in 
         shippingMethods.ShippingMethod.OrderBy(x => x.Ordering))
     {
-        var type = Type.GetType(shippingMethod.ShippingOptionRow.ClassName);
-        var shippingGateway = 
-            (CommerceCart.IShippingGateway)Activator.CreateInstance(type);
         var message = string.Empty;
-        var rate = shippingGateway.GetRate(
-            shippingMethod.ShippingMethodId, shipment, ref message);
+        var rate = _shippingPlugin.GetRate(currentMarket, shippingMethod.ShippingMethodId, shipment, ref message);
         shippingRates.Add(rate);
     }
 
