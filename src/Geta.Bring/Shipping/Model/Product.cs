@@ -55,7 +55,7 @@ namespace Geta.Bring.Shipping.Model
         public static Product QuickpackOverNight1200 = new Product("Quickpack Over Night 1200", "EXPRESS_INTERNATIONAL_1200", true, true);
         public static Product QuickpackDayCertain = new Product("Quickpack Day Certain", "EXPRESS_INTERNATIONAL", true, true);
         public static Product QuickpackExpressEconomy = new Product("Quickpack Express Economy", "EXPRESS_ECONOMY", true, true);
-        public static Product CargoGroupage = new Product("Cargo", " 5100", true, true);
+        public static Product CargoGroupage = new Product("Cargo", "5100", true, true);
         public static Product CarryonBusiness = new Product("CarryOn Business", "CARRYON_BUSINESS", true, true);
         public static Product CarryonHomeshopping = new Product("CarryOn HomeShopping", "CARRYON_HOMESHOPPING", true, true);
         public static Product HomedeliveryCurbsideDag = new Product("HomeDelivery Curb Side", "HOMEDELIVERY_CURBSIDE_DAG", false, true);
