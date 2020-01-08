@@ -41,10 +41,10 @@ namespace Geta.Bring.Shipping.Model
         /// </summary>
         public bool ExpectedDeliveryAvailable { get; }
 
-        public static Product Servicepakke = new Product("Klimanøytral Servicepakke", "SERVICEPAKKE", true, true);
-        public static Product PaDoren = new Product("På Døren", "PA_DOREN", true, true);
-        public static Product BpakkeDorDor = new Product("Bedriftspakke", "BPAKKE_DOR-DOR", true, true);
-        public static Product Express09 = new Product("Bedriftspakke Ekspress-Over natten", "EKSPRESS09", true, true);
+        public static Product Servicepakke = new Product("Klimanøytral Servicepakke", "5800", true, true);
+        public static Product PaDoren = new Product("På Døren", "5600", true, true);
+        public static Product BpakkeDorDor = new Product("Bedriftspakke", "5000", true, true);
+        public static Product Express09 = new Product("Bedriftspakke Ekspress-Over natten", "4850", true, true);
         public static Product Minipakke = new Product("Minipakke", "MINIPAKKE", true, true);
         public static Product APost = new Product("A-Prioritert", "A-POST", true, false);
         public static Product BPost = new Product("B-Økonomi", "B-POST", true, true);
@@ -55,7 +55,7 @@ namespace Geta.Bring.Shipping.Model
         public static Product QuickpackOverNight1200 = new Product("Quickpack Over Night 1200", "EXPRESS_INTERNATIONAL_1200", true, true);
         public static Product QuickpackDayCertain = new Product("Quickpack Day Certain", "EXPRESS_INTERNATIONAL", true, true);
         public static Product QuickpackExpressEconomy = new Product("Quickpack Express Economy", "EXPRESS_ECONOMY", true, true);
-        public static Product CargoGroupage = new Product("Cargo", "CARGO_GROUPAGE", true, true);
+        public static Product CargoGroupage = new Product("Cargo", " 5100", true, true);
         public static Product CarryonBusiness = new Product("CarryOn Business", "CARRYON_BUSINESS", true, true);
         public static Product CarryonHomeshopping = new Product("CarryOn HomeShopping", "CARRYON_HOMESHOPPING", true, true);
         public static Product HomedeliveryCurbsideDag = new Product("HomeDelivery Curb Side", "HOMEDELIVERY_CURBSIDE_DAG", false, true);
@@ -97,8 +97,23 @@ namespace Geta.Bring.Shipping.Model
             }
         }
 
+        public static Product GetByLegacyCode(string code)
+        {
+            switch (code) {
+                case "SERVICEPAKKE": return Servicepakke;
+                case "PA_DOREN": return PaDoren;
+                case "BPAKKE_DOR-DOR": return BpakkeDorDor;
+                case "EKSPRESS09": return Express09;
+                case "CARGO_GROUPAGE": return CargoGroupage;
+                default: return null;
+            }
+        }
+
         public static Product GetByCode(string code)
         {
+            var legacy = GetByLegacyCode(code);
+            if (legacy != null) return legacy;
+
             return All.First(x => x.Code == code);
         }
     }
