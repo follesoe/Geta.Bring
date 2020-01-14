@@ -27,20 +27,16 @@ Previous versions of this package used Bring Shipping API 1.0. This package is n
 
 Make sure to note that dependency injection now requires that a MyBring user and API key is stated when configuring *IShippingClient*.
 
-    For<IShippingClient>().HybridHttpOrThreadLocalScoped()
-        .Use<ShippingClient>()
-        .Ctor<ShippingSettings>("settings")
-        .Is(p => new ShippingSettings(SiteDefinition.Current.SiteUrl, ConfigurationManager.AppSettings["Bring:UserId"], ConfigurationManager.AppSettings["Bring:ApiKey"], null));
-
-    For<IPickupClient>().HybridHttpOrThreadLocalScoped()
-        .Use<PickupClient>()
-        .Ctor<PickupSettings>("settings")
-        .Is(p => new PickupSettings());
-
-Also note the addition of *IEstimateQueryFactory* and *IEstimateSettingsFactory* that also have to be registered for injection.
-
-    For<IEstimateQueryFactory>().Use<EstimateQueryFactory>();
-    For<IEstimateSettingsFactory>().Use<EstimateSettingsFactory>();
+    //context is ServiceConfigurationContext from ConfigureContainer() in IConfigurableModule
+    var services = context.Services; 
+    services.AddTransient<IShippingPlugin, BringShippingGateway>();
+    services.AddTransient<IPickupClient>((locator) => new PickupClient(new PickupSettings()));
+    services.AddTransient<IShippingClient>((locator) => 
+                new ShippingClient(new ShippingSettings(SiteDefinition.Current.SiteUrl ?? new Uri("http://foundation.localtest.me"), 
+                ConfigurationManager.AppSettings["Bring:UserId"], 
+                ConfigurationManager.AppSettings["Bring:ApiKey"])));
+    services.AddTransient<IEstimateQueryFactory, EstimateQueryFactory>();
+    services.AddTransient<IEstimateSettingsFactory, EstimateSettingsFactory>();
 
 ### EPiServer Commerce module
 
@@ -216,26 +212,24 @@ EPiServer Commerce module consists of two libraries: *Geta.Bring.EPi.Commerce* -
 
 #### Getting rates
 
-To get all rates use *IShippingPlugin* and use *GetRate* method. Note that IShippingPlugin has the same functionality as IShippingGateway but works only with the abstraction API instead of concrete classes.
-Example:
+To get all rates we suggest implementing a ShippingService as in [Episerver Foundation](https://github.com/episerver/Foundation/blob/b29257b2411991407fa84f8166af9d958bdd2f0f/src/Foundation.Commerce/Order/Services/ShippingService.cs): 
 
-    var shipment = cart.GetFirstShipment(); // using cart of type ICart 
-    var shippingMethods = ShippingManager.GetShippingMethods(languageId);
-    var shippingRates = new List<CommerceCart.ShippingRate>();
-    foreach (var shippingMethod in 
-        shippingMethods.ShippingMethod.OrderBy(x => x.Ordering))
+Then you can use service to get rates. Example:
+
+    var shipment = cart.GetFirstShipment();
+    var methods = _shippingService.GetShippingMethodsByMarket(cart.MarketId.ToString(), false);
+    foreach (var shippingMethodInfoModel in methods)
     {
-        var message = string.Empty;
-        var rate = _shippingPlugin.GetRate(currentMarket, shippingMethod.ShippingMethodId, shipment, ref message);
-        shippingRates.Add(rate);
+        var rate = _shippingService.GetRate(shipment, shippingMethodInfoModel,
+                        currentMarket);
     }
 
-This example shows how to get all awailable shipping rates. You also can get only Bring shipping rates with specific details and also group them.
+If shipment method is of type BringShipmentGateway, you can cast rate to BringShippingRate to get more info, like estimated delivery date:
 
-    var bringShippingRates = shippingRates.OfType<BringShippingRate>();
-    var rateGroups = bringShippingRates
-        .GroupBy(x => x.MainDisplayCategory)
-        .Select(x => new BringShippingRateGroup(x.Key, x));
+    if (rate is BringShippingRate bringShippingRate)
+    {
+        var estimatedDelivery = bringShippingRate.ExpectedDeliveryDate);    
+    }
 
 You can create a partial view to render bring shipping rates. For example:
 
