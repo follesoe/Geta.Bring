@@ -145,7 +145,7 @@ namespace Geta.Bring.EPi.Commerce
 
             foreach (var error in result.Errors)
             {
-                builder.Append(error);
+                builder.Append(error.ToString());
                 builder.AppendLine();
             }
 

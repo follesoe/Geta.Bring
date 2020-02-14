@@ -9,12 +9,14 @@ namespace Geta.Bring.Shipping.Model
 {
     internal class ProductResponse
     {
-        public ProductResponse(
-            string id, 
-            string productionCode)
+        public ProductResponse(string id)
         {
             Id = id ?? throw new ArgumentNullException(nameof(id));
-            ProductionCode = productionCode ?? throw new ArgumentNullException(nameof(productionCode));
+        }
+
+        public ProductResponse(string id, string productionCode) : this(id)
+        {
+            ProductionCode = productionCode;
         }
 
         public ProductResponse(string id, string productionCode,
