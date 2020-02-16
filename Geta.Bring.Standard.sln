@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.Bring.Standard", "src\Geta.Bring.Standard\Geta.Bring.Standard.csproj", "{9A8F6780-68C0-4821-9A00-FFF526455C68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.Bring.Standard.Test", "src\Geta.Bring.Standard.Test\Geta.Bring.Standard.Test.csproj", "{8DA7788A-5048-4FD2-9D2D-53FA5791BA8B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9A8F6780-68C0-4821-9A00-FFF526455C68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A8F6780-68C0-4821-9A00-FFF526455C68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A8F6780-68C0-4821-9A00-FFF526455C68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A8F6780-68C0-4821-9A00-FFF526455C68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DA7788A-5048-4FD2-9D2D-53FA5791BA8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DA7788A-5048-4FD2-9D2D-53FA5791BA8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DA7788A-5048-4FD2-9D2D-53FA5791BA8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DA7788A-5048-4FD2-9D2D-53FA5791BA8B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
