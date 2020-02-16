@@ -56,6 +56,17 @@ namespace Geta.Bring.Booking
                 var requestContent = new StringContent(stringRequest, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync(Settings.EndpointUri, requestContent).ConfigureAwait(false);
                 var stringResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                if (!response.IsSuccessStatusCode && !string.IsNullOrWhiteSpace(stringResponse))
+                {
+                    var statusCode = $"{(int)response.StatusCode} ({response.StatusCode.ToString()})";
+                    throw new HttpRequestException($"{statusCode}: {stringResponse}");
+                }
+                else
+                {
+                    response.EnsureSuccessStatusCode();
+                }
+
                 return JsonConvert.DeserializeObject<BookingResponse>(stringResponse, new MilisecondEpochConverter())
                     .ToConfirmation();
             }
